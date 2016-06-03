@@ -1,7 +1,7 @@
 ﻿/*
 Created: 03/06/2016
 Modified: 03/06/2016
-Model: Tabulador
+Model: Tabulador - Modelo Físico
 Database: PostgreSQL 9.2
 */
 
@@ -137,6 +137,22 @@ WITH (OIDS=FALSE)
 ALTER TABLE "tipo_filtro" ADD CONSTRAINT "pk_tipo_filtro" PRIMARY KEY ("id_tipo_filtro")
 ;
 
+-- Table valor_campo_config
+
+CREATE TABLE "valor_campo_config"(
+ "id_valor_campo_config" Bigint NOT NULL,
+ "cd_valor_campo_config" Integer,
+ "ds_valor_campo_config" Character varying(50),
+ "id_campo_config" Integer NOT NULL
+)
+WITH (OIDS=FALSE)
+;
+
+-- Add keys for table valor_campo_config
+
+ALTER TABLE "valor_campo_config" ADD CONSTRAINT "pk_valor_campo_config" PRIMARY KEY ("id_valor_campo_config")
+;
+
 -- Create relationships section ------------------------------------------------- 
 
 ALTER TABLE "estado" ADD CONSTRAINT "regiao_saude_estado" FOREIGN KEY ("id_regional_saude") REFERENCES "regional_saude" ("id_regional_saude") ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -158,6 +174,9 @@ ALTER TABLE "campo_config" ADD CONSTRAINT "fk_campo_config_tabela" FOREIGN KEY (
 ;
 
 ALTER TABLE "campo_config" ADD CONSTRAINT "fk_camp_config_tipo" FOREIGN KEY ("id_tipo_filtro") REFERENCES "tipo_filtro" ("id_tipo_filtro") ON DELETE NO ACTION ON UPDATE NO ACTION
+;
+
+ALTER TABLE "valor_campo_config" ADD CONSTRAINT "fk_campo_config_valor_campo" FOREIGN KEY ("id_campo_config") REFERENCES "campo_config" ("id_campo_config") ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
 
