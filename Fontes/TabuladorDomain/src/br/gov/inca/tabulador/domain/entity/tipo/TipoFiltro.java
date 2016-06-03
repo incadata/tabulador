@@ -1,5 +1,7 @@
 package br.gov.inca.tabulador.domain.entity.tipo;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +13,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tipo_filtro")
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "tipo_filtro_seq", allocationSize = 1)
-public class TipoFiltro {
+public class TipoFiltro implements Serializable {
+	private static final long serialVersionUID = 643158529234596693L;
+
 	@Id
 	@Column(name = "id_tipo_filtro")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE")

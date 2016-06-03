@@ -1,5 +1,8 @@
 package br.gov.inca.tabulador.domain.entity.regiao;
 
-public class Estado {
+import java.io.Serializable;
+
+public class Estado implements Serializable {
+	private static final long serialVersionUID = 777614608188750669L;
 
 }

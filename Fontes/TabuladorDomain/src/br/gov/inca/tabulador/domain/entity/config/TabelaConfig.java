@@ -1,5 +1,6 @@
 package br.gov.inca.tabulador.domain.entity.config;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,7 +15,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tabela_config")
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "tabela_config_seq", allocationSize = 1)
-public class TabelaConfig {
+public class TabelaConfig implements Serializable {
+	private static final long serialVersionUID = -8063822049973314165L;
+
 	@Id
 	@Column(name = "id_tabela_config")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE")
