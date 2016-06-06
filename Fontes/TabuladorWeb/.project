@@ -3,6 +3,7 @@
 	<name>TabuladorWeb</name>
 	<comment></comment>
 	<projects>
+		<project>TabuladorDomain</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

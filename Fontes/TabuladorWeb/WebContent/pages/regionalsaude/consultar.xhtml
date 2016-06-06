@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Regional de Saúde</title>
+</h:head>
+
+<h:body>
+	<h1>Regional de Saúde</h1>
+	<h:form>
+		<p:inputText placeholder="Nome" value="#{regionalSaudeView.entity.nome}"/><br />
+		<p:commandButton value="Buscar" icon="ui-icon-search">
+			<f:ajax listener="#{regionalSaudeView.findByExample}" execute="@form" render="entitiesTable @form" />
+		</p:commandButton>
+		<br />
+		<br />
+	</h:form>
+	<p:dataTable var="entity" value="#{regionalSaudeView.entities}" id="entitiesTable">
+		<p:column headerText="Id">
+			<h:outputText value="#{entity.id}" />
+		</p:column>
+
+		<p:column headerText="Nome">
+			<h:outputText value="#{entity.nome}" />
+		</p:column>
+	</p:dataTable>
+</h:body>
+</html>
