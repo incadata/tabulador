@@ -1,6 +1,7 @@
 package br.gov.inca.tabulador.domain.entity.config;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -42,6 +44,8 @@ public class CampoConfig implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_tabela_config")
 	private TabelaConfig tabelaConfig;
+	@OneToMany(mappedBy = "campoConfig")
+	private List<ValorCampoConfig> valores;
 
 	public Integer getId() {
 		return id;
@@ -105,6 +109,14 @@ public class CampoConfig implements Serializable {
 
 	public void setTabelaConfig(TabelaConfig tabelaConfig) {
 		this.tabelaConfig = tabelaConfig;
+	}
+
+	public List<ValorCampoConfig> getValores() {
+		return valores;
+	}
+
+	public void setValores(List<ValorCampoConfig> valores) {
+		this.valores = valores;
 	}
 
 }
