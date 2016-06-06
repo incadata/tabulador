@@ -10,21 +10,13 @@
 <h:body>
 	<h1>Regional de Saúde</h1>
 	<h:form>
+		<h:inputHidden value="#{regionalSaudeView.entity.id}" />
 		<p:inputText placeholder="Nome" value="#{regionalSaudeView.entity.nome}"/><br />
-		<p:commandButton value="Buscar" icon="ui-icon-search">
-			<f:ajax listener="#{regionalSaudeView.findByExample}" execute="@form" render="entitiesTable" />
+		<p:commandButton value="Salvar" icon="ui-icon-disk">
+			<f:ajax listener="#{regionalSaudeView.persist}" execute="@form" render="entitiesTable" />
 		</p:commandButton>
 		<br />
 		<br />
 	</h:form>
-	<p:dataTable var="entity" value="#{regionalSaudeView.entities}" id="entitiesTable">
-		<p:column headerText="Id">
-			<h:outputText value="#{entity.id}" />
-		</p:column>
-
-		<p:column headerText="Nome">
-			<h:outputText value="#{entity.nome}" />
-		</p:column>
-	</p:dataTable>
 </h:body>
 </html>

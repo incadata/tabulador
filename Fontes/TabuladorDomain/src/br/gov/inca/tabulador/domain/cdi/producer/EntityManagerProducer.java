@@ -12,17 +12,17 @@ import javax.persistence.Persistence;
 public class EntityManagerProducer {
 
 	private EntityManagerFactory factory;
-	
+
 	public EntityManagerProducer() {
 		this.factory = Persistence.createEntityManagerFactory("TabuladorWeb");
 	}
-	
+
 	@Produces
 	@RequestScoped
 	public EntityManager createEntityManager() {
 		return factory.createEntityManager();
 	}
-	
+
 	public void closeEntityManager(@Disposes EntityManager manager) {
 		manager.close();
 	}

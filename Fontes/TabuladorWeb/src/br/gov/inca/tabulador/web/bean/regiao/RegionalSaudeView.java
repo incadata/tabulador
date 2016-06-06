@@ -1,5 +1,7 @@
 package br.gov.inca.tabulador.web.bean.regiao;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -9,9 +11,11 @@ import br.gov.inca.tabulador.domain.dao.regiao.RegionalSaudeDao;
 import br.gov.inca.tabulador.domain.entity.regiao.RegionalSaude;
 import br.gov.inca.tabulador.web.bean.ViewBean;
 
-@Named
+@Named(value = "regionalSaudeView")
 @ViewScoped
-public class RegionalSaudeView extends ViewBean<RegionalSaudeDao, RegionalSaude, Integer> {
+public class RegionalSaudeView extends ViewBean<RegionalSaudeDao, RegionalSaude, Integer> implements Serializable {
+	private static final long serialVersionUID = -6539486572898169197L;
+
 	private RegionalSaude regionalSaude;
 	@Inject
 	private RegionalSaudeDao regionalSaudeDao;
@@ -23,6 +27,8 @@ public class RegionalSaudeView extends ViewBean<RegionalSaudeDao, RegionalSaude,
 	@Override
 	@PostConstruct
 	public void init() {
+		setRegionalSaude(new RegionalSaude());
+		setEntities(null);
 	}
 
 	@Override
@@ -35,4 +41,7 @@ public class RegionalSaudeView extends ViewBean<RegionalSaudeDao, RegionalSaude,
 		return regionalSaude;
 	}
 
+	public void setRegionalSaude(RegionalSaude regionalSaude) {
+		this.regionalSaude = regionalSaude;
+	}
 }

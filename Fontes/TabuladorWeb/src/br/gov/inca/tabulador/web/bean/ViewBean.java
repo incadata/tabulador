@@ -5,10 +5,10 @@ import java.util.Collection;
 import br.gov.inca.tabulador.domain.dao.DaoAbstractGenericId;
 
 public abstract class ViewBean<U extends DaoAbstractGenericId<T, K>, T, K> {
+	private Collection<T> entities;
+
 	public abstract U getDao();
-
 	public abstract T getEntity();
-
 	public abstract void init();
 
 	public void persist() {
@@ -17,10 +17,17 @@ public abstract class ViewBean<U extends DaoAbstractGenericId<T, K>, T, K> {
 	}
 
 	public Collection<T> getEntities() {
-		return getDao().findAll();
+		if (entities == null) {
+			setEntities(getDao().findAll());
+		}
+		return entities;
+	}
+	
+	protected void setEntities(Collection<T> entities) {
+		this.entities = entities;
 	}
 
-	public Collection<T> findByExample() {
-		return getDao().findByExample(getEntity());
+	public void findByExample() {
+		setEntities(getDao().findByExample(getEntity()));
 	}
 }

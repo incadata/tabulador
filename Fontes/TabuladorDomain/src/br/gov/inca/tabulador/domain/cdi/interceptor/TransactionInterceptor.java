@@ -13,14 +13,14 @@ import br.gov.inca.tabulador.domain.cdi.qualifier.Transactional;
 
 @Interceptor
 @Transactional
-public class TransactionalInterceptor implements Serializable {
+public class TransactionInterceptor implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private @Inject EntityManager manager;
 	
 	@AroundInvoke
 	public Object invoke(InvocationContext context) throws Exception {
-		EntityTransaction trx = manager.getTransaction();
+		final EntityTransaction trx = manager.getTransaction();
 		boolean criador = false;
 		try {
 			if (!trx.isActive()) {

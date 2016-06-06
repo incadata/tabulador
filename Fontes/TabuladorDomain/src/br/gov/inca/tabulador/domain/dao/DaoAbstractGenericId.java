@@ -1,20 +1,26 @@
 package br.gov.inca.tabulador.domain.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.hibernate.Session;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.MatchMode;
 
+import br.gov.inca.tabulador.domain.cdi.qualifier.Transactional;
 import br.gov.inca.tabulador.util.ReflectUtil;
 
-public abstract class DaoAbstractGenericId<T, K> {
-	@PersistenceContext
+public abstract class DaoAbstractGenericId<T, K> implements Serializable {
+	private static final long serialVersionUID = -1872260145488857097L;
+
+	@Inject
 	private EntityManager entityManager;
 	private Class<?> genericType;
 
+	@Transactional
 	public void persist(T entity) {
 		getEntityManager().persist(entity);
 	}
@@ -41,12 +47,12 @@ public abstract class DaoAbstractGenericId<T, K> {
 	@SuppressWarnings("unchecked")
 	public List<T> findAll() {
 		return (List<T>) getEntityManager().createQuery(
-				String.format("SELECT g FROM %s g", getGenericType().getSimpleName())).getResultList();
+				String.format("SELECT g FROM %s g", getGenericType().getName())).getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<T> findByExample(T entity) {
-		final Example example = Example.create(entity);
+		final Example example = Example.create(entity).enableLike(MatchMode.ANYWHERE).excludeNone().ignoreCase();
 		return ((Session) getEntityManager().getDelegate())
 				.createCriteria(getGenericType()).add(example).list();
 	}
