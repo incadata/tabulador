@@ -24,6 +24,7 @@ public class DetachedCriteriaDbResult<T> extends DbResult<T> implements Cloneabl
 	@Override
 	public long getCount() {
 		Criteria criteria = getCriteria();
+		criteria.setFirstResult(0);
 		final long longValue = ((Number) criteria.setProjection(Projections.rowCount()).uniqueResult()).longValue();
 		criteria = criteria.setProjection(null);
 		criteria = criteria.setResultTransformer(Criteria.ROOT_ENTITY);
