@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name = "regional_saude")
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "regional_saude_seq", allocationSize = 1)
@@ -21,7 +23,7 @@ public class RegionalSaude implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE")
 	private Integer id;
 	@Column(name = "nm_regional_saude")
-	private String nome;
+	private @NotEmpty(message = "Nome não pode estar vazio") String nome;
 
 	public Integer getId() {
 		return id;

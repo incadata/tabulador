@@ -10,11 +10,22 @@
 <h:body>
 	<h1>Regional de Saúde</h1>
 	<h:form>
+		<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+
+		<f:metadata>
+	    	<f:viewParam name="entityId" value="#{regionalSaudeView.entity.id}" />
+	    	<f:event type="preRenderView" listener="#{regionalSaudeView.findById(regionalSaudeView.entity.id)}" />
+		</f:metadata>
+
 		<h:inputHidden value="#{regionalSaudeView.entity.id}" />
 		<p:inputText placeholder="Nome" value="#{regionalSaudeView.entity.nome}"/><br />
-		<p:commandButton value="Salvar" icon="ui-icon-disk">
-			<f:ajax listener="#{regionalSaudeView.persist}" execute="@form" render="entitiesTable" />
-		</p:commandButton>
+
+		<p>
+			<p:commandButton value="Salvar" icon="ui-icon-disk" action="consultar.xhtml">
+				<f:ajax listener="#{regionalSaudeView.persist}" execute="@form" />
+			</p:commandButton>
+			<p:commandButton value="Cancelar" icon="ui-icon-cancel" onclick="window.history.back();"/>
+		</p>
 		<br />
 		<br />
 	</h:form>

@@ -13,15 +13,16 @@ import br.gov.inca.tabulador.web.bean.ViewBean;
 
 @Named(value = "regionalSaudeView")
 @ViewScoped
-public class RegionalSaudeView extends ViewBean<RegionalSaudeDao, RegionalSaude, Integer> implements Serializable {
+public class RegionalSaudeView extends
+		ViewBean<RegionalSaudeDao, RegionalSaude, Integer> implements
+		Serializable {
 	private static final long serialVersionUID = -6539486572898169197L;
 
 	private RegionalSaude regionalSaude;
-	@Inject
-	private RegionalSaudeDao regionalSaudeDao;
+	private @Inject RegionalSaudeDao regionalSaudeDao;
 
 	public RegionalSaudeView() {
-		regionalSaude = new RegionalSaude();
+		setEntity(new RegionalSaude());
 	}
 
 	@Override
@@ -43,5 +44,10 @@ public class RegionalSaudeView extends ViewBean<RegionalSaudeDao, RegionalSaude,
 
 	public void setRegionalSaude(RegionalSaude regionalSaude) {
 		this.regionalSaude = regionalSaude;
+	}
+
+	@Override
+	protected void setEntity(RegionalSaude entity) {
+		this.regionalSaude = entity;
 	}
 }

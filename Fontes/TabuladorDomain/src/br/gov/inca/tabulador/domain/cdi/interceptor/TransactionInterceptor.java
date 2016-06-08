@@ -11,8 +11,8 @@ import javax.persistence.EntityTransaction;
 
 import br.gov.inca.tabulador.domain.cdi.qualifier.Transactional;
 
-@Interceptor
 @Transactional
+@Interceptor
 public class TransactionInterceptor implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
