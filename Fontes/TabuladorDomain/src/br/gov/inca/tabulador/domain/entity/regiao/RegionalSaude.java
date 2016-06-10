@@ -12,10 +12,12 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import br.gov.inca.tabulador.domain.entity.Entidade;
+
 @Entity
 @Table(name = "regional_saude")
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "regional_saude_seq", allocationSize = 1)
-public class RegionalSaude implements Serializable {
+public class RegionalSaude implements Serializable, Entidade<Integer> {
 	private static final long serialVersionUID = -6826160985492396491L;
 
 	@Id

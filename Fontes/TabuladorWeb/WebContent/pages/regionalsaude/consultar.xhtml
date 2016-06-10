@@ -9,21 +9,23 @@
 
 <h:body>
 	<h1>Regional de Saúde</h1>
+	<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+
 	<h:form>
-		<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
 
 		<p:inputText placeholder="Nome" value="#{regionalSaudeView.entity.nome}">
 			<f:validateBean disabled="true" />
 		</p:inputText>
 		<br />
 		<p>
-			<p:commandButton value="Buscar" icon="ui-icon-search">
+			<p:defaultCommand target="buscarButton"/>
+			<p:commandButton value="Buscar" icon="ui-icon-search" id="buscarButton">
 				<f:ajax listener="#{regionalSaudeView.findByExample}" execute="@form" render="entitiesTable" />
 			</p:commandButton>
 		</p>
 	</h:form>
 	<h:form>
-		<p:dataTable var="entity" value="#{regionalSaudeView.entities}" id="entitiesTable" paginator="true" rows="10" lazy="true">
+		<p:dataTable var="entity" value="#{regionalSaudeView.entitiesLazy}" id="entitiesTable" paginator="true" rows="10" lazy="true">
 			<p:column headerText="Id">
 				<h:outputText value="#{entity.id}" />
 			</p:column>

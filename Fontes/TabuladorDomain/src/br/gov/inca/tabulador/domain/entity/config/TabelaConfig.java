@@ -1,6 +1,7 @@
 package br.gov.inca.tabulador.domain.entity.config;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -12,10 +13,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import br.gov.inca.tabulador.domain.entity.Entidade;
+
 @Entity
 @Table(name = "tabela_config")
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "tabela_config_seq", allocationSize = 1)
-public class TabelaConfig implements Serializable {
+public class TabelaConfig implements Serializable, Entidade<Integer> {
 	private static final long serialVersionUID = -8063822049973314165L;
 
 	@Id
@@ -28,9 +31,13 @@ public class TabelaConfig implements Serializable {
 	private String titulo;
 	@Column(name = "fg_localidade")
 	private Boolean localidade;
-	@OneToMany(mappedBy="tabelaConfig")
+	@OneToMany(mappedBy = "tabelaConfig")
 	private List<CampoConfig> campos;
 
+	public TabelaConfig() {
+		setCampos(new ArrayList<>());
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -62,4 +69,13 @@ public class TabelaConfig implements Serializable {
 	public void setLocalidade(Boolean localidade) {
 		this.localidade = localidade;
 	}
+
+	public List<CampoConfig> getCampos() {
+		return campos;
+	}
+
+	public void setCampos(List<CampoConfig> campos) {
+		this.campos = campos;
+	}
+
 }

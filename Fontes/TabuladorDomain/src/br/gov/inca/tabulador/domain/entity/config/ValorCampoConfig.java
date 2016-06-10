@@ -12,10 +12,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import br.gov.inca.tabulador.domain.entity.Entidade;
+
 @Entity
 @Table(name = "valor_campo_config")
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "valor_campo_config_seq", allocationSize = 1)
-public class ValorCampoConfig implements Serializable {
+public class ValorCampoConfig implements Serializable, Entidade<Integer> {
 	private static final long serialVersionUID = 240439219702372392L;
 
 	@Id

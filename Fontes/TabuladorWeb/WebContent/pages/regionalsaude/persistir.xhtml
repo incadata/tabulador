@@ -21,10 +21,9 @@
 		<p:inputText placeholder="Nome" value="#{regionalSaudeView.entity.nome}"/><br />
 
 		<p>
-			<p:commandButton value="Salvar" icon="ui-icon-disk" action="consultar.xhtml">
-				<f:ajax listener="#{regionalSaudeView.persist}" execute="@form" />
-			</p:commandButton>
-			<p:commandButton value="Cancelar" icon="ui-icon-cancel" onclick="window.history.back();"/>
+			<p:defaultCommand target="salvarButton"/>
+			<p:commandButton id="salvarButton" value="Salvar" icon="ui-icon-disk" action="#{regionalSaudeView.saveOrUpdate}" process="@form"/>
+			<p:commandButton value="Cancelar" icon="ui-icon-cancel" action="consultar.xhmtl"/>
 		</p>
 		<br />
 		<br />

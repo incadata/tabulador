@@ -1,6 +1,7 @@
 package br.gov.inca.tabulador.domain.entity.config;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,13 +15,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import br.gov.inca.tabulador.domain.entity.Entidade;
 import br.gov.inca.tabulador.domain.entity.tipo.TipoCampo;
 import br.gov.inca.tabulador.domain.entity.tipo.TipoFiltro;
 
 @Entity
 @Table(name = "campo_config")
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "campo_config_seq", allocationSize = 1)
-public class CampoConfig implements Serializable {
+public class CampoConfig implements Serializable, Entidade<Integer> {
 	private static final long serialVersionUID = -9047437387992306550L;
 
 	@Id
@@ -46,6 +48,13 @@ public class CampoConfig implements Serializable {
 	private TabelaConfig tabelaConfig;
 	@OneToMany(mappedBy = "campoConfig")
 	private List<ValorCampoConfig> valores;
+	
+	public CampoConfig() {
+		setTipoFiltro(new TipoFiltro());
+		setTipoCampo(new TipoCampo());
+		setTabelaConfig(new TabelaConfig());
+		setValores(new ArrayList<>());
+	}
 
 	public Integer getId() {
 		return id;

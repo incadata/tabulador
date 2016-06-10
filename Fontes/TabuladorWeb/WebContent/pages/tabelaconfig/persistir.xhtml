@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Configuração</title>
+</h:head>
+
+<h:body>
+	<h1>Configuração</h1>
+	<h:form>
+		<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+
+		<f:metadata>
+	    	<f:viewParam name="entityId" value="#{tabelaConfigView.entity.id}" />
+	    	<f:event type="preRenderView" listener="#{tabelaConfigView.findById(tabelaConfigView.entity.id)}" />
+		</f:metadata>
+
+		<p:inputText placeholder="Nome" value="#{tabelaConfigView.entity.nome}"/><br />
+		<p:inputText placeholder="Título" value="#{tabelaConfigView.entity.titulo}"/><br />
+		<h:outputText value="Incluir campos de localidade: " />
+        <p:selectBooleanCheckbox value="#{tabelaConfigView.entity.localidade}" /> <br/>
+        <br/>
+        <br/>
+
+		<p:dataTable var="campoItem" rowIndexVar="rowIndex" value="#{tabelaConfigView.campos}" id="camposTable" tableStyle="table-layout: auto;">
+			<p:column headerText="Nome">
+				<h:inputText value="#{campoItem.nome}" />
+			</p:column>
+			<p:column headerText="Título">
+				<h:inputText value="#{campoItem.label}" />
+			</p:column>
+			<p:column headerText="Abreviado">
+				<h:inputText value="#{campoItem.abreviado}" />
+			</p:column>
+			<p:column headerText="Tipo">
+				<p:selectOneMenu value="#{campoItem.tipoCampo.id}">
+					<f:selectItem itemLabel="- Selecione -" itemValue="" />
+					<f:selectItems value="#{tipoCampoView.entities}" var="tipoCampoIt"
+						itemLabel="#{tipoCampoIt.nome}" itemValue="#{tipoCampoIt.id}" />
+				</p:selectOneMenu>
+			</p:column>
+			<p:column headerText="Filtro" >
+				<h:panelGroup id="campoFiltroGroup">
+					<p:selectBooleanCheckbox value="#{campoItem.filtro}" id="campoItemCheck">
+						<p:ajax process="campoItemCheck" update="camposTable"/>
+					</p:selectBooleanCheckbox>
+					<p:selectOneMenu value="#{campoItem.tipoCampo.id}" rendered="#{campoItem.filtro}">
+						<f:selectItem itemLabel="- Selecione -" itemValue="" />
+						<f:selectItems value="#{tipoFiltroView.entities}" var="tipoFiltroIt"
+							itemLabel="#{tipoFiltroIt.nome}" itemValue="#{tipoFiltroIt.id}" />
+					</p:selectOneMenu>
+				</h:panelGroup>
+			</p:column>
+			<p:column headerText="Ações" >
+				<p:commandButton icon="ui-icon-minus" title="Remover">
+					<f:ajax listener="#{tabelaConfigView.removerCampo(rowIndex)}" execute="camposTable" render="camposTable" />
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+		<p>
+			<p:commandButton icon="ui-icon-plus" title="Adicionar">
+				<f:ajax listener="#{tabelaConfigView.addCampo}" execute="camposTable" render="camposTable" />
+			</p:commandButton>
+		</p>
+
+		<p>
+			<p:commandButton value="Salvar" icon="ui-icon-disk" actionListener="#{tabelaConfigView.saveOrUpdate}"/>
+			<p:commandButton value="Cancelar" icon="ui-icon-cancel" onclick="window.history.back();"/>
+		</p>
+		<br />
+		<br />
+	</h:form>
+</h:body>
+</html>

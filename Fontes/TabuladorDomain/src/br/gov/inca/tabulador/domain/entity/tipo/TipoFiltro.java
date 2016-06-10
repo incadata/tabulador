@@ -10,10 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import br.gov.inca.tabulador.domain.entity.Entidade;
+
 @Entity
 @Table(name = "tipo_filtro")
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "tipo_filtro_seq", allocationSize = 1)
-public class TipoFiltro implements Serializable {
+public class TipoFiltro implements Serializable, Entidade<Integer> {
 	private static final long serialVersionUID = 643158529234596693L;
 
 	@Id

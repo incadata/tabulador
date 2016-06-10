@@ -11,9 +11,10 @@ import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 
 import br.gov.inca.tabulador.domain.cdi.qualifier.Transactional;
+import br.gov.inca.tabulador.domain.entity.Entidade;
 import br.gov.inca.tabulador.util.ReflectUtil;
 
-public abstract class DaoAbstract<T, K> implements Serializable {
+public abstract class DaoAbstract<T extends Entidade<K>, K> implements Serializable {
 	private static final long serialVersionUID = -1872260145488857097L;
 
 	private @Inject Instance<EntityManager> entityManager;
@@ -21,7 +22,7 @@ public abstract class DaoAbstract<T, K> implements Serializable {
 
 	@Transactional
 	public void persist(T entity) {
-		getEntityManager().persist(getEntityManager().contains(entity) ? entity : getEntityManager().merge(entity));
+		getEntityManager().persist(entity);
 	}
 
 	@Transactional
@@ -32,6 +33,23 @@ public abstract class DaoAbstract<T, K> implements Serializable {
 	@Transactional
 	public void remove(T entity) {
 		getEntityManager().remove(entity);
+	}
+
+	@Transactional
+	public T saveOrUpdate(T entity) {
+		final EntityManager em = getEntityManager();
+		em.persist(em.contains(entity) ? entity : em.merge(entity));
+		return entity;
+		/*
+		if (entity.getId() == null) {
+			persist(entity);
+			return entity;
+		} else {
+			final T merged = merge(entity);
+			persist(merged);
+			return merged;
+		}
+		*/
 	}
 
 	@Transactional
