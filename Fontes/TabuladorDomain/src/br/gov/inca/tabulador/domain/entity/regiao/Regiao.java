@@ -13,9 +13,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "regiao")
+@Table(name = Regiao.TABLE_NAME)
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "regiao_seq", allocationSize = 1)
 public class Regiao implements Serializable {
+	public static final String TABLE_NAME = "regiao";
+
 	private static final long serialVersionUID = 1226307521064997275L;
 
 	@Id

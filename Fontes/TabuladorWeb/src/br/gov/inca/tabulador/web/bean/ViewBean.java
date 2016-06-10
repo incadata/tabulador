@@ -37,8 +37,9 @@ public abstract class ViewBean<U extends DaoAbstract<T, K>, T extends Entidade<K
 	}
 
 	public void findById(K id) {
-		if (id != null) {
-			setEntity(getDao().findById(id));
+		setEntity(getDao().findById(id));
+		if (getEntity() == null) {
+			showError(null, "Não foi encontrado nenhum registro para o identificador: " + id);
 		}
 	}
 
@@ -80,8 +81,10 @@ public abstract class ViewBean<U extends DaoAbstract<T, K>, T extends Entidade<K
 		setEntities(getDao().findByExample(getEntity()));
 	}
 
-	protected void showError(RuntimeException error, String detail) {
-		Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, detail, error);
+	protected void showError(Throwable error, String detail) {
+		if (error != null) {
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, detail, error);
+		}
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", detail));
 		//throw error;
 	}

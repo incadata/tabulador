@@ -15,9 +15,11 @@ import javax.persistence.Table;
 import br.gov.inca.tabulador.domain.entity.Entidade;
 
 @Entity
-@Table(name = "valor_campo_config")
+@Table(name = ValorCampoConfig.TABLE_NAME)
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "valor_campo_config_seq", allocationSize = 1)
 public class ValorCampoConfig implements Serializable, Entidade<Integer> {
+	public static final String TABLE_NAME = "valor_campo_config";
+
 	private static final long serialVersionUID = 240439219702372392L;
 
 	@Id

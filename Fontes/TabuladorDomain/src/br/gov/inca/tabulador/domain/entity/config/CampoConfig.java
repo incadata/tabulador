@@ -20,9 +20,11 @@ import br.gov.inca.tabulador.domain.entity.tipo.TipoCampo;
 import br.gov.inca.tabulador.domain.entity.tipo.TipoFiltro;
 
 @Entity
-@Table(name = "campo_config")
+@Table(name = CampoConfig.TABLE_NAME)
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "campo_config_seq", allocationSize = 1)
 public class CampoConfig implements Serializable, Entidade<Integer> {
+	public static final String TABLE_NAME = "campo_config";
+
 	private static final long serialVersionUID = -9047437387992306550L;
 
 	@Id

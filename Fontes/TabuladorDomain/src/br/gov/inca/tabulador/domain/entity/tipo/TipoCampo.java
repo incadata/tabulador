@@ -13,9 +13,11 @@ import javax.persistence.Table;
 import br.gov.inca.tabulador.domain.entity.Entidade;
 
 @Entity
-@Table(name = "tipo_campo")
+@Table(name = TipoCampo.TABLE_NAME)
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "tipo_campo_seq", allocationSize = 1)
 public class TipoCampo implements Serializable, Entidade<Integer> {
+	public static final String TABLE_NAME = "tipo_campo";
+
 	private static final long serialVersionUID = 9137246248390452907L;
 	@Id
 	@Column(name = "id_tipo_campo")

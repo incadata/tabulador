@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Configurações de tabelas</title>
+</h:head>
+
+<h:body>
+	<h1>Configurações de tabelas</h1>
+	<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+
+	<h:form>
+
+		<p:inputText placeholder="Nome" value="#{tabelaConfigView.entity.nome}">
+			<f:validateBean disabled="true" />
+		</p:inputText>
+		<br />
+		<p>
+			<p:defaultCommand target="buscarButton"/>
+			<p:commandButton value="Buscar" icon="ui-icon-search" id="buscarButton">
+				<f:ajax listener="#{tabelaConfigView.findByExample}" execute="@form" render="entitiesTable" />
+			</p:commandButton>
+		</p>
+	</h:form>
+	<h:form>
+		<p:dataTable var="entity" value="#{tabelaConfigView.entitiesLazy}" id="entitiesTable" paginator="true" rows="10" lazy="true">
+			<p:column headerText="Id">
+				<h:outputText value="#{entity.id}" />
+			</p:column>
+	
+			<p:column headerText="Nome">
+				<h:outputText value="#{entity.nome}" />
+			</p:column>
+			<p:column headerText="Ações" >
+				<p:button icon="ui-icon-folder-open" outcome="persistir" title="Editar">
+					<f:param name="entityId" value="#{entity.id}" />
+				</p:button>
+				<p:commandButton icon="ui-icon-minus" title="Remover">
+					<f:ajax listener="#{tabelaConfigView.remove(entity.id)}" execute="@this" render="entitiesTable" />
+				</p:commandButton>
+				<p:commandButton title="Criar tabela" icon="ui-icon-note" actionListener="#{tabelaConfigView.createTable(entity.id)}"/>
+				<p:commandButton title="Remover tabela" icon="ui-icon-trash" actionListener="#{tabelaConfigView.dropTable(entity.id)}"/>
+			</p:column>
+		</p:dataTable>
+		<p>
+			<p:button icon="ui-icon-document" outcome="persistir" value="Inserir" title="Inserir"/>
+		</p>
+	</h:form>
+</h:body>
+</html>

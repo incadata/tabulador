@@ -3,8 +3,8 @@ package br.gov.inca.tabulador.domain.dao.config;
 import java.util.Collection;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
-import br.gov.inca.tabulador.domain.cdi.qualifier.Transactional;
 import br.gov.inca.tabulador.domain.db.DaoAbstract;
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
 import br.gov.inca.tabulador.domain.entity.config.ValorCampoConfig;

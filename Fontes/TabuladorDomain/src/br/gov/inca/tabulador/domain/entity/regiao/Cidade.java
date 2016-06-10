@@ -13,9 +13,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "cidade")
+@Table(name = Cidade.TABLE_NAME)
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "cidade_seq", allocationSize = 1)
 public class Cidade implements Serializable {
+	public static final String TABLE_NAME = "cidade";
+
 	private static final long serialVersionUID = -926457384777724122L;
 
 	@Id
@@ -24,8 +26,6 @@ public class Cidade implements Serializable {
 	private Integer id;
 	@Column(name = "nm_cidade")
 	private String nome;
-	@Column(name = "cd_ibge")
-	private Integer codigoIbge;
 	@Column(name = "fg_capital_estado")
 	private Boolean capitalEstado;
 	@Column(name = "fg_capital_rs")
@@ -51,14 +51,6 @@ public class Cidade implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public Integer getCodigoIbge() {
-		return codigoIbge;
-	}
-
-	public void setCodigoIbge(Integer codigoIbge) {
-		this.codigoIbge = codigoIbge;
 	}
 
 	public Boolean getCapitalEstado() {

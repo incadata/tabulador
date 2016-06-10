@@ -5,12 +5,12 @@ import java.io.Serializable;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 
-import br.gov.inca.tabulador.domain.cdi.qualifier.Transactional;
 import br.gov.inca.tabulador.domain.entity.Entidade;
 import br.gov.inca.tabulador.util.ReflectUtil;
 
@@ -40,16 +40,6 @@ public abstract class DaoAbstract<T extends Entidade<K>, K> implements Serializa
 		final EntityManager em = getEntityManager();
 		em.persist(em.contains(entity) ? entity : em.merge(entity));
 		return entity;
-		/*
-		if (entity.getId() == null) {
-			persist(entity);
-			return entity;
-		} else {
-			final T merged = merge(entity);
-			persist(merged);
-			return merged;
-		}
-		*/
 	}
 
 	@Transactional

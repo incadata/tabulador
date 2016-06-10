@@ -85,11 +85,9 @@
 		</p>
 
 		<p>
-			<p:commandButton value="Salvar" icon="ui-icon-disk" actionListener="#{tabelaConfigView.saveOrUpdate}"/>
-			<p:commandButton value="Cancelar" icon="ui-icon-cancel" onclick="window.history.back();"/>
+			<p:commandButton value="Salvar" icon="ui-icon-disk" action="#{tabelaConfigView.saveOrUpdate}"/>
+			<p:commandButton value="Cancelar" icon="ui-icon-cancel" action="consultar.xhtml"/>
 		</p>
-		<br />
-		<br />
 	</h:form>
 </h:body>
 </html>

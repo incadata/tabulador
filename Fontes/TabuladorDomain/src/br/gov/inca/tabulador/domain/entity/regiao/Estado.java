@@ -1,7 +1,6 @@
 package br.gov.inca.tabulador.domain.entity.regiao;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,14 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "estado")
+@Table(name = Estado.TABLE_NAME)
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "estado_seq", allocationSize = 1)
 public class Estado implements Serializable {
+	public static final String TABLE_NAME = "estado";
+
 	private static final long serialVersionUID = 777614608188750669L;
 
 	@Id
@@ -28,11 +28,11 @@ public class Estado implements Serializable {
 	private String nome;
 	@Column(name = "sg_estado")
 	private String sigla;
+	@Column(name = "id_regiao")
+	private Regiao regiao;
 	@ManyToOne
 	@JoinColumn(name = "id_regional_saude")
 	private RegionalSaude regionalSaude;
-	@OneToMany(mappedBy = "estado")
-	private Set<Regiao> regioes;
 
 	public Integer getId() {
 		return id;
@@ -66,11 +66,11 @@ public class Estado implements Serializable {
 		this.regionalSaude = regionalSaude;
 	}
 
-	public Set<Regiao> getRegioes() {
-		return regioes;
+	public Regiao getRegiao() {
+		return regiao;
 	}
 
-	public void setRegioes(Set<Regiao> regioes) {
-		this.regioes = regioes;
+	public void setRegiao(Regiao regiao) {
+		this.regiao = regiao;
 	}
 }

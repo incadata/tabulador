@@ -14,11 +14,14 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import br.gov.inca.tabulador.domain.entity.Entidade;
+import br.gov.inca.tabulador.domain.validation.TableName;
 
 @Entity
-@Table(name = "tabela_config")
+@Table(name = TabelaConfig.TABLE_NAME)
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "tabela_config_seq", allocationSize = 1)
 public class TabelaConfig implements Serializable, Entidade<Integer> {
+	public static final String TABLE_NAME = "tabela_config";
+
 	private static final long serialVersionUID = -8063822049973314165L;
 
 	@Id
@@ -26,6 +29,7 @@ public class TabelaConfig implements Serializable, Entidade<Integer> {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE")
 	private Integer id;
 	@Column(name = "nm_tabela_config")
+	@TableName(message="Nome inválido para a tabela")
 	private String nome;
 	@Column(name = "ds_titulo")
 	private String titulo;

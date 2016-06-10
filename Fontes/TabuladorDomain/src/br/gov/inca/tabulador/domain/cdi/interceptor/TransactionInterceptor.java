@@ -8,8 +8,7 @@ import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-
-import br.gov.inca.tabulador.domain.cdi.qualifier.Transactional;
+import javax.transaction.Transactional;
 
 @Transactional
 @Interceptor
