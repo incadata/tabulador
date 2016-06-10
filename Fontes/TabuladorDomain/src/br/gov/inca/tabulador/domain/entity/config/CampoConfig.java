@@ -33,10 +33,10 @@ public class CampoConfig implements Serializable, Entidade<Integer> {
 	private String nome;
 	@Column(name = "nm_label")
 	private String label;
-	@Column(name = "fg_filtro")
-	private Boolean filtro;
 	@Column(name = "nm_abreviado")
 	private String abreviado;
+	@Column(name = "fg_filtro")
+	private Boolean filtro;
 	@ManyToOne
 	@JoinColumn(name = "id_tipo_filtro")
 	private TipoFiltro tipoFiltro;

@@ -20,7 +20,7 @@ public abstract class DbResult<T> implements Serializable {
 	public Collection<T> getCollection() {
 		return getList();
 	}
-
+	
 	/** @return Qual será o primeiro registro retornado. */
 	public Integer getFirstResult() {
 		return firstResult;

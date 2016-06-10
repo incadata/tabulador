@@ -56,4 +56,11 @@ public class ValorCampoConfig implements Serializable, Entidade<Integer> {
 		this.codigo = codigo;
 	}
 
+	public CampoConfig getCampoConfig() {
+		return campoConfig;
+	}
+	
+	public void setCampoConfig(CampoConfig campoConfig) {
+		this.campoConfig = campoConfig;
+	}
 }

@@ -12,6 +12,7 @@ import javax.inject.Named;
 import br.gov.inca.tabulador.domain.dao.config.TabelaConfigDao;
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
 import br.gov.inca.tabulador.domain.entity.config.TabelaConfig;
+import br.gov.inca.tabulador.domain.entity.config.ValorCampoConfig;
 import br.gov.inca.tabulador.web.bean.ViewBean;
 
 @Named(value = "tabelaConfigView")
@@ -70,8 +71,16 @@ public class TabelaConfigView extends
 	public void addCampo() {
 		getCampos().add(new CampoConfig());
 	}
+
+	public void addValor(int campoIndex) {
+		getCampos().get(campoIndex).getValores().add(new ValorCampoConfig());
+	}
 	
 	public void removerCampo(int index) {
 		getCampos().remove(index);
+	}
+
+	public void removerValor(int campoIndex, int index) {
+		getCampos().get(campoIndex).getValores().remove(index);
 	}
 }
