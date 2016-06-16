@@ -9,7 +9,7 @@
 
 <h:body>
 	<h1>Configurações de tabelas</h1>
-	<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
 	<h:form>
 
@@ -25,13 +25,12 @@
 		</p>
 	</h:form>
 	<h:form>
-		<p:dataTable var="entity" value="#{tabelaConfigView.entitiesLazy}" id="entitiesTable" paginator="true" rows="10" lazy="true">
-			<p:column headerText="Id">
-				<h:outputText value="#{entity.id}" />
-			</p:column>
-	
+		<p:dataTable var="entity" value="#{tabelaConfigView.entitiesLazy}" id="entitiesTable" paginator="true" rows="10" lazy="true" tableStyle="table-layout: auto;">
 			<p:column headerText="Nome">
 				<h:outputText value="#{entity.nome}" />
+			</p:column>
+			<p:column headerText="Título">
+				<h:outputText value="#{entity.titulo}" />
 			</p:column>
 			<p:column headerText="Ações" >
 				<p:button icon="ui-icon-folder-open" outcome="persistir" title="Editar">
@@ -40,8 +39,17 @@
 				<p:commandButton icon="ui-icon-minus" title="Remover">
 					<f:ajax listener="#{tabelaConfigView.remove(entity.id)}" execute="@this" render="entitiesTable" />
 				</p:commandButton>
-				<p:commandButton title="Criar tabela" icon="ui-icon-note" actionListener="#{tabelaConfigView.createTable(entity.id)}"/>
-				<p:commandButton title="Remover tabela" icon="ui-icon-trash" actionListener="#{tabelaConfigView.dropTable(entity.id)}"/>
+				<p:commandButton title="Criar tabela" icon="ui-icon-note" actionListener="#{tabelaConfigView.createTable(entity.id)}">
+					<p:confirm header="Criar" message="Deseja realmente criar a tabela '#{entity.nome}'?" icon="ui-icon-alert" />
+				</p:commandButton>
+				<p:commandButton title="Remover tabela" icon="ui-icon-trash" actionListener="#{tabelaConfigView.dropTable(entity.id)}">
+					<p:confirm header="Excluir" message="Deseja realmente excluir a tabela '#{entity.nome}'?" icon="ui-icon-alert" />
+				</p:commandButton>
+				
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" id="confirmDialogCriar">
+			        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			    </p:confirmDialog>
 			</p:column>
 		</p:dataTable>
 		<p>

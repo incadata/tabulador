@@ -9,12 +9,12 @@
 
 <h:body>
 	<h1>Configuração</h1>
-	<h:form>
+	<h:form id="formTableConfig">
 		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
 		<f:metadata>
 	    	<f:viewParam name="entityId" value="#{tabelaConfigView.entity.id}" />
-	    	<f:event type="preRenderView" listener="#{tabelaConfigView.findById(tabelaConfigView.entity.id)}" />
+	    	<f:viewAction action="#{tabelaConfigView.findById(tabelaConfigView.entity.id)}"/>
 		</f:metadata>
 
 		<p:inputText placeholder="Nome" value="#{tabelaConfigView.entity.nome}"/><br />
@@ -43,7 +43,7 @@
 			</p:column>
 			<p:column headerText="Valores">
 				<p:commandButton id="imageBtn" value="Valores" type="button" />
-				<p:overlayPanel id="imagePanel" for="imageBtn" hideEffect="fade">
+				<p:overlayPanel for="imageBtn" hideEffect="fade">
 					<p:dataTable var="valorItem" rowIndexVar="valorRowIndex" value="#{campoItem.valores}" id="valoresTable" tableStyle="table-layout: auto;">
 						<p:column headerText="Código">
 							<h:inputText value="#{valorItem.codigo}" />

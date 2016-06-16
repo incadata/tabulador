@@ -14,7 +14,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import br.gov.inca.tabulador.domain.entity.Entidade;
-import br.gov.inca.tabulador.domain.validation.TableName;
 
 @Entity
 @Table(name = TabelaConfig.TABLE_NAME)
@@ -29,7 +28,6 @@ public class TabelaConfig implements Serializable, Entidade<Integer> {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE")
 	private Integer id;
 	@Column(name = "nm_tabela_config")
-	@TableName(message="Nome inválido para a tabela")
 	private String nome;
 	@Column(name = "ds_titulo")
 	private String titulo;

@@ -34,6 +34,10 @@ public class ValorCampoConfig implements Serializable, Entidade<Integer> {
 	@JoinColumn(name = "id_campo_config")
 	private CampoConfig campoConfig;
 
+	public ValorCampoConfig() {
+		setCampoConfig(new CampoConfig());
+	}
+	
 	public Integer getId() {
 		return id;
 	}

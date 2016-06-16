@@ -31,7 +31,7 @@ public abstract class ViewBean<U extends DaoAbstract<T, K>, T extends Entidade<K
 			setEntities(null);
 			return "consultar.xhmtl";
 		} catch (RuntimeException e) {
-			showError(e, "Problema ao salvar.");
+			showError(e, "Erro", "Problema ao salvar.");
 			return null;
 		}
 	}
@@ -39,7 +39,7 @@ public abstract class ViewBean<U extends DaoAbstract<T, K>, T extends Entidade<K
 	public void findById(K id) {
 		setEntity(getDao().findById(id));
 		if (getEntity() == null) {
-			showError(null, "Não foi encontrado nenhum registro para o identificador: " + id);
+			showError("Erro", "Não foi encontrado nenhum registro para o identificador: " + id);
 		}
 	}
 
@@ -48,7 +48,7 @@ public abstract class ViewBean<U extends DaoAbstract<T, K>, T extends Entidade<K
 			getDao().removeById(id);
 			setEntities(null);
 		} catch (RuntimeException e) {
-			showError(e, "Problema ao remover.");
+			showError(e, "Erro", "Problema ao remover.");
 		}
 	}
 
@@ -81,11 +81,23 @@ public abstract class ViewBean<U extends DaoAbstract<T, K>, T extends Entidade<K
 		setEntities(getDao().findByExample(getEntity()));
 	}
 
-	protected void showError(Throwable error, String detail) {
+	protected void showError(Throwable error, String summary, String detail) {
 		if (error != null) {
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, detail, error);
 		}
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", detail));
+		showError(summary, detail);
 		//throw error;
+	}
+
+	protected void showError(String summary, String detail) {
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail));
+	}
+
+	protected void showWarn(String summary, String detail) {
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, summary, detail));
+	}
+
+	protected void showInfo(String summary, String detail) {
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail));
 	}
 }

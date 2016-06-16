@@ -19,6 +19,11 @@ public class TipoCampo implements Serializable, Entidade<Integer> {
 	public static final String TABLE_NAME = "tipo_campo";
 
 	private static final long serialVersionUID = 9137246248390452907L;
+
+	public static final int TIPO_INTEIRO = 1;
+	public static final int TIPO_TEXTO = 2;
+	public static final int TIPO_DATA = 3;
+
 	@Id
 	@Column(name = "id_tipo_campo")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE")

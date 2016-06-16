@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import br.gov.inca.tabulador.domain.entity.Entidade;
 import br.gov.inca.tabulador.domain.entity.tipo.TipoCampo;
@@ -32,6 +35,7 @@ public class CampoConfig implements Serializable, Entidade<Integer> {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE")
 	private Integer id;
 	@Column(name = "nm_campo_config")
+	@NotEmpty @Pattern(regexp = "[\\w_]+", message = "Nome de campo não é válido")
 	private String nome;
 	@Column(name = "nm_label")
 	private String label;
@@ -50,7 +54,7 @@ public class CampoConfig implements Serializable, Entidade<Integer> {
 	private TabelaConfig tabelaConfig;
 	@OneToMany(mappedBy = "campoConfig")
 	private List<ValorCampoConfig> valores;
-	
+
 	public CampoConfig() {
 		setTipoFiltro(new TipoFiltro());
 		setTipoCampo(new TipoCampo());

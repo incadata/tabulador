@@ -8,7 +8,7 @@ public abstract class DbResult<T> implements Serializable {
 	private static final long serialVersionUID = 3684552726532906079L;
 
 	private Integer firstResult = 0;
-	private Integer maxResults = 10;
+	private Integer maxResults = null;
 
 	/** @return Quantidade de registros na consulta. */
 	public abstract long getCount();
