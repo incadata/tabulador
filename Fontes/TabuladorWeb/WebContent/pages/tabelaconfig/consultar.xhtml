@@ -34,11 +34,14 @@
 			</p:column>
 			<p:column headerText="Ações" >
 				<p:button icon="ui-icon-folder-open" outcome="persistir" title="Editar">
-					<f:param name="entityId" value="#{entity.id}" />
+					<f:param name="entity.id" value="#{entity.id}" />
 				</p:button>
-				<p:commandButton icon="ui-icon-minus" title="Remover">
+				<p:commandButton icon="ui-icon-minus" title="Remover configuração">
 					<f:ajax listener="#{tabelaConfigView.remove(entity.id)}" execute="@this" render="entitiesTable" />
 				</p:commandButton>
+				<p:button icon="ui-icon-document" outcome="importar" title="Importar dados">
+					<f:param name="entity.id" value="#{entity.id}" />
+				</p:button>
 				<p:commandButton title="Criar tabela" icon="ui-icon-note" actionListener="#{tabelaConfigView.createTable(entity.id)}">
 					<p:confirm header="Criar" message="Deseja realmente criar a tabela '#{entity.nome}'?" icon="ui-icon-alert" />
 				</p:commandButton>

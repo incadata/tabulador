@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head>
+	<title>Importar dados</title>
+</h:head>
+
+<h:body>
+	<h1>Importar dados</h1>
+
+	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+	<f:metadata>
+    	<f:viewParam name="entity.id" value="#{tabelaDadosView.tabelaConfig.id}" />
+    	<f:viewAction action="#{tabelaDadosView.findById(tabelaDadosView.tabelaConfig.id)}"/>
+	</f:metadata>
+
+	<h:form enctype="multipart/form-data">
+		<p>
+			<p:fileUpload required="true" requiredMessage="O arquivo é obrigatório para que seja feita a importação"
+				label="Arquivo" uploadLabel="Enviar" cancelLabel="Cancelar" 
+				multiple="false" auto="false"
+				mode="advanced" skinSimple="true"
+				fileUploadListener="#{tabelaDadosView.handleFileUpload}" allowTypes="/(\.|\/)(csv)$/"/>
+		</p>
+		<p:panelGrid columns="2" layout="grid">
+			<h:outputText value="Separador de colunas: " />
+			<p:inputText value="#{tabelaDadosView.columnSeparator}"/>
+
+			<h:outputText value="Ignorar a primeira linha: " />
+			<p:selectBooleanCheckbox value="#{tabelaDadosView.ignoreFirstLine}" />
+		</p:panelGrid>
+		
+	    <p:carousel value="#{tabelaDadosView.campos}" var="campo" id="colunasCarousel" binding="#{carousel}"
+	    	headerText="Colunas" itemStyle="text-align:center" responsive="true">
+	        <p:panelGrid columns="2" id="campoAtual"
+	        	style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid"
+	        	styleClass="ui-panelgrid-blank">
+				<h:outputText value="Campo: " />
+		        <p:selectOneMenu value="#{campo.id}" update="colunasCarousel">
+					<f:selectItem itemLabel="- Selecione -" itemValue="" />
+					<f:selectItems value="#{tabelaDadosView.tabelaConfig.campos}" var="tipoCampoIt"
+						itemLabel="#{tipoCampoIt.nome}" itemValue="#{tipoCampoIt.id}" />
+				</p:selectOneMenu>
+
+				<!-- 
+				<h:outputText value="Entre aspas: " />
+        		<p:selectBooleanCheckbox value="#{campo.aspas}" />
+
+				<h:outputText value="Ignorar: " />
+        		<p:selectBooleanCheckbox value="#{campo.aspas}" />
+				 -->
+
+				<f:facet name="header">
+					<p:commandButton icon="ui-icon-minus" title="Remover coluna" 
+						actionListener="#{tabelaDadosView.removeCampo(carousel.rowIndex)}" update="colunasCarousel"/>
+	            </f:facet>
+	        </p:panelGrid>
+	 
+	        <f:facet name="footer">
+        		<p:commandButton icon="ui-icon-plus" title="Adicionar coluna" value="Adicionar"
+        			actionListener="#{tabelaDadosView.addCampo}" update="colunasCarousel"/>
+                Total de colunas: #{fn:length(tabelaDadosView.campos)}
+	        </f:facet>
+	    </p:carousel>
+
+		<p>
+			<p:commandButton value="Importar" title="Importar dados" ajax="false" actionListener="#{tabelaDadosView.importar}"/>
+		</p>
+	</h:form>
+</h:body>
+</html>

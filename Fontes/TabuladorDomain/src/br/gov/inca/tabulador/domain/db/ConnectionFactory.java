@@ -38,4 +38,5 @@ public class ConnectionFactory implements Serializable {
 		// Registrado o driver, vamos estabelecer uma conexão
 		return DriverManager.getConnection(url, username, password);
 	}
+	
 }

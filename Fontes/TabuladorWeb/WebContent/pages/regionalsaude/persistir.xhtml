@@ -13,7 +13,7 @@
 		<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
 
 		<f:metadata>
-	    	<f:viewParam name="entityId" value="#{regionalSaudeView.entity.id}" />
+	    	<f:viewParam name="entity.id" value="#{regionalSaudeView.entity.id}" />
 	    	<f:event type="preRenderView" listener="#{regionalSaudeView.findById(regionalSaudeView.entity.id)}" />
 		</f:metadata>
 

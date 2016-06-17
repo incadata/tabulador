@@ -9,12 +9,12 @@ import javax.inject.Named;
 
 import br.gov.inca.tabulador.domain.dao.regiao.RegionalSaudeDao;
 import br.gov.inca.tabulador.domain.entity.regiao.RegionalSaude;
-import br.gov.inca.tabulador.web.bean.ViewBean;
+import br.gov.inca.tabulador.web.bean.ViewCrudBean;
 
 @Named(value = "regionalSaudeView")
 @ViewScoped
 public class RegionalSaudeView extends
-		ViewBean<RegionalSaudeDao, RegionalSaude, Integer> implements
+		ViewCrudBean<RegionalSaudeDao, RegionalSaude, Integer> implements
 		Serializable {
 	private static final long serialVersionUID = -6539486572898169197L;
 

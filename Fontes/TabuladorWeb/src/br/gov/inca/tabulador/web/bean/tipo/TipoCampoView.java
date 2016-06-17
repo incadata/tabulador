@@ -9,12 +9,12 @@ import javax.inject.Named;
 
 import br.gov.inca.tabulador.domain.dao.tipo.TipoCampoDao;
 import br.gov.inca.tabulador.domain.entity.tipo.TipoCampo;
-import br.gov.inca.tabulador.web.bean.ViewBean;
+import br.gov.inca.tabulador.web.bean.ViewCrudBean;
 
 @Named
 @ViewScoped
 public class TipoCampoView extends
-		ViewBean<TipoCampoDao, TipoCampo, Integer> implements
+		ViewCrudBean<TipoCampoDao, TipoCampo, Integer> implements
 		Serializable {
 	private static final long serialVersionUID = -6539486572898169197L;
 

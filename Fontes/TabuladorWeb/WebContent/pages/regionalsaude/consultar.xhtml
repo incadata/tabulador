@@ -35,7 +35,7 @@
 			</p:column>
 			<p:column headerText="Ações" >
 				<p:button icon="ui-icon-folder-open" outcome="persistir" title="Editar">
-					<f:param name="entityId" value="#{entity.id}" />
+					<f:param name="entity.id" value="#{entity.id}" />
 				</p:button>
 				<p:commandButton icon="ui-icon-minus" title="Remover">
 					<f:ajax listener="#{regionalSaudeView.remove(entity.id)}" execute="@this" render="entitiesTable" />

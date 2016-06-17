@@ -13,7 +13,7 @@
 		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
 		<f:metadata>
-	    	<f:viewParam name="entityId" value="#{tabelaConfigView.entity.id}" />
+	    	<f:viewParam name="entity.id" value="#{tabelaConfigView.entity.id}" />
 	    	<f:viewAction action="#{tabelaConfigView.findById(tabelaConfigView.entity.id)}"/>
 		</f:metadata>
 
@@ -86,7 +86,7 @@
 
 		<p>
 			<p:commandButton value="Salvar" icon="ui-icon-disk" action="#{tabelaConfigView.saveOrUpdate}"/>
-			<p:commandButton value="Cancelar" icon="ui-icon-cancel" action="consultar.xhtml"/>
+			<p:commandButton value="Cancelar" icon="ui-icon-cancel" action="consultar"/>
 		</p>
 	</h:form>
 </h:body>

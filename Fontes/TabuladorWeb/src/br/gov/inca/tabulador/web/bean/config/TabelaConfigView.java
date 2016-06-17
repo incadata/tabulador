@@ -17,12 +17,12 @@ import br.gov.inca.tabulador.domain.db.StatementBuilder;
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
 import br.gov.inca.tabulador.domain.entity.config.TabelaConfig;
 import br.gov.inca.tabulador.domain.entity.config.ValorCampoConfig;
-import br.gov.inca.tabulador.web.bean.ViewBean;
+import br.gov.inca.tabulador.web.bean.ViewCrudBean;
 
 @Named(value = "tabelaConfigView")
 @ViewScoped
 public class TabelaConfigView extends
-		ViewBean<TabelaConfigDao, TabelaConfig, Integer> implements
+		ViewCrudBean<TabelaConfigDao, TabelaConfig, Integer> implements
 		Serializable {
 	private static final long serialVersionUID = -6539486572898169197L;
 
