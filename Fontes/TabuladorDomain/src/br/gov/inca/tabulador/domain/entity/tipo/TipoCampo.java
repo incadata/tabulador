@@ -46,4 +46,8 @@ public class TipoCampo implements Serializable, Entidade<Integer> {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
+	public boolean isData() {
+		return getId() != null && TIPO_DATA == getId();
+	}
 }

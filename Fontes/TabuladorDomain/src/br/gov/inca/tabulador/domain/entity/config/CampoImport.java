@@ -1,10 +1,13 @@
 package br.gov.inca.tabulador.domain.entity.config;
 
+import br.gov.inca.tabulador.domain.entity.tipo.TipoCampo;
+
 
 public class CampoImport extends CampoConfig {
 	private static final long serialVersionUID = -1011397846544532181L;
 	private boolean aspas;
 	private boolean ignore;
+	private String pattern;
 
 	public CampoImport() {
 		super();
@@ -17,6 +20,10 @@ public class CampoImport extends CampoConfig {
 	public CampoImport(CampoImport campo) {
 		this((CampoConfig) campo);
 		setAspas(campo.isAspas());
+		setIgnore(campo.isIgnore());
+		if (getTipoCampo().getId() != null && TipoCampo.TIPO_DATA == getTipoCampo().getId()) {
+			setPattern("dd/mm/yyyy");
+		}
 	}
 
 	public boolean isAspas() {
@@ -33,5 +40,13 @@ public class CampoImport extends CampoConfig {
 
 	public void setIgnore(boolean ignore) {
 		this.ignore = ignore;
+	}
+	
+	public String getPattern() {
+		return pattern;
+	}
+	
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
 	}
 }

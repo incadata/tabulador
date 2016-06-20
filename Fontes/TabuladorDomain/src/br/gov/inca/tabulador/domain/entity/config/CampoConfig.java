@@ -69,6 +69,7 @@ public class CampoConfig implements Serializable, Entidade<Integer> {
 		setAbreviado(campo.getAbreviado());
 		setFiltro(campo.getFiltro());
 		setTipoFiltro(campo.getTipoFiltro());
+		setTipoCampo(campo.getTipoCampo());
 		setTabelaConfig(campo.getTabelaConfig());
 		setValores(new ArrayList<>(campo.getValores()));
 	}

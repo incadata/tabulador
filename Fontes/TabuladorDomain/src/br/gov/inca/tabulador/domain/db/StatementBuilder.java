@@ -4,10 +4,11 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
 import br.gov.inca.tabulador.domain.entity.config.CampoImport;
@@ -42,45 +43,75 @@ public class StatementBuilder implements Serializable {
 				+ "AND  TABLE_NAME = '%s'", getTableCatalog(entity), getTableName(entity));
 	}
 	
-	public PreparedStatement insertInto(Connection connection, TabelaConfig entity, List<CampoImport> campos, List<List<String>> listaDeValores) throws SQLException {
+	protected String insertIntoCommand(TabelaConfig entity, List<CampoImport> campos, final int quantidadeValores) {
 		final StringBuilder stringBuilder = new StringBuilder("INSERT INTO ");
 		stringBuilder.append(getTableName(entity));
 		stringBuilder.append(" (");
 		boolean virgula = false;
 		for (CampoImport campo : campos) {
-			if (virgula) {
-				stringBuilder.append(", ");
+			if (!campo.isIgnore()) {
+				if (virgula) {
+					stringBuilder.append(", ");
+				}
+				stringBuilder.append(getFieldName(campo));
+				virgula = true;
 			}
-			stringBuilder.append(getFieldName(campo));
-			virgula = true;
 		}
-		stringBuilder.append(") VALUES (");
+		stringBuilder.append(") VALUES ");
+		if (quantidadeValores > 1) {
+			stringBuilder.append("(");
+		}
 		virgula = false;
-		final Map<Integer, String> valorMap = new HashMap<>();
-		int valorIndex = 0;
-		for (List<String> valores : listaDeValores) {
+		for (int i = 0; i < quantidadeValores; i++) {
 			if (virgula) {
 				stringBuilder.append(", ");
 			}
 			stringBuilder.append("(");
 			
 			boolean virgulaInterna = false;
-			for (String valor : valores) {
+			final int camposSize = campos.size();
+			for (int j = 0; j < camposSize; j++) {
 				if (virgulaInterna) {
 					stringBuilder.append(", ");
 				}
 				stringBuilder.append("?");
-				valorMap.put(++valorIndex, valor);
 				virgulaInterna = true;
 			}
 			stringBuilder.append(")");
 			virgula = true;
 		}
-		stringBuilder.append(")");
+		if (quantidadeValores > 1) {
+			stringBuilder.append(")");
+		}
+		return stringBuilder.toString();
+	}
 
-		final PreparedStatement prepareStatement = connection.prepareStatement(stringBuilder.toString());
-		for (Entry<Integer, String> valorEntry : valorMap.entrySet()) {
-			prepareStatement.setString(valorEntry.getKey(), valorEntry.getValue());
+	public PreparedStatement insertInto(Connection connection, TabelaConfig entity, List<CampoImport> campos, List<List<String>> listaDeValores) throws SQLException, ParseException {
+		final PreparedStatement prepareStatement = connection.prepareStatement(insertIntoCommand(entity, campos, listaDeValores.size()));
+		int indexValor = 0;
+		for (List<String> valoresLinha : listaDeValores) {
+			final int camposSize = campos.size();
+			for (int j = 0; j < camposSize; j++) {
+				final CampoImport campoImport = campos.get(j);
+				switch (campoImport.getTipoCampo().getId()) {
+					case TipoCampo.TIPO_INTEIRO:
+						prepareStatement.setInt(++indexValor, Integer.parseInt(valoresLinha.get(j)));
+						break;
+					case TipoCampo.TIPO_TEXTO:
+						prepareStatement.setString(++indexValor, valoresLinha.get(j));
+						break;
+					case TipoCampo.TIPO_DATA:
+					{
+						final Calendar cal = Calendar.getInstance();
+						cal.setTime(new SimpleDateFormat(campoImport.getPattern()).parse(valoresLinha.get(j)));
+						prepareStatement.setTimestamp(++indexValor, new Timestamp(cal.getTimeInMillis()));
+						break;
+					}
+					default:
+						prepareStatement.setObject(++indexValor, valoresLinha.get(j));
+						break;
+				}
+			}
 		}
 		return prepareStatement;
 	}

@@ -44,8 +44,17 @@
 					<f:selectItem itemLabel="- Selecione -" itemValue="" />
 					<f:selectItems value="#{tabelaDadosView.tabelaConfig.campos}" var="tipoCampoIt"
 						itemLabel="#{tipoCampoIt.nome}" itemValue="#{tipoCampoIt.id}" />
+
+					<f:ajax listener="#{tabelaDadosView.atualizarTipoCampo(carousel.rowIndex)}" render="campoAtual" />
 				</p:selectOneMenu>
 
+				<h:outputText value="Padrão: " rendered="#{campo.tipoCampo.isData()}" />
+        		<p:inputText value="#{campo.pattern}" rendered="#{campo.tipoCampo.isData()}" />
+
+				<f:facet name="header">
+					<p:commandButton icon="ui-icon-minus" title="Remover coluna" 
+						actionListener="#{tabelaDadosView.removerCampo(carousel.rowIndex)}" update="colunasCarousel"/>
+	            </f:facet>
 				<!-- 
 				<h:outputText value="Entre aspas: " />
         		<p:selectBooleanCheckbox value="#{campo.aspas}" />
@@ -53,11 +62,6 @@
 				<h:outputText value="Ignorar: " />
         		<p:selectBooleanCheckbox value="#{campo.aspas}" />
 				 -->
-
-				<f:facet name="header">
-					<p:commandButton icon="ui-icon-minus" title="Remover coluna" 
-						actionListener="#{tabelaDadosView.removeCampo(carousel.rowIndex)}" update="colunasCarousel"/>
-	            </f:facet>
 	        </p:panelGrid>
 	 
 	        <f:facet name="footer">

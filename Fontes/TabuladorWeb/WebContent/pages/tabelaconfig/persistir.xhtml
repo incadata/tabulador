@@ -24,7 +24,7 @@
         <br/>
         <br/>
 
-		<p:dataTable var="campoItem" rowIndexVar="rowIndex" value="#{tabelaConfigView.campos}" id="camposTable" tableStyle="table-layout: auto;">
+		<p:dataTable var="campoItem" rowIndexVar="rowIndex" value="#{tabelaConfigView.entity.campos}" id="camposTable" tableStyle="table-layout: auto;">
 			<p:column headerText="Nome">
 				<h:inputText value="#{campoItem.nome}" />
 			</p:column>
@@ -62,15 +62,17 @@
 					</p:commandButton>
 				</p:overlayPanel>
 			</p:column>
-			<p:column headerText="Filtro" >
-				<p:selectBooleanCheckbox value="#{campoItem.filtro}" id="campoItemCheck">
-					<p:ajax process="camposTable" update="camposTable"/>
-				</p:selectBooleanCheckbox>
-				<p:selectOneMenu value="#{campoItem.tipoCampo.id}" rendered="#{campoItem.filtro}">
-					<f:selectItem itemLabel="- Selecione -" itemValue="" />
-					<f:selectItems value="#{tipoFiltroView.entities}" var="tipoFiltroIt"
-						itemLabel="#{tipoFiltroIt.nome}" itemValue="#{tipoFiltroIt.id}" />
-				</p:selectOneMenu>
+			<p:column headerText="Filtro">
+				<p:outputPanel id="valorFiltro">
+					<p:selectBooleanCheckbox value="#{campoItem.filtro}" id="campoItemCheck">
+						<p:ajax process="camposTable" update="valorFiltro"/>
+					</p:selectBooleanCheckbox>
+					<p:selectOneMenu value="#{campoItem.tipoCampo.id}" rendered="#{campoItem.filtro}">
+						<f:selectItem itemLabel="- Selecione -" itemValue="" />
+						<f:selectItems value="#{tipoFiltroView.entities}" var="tipoFiltroIt"
+							itemLabel="#{tipoFiltroIt.nome}" itemValue="#{tipoFiltroIt.id}" />
+					</p:selectOneMenu>
+    			</p:outputPanel>
 			</p:column>
 			<p:column headerText="Ações" >
 				<p:commandButton icon="ui-icon-minus" title="Remover campo">

@@ -4,13 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Instance;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -34,12 +37,13 @@ public class TabelaDadosView implements Serializable, ViewBean {
 	private @Inject TabelaConfigDao tabelaConfigDao;
 	private @Inject ConnectionFactory connectionFactory;
 	private @Inject StatementBuilder statementBuilder;
+	private @Inject Instance<Connection> connection;
 
 	private TabelaConfig tabelaConfig;
 	private List<CampoImport> campos;
 	private String columnSeparator;
 	private boolean ignoreFirstLine;
-	private List<List<String>> linhas;
+	private List<String> linhas;
 	
 	@PostConstruct
 	public void init() {
@@ -102,7 +106,15 @@ public class TabelaDadosView implements Serializable, ViewBean {
 		this.campos.add(new CampoImport());
 	}
 
-	public void removeCampo(Integer index) {
+	public void atualizarTipoCampo(Integer index) {
+		final CampoImport campoAtualizado = getCampos().get(index);
+		tabelaConfig.getCampos().stream()
+				.filter(x -> x.getId().equals(campoAtualizado.getId()))
+				.findAny().map(x -> x.getTipoCampo())
+				.ifPresent(x -> campoAtualizado.setTipoCampo(x));
+	}
+
+	public void removerCampo(Integer index) {
 		this.campos.remove(index.intValue());
 	}
 	
@@ -128,7 +140,7 @@ public class TabelaDadosView implements Serializable, ViewBean {
 			try (final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(file.getInputstream()))) {
 				String sCurrentLine;
 				while ((sCurrentLine = bufferedReader.readLine()) != null) {
-					getLinhas().add(Arrays.asList(sCurrentLine.split(getColumnSeparator())));
+					getLinhas().add(sCurrentLine);
 				}
 				showInfo("Arquivo", String.format("Arquivo '%s' recebido com sucesso.", file.getFileName()));
 			} catch (IOException e) {
@@ -139,11 +151,11 @@ public class TabelaDadosView implements Serializable, ViewBean {
 		}
     }
 	
-	public List<List<String>> getLinhas() {
+	private List<String> getLinhas() {
 		return linhas;
 	}
 	
-	public void setLinhas(List<List<String>> linhas) {
+	public void setLinhas(List<String> linhas) {
 		this.linhas = linhas;
 	}
 	
@@ -151,10 +163,14 @@ public class TabelaDadosView implements Serializable, ViewBean {
 		if (!getLinhas().isEmpty()) {
 			PreparedStatement insertInto;
 			try {
-				insertInto = statementBuilder.insertInto(null, getTabelaConfig(), getCampos(), getLinhas());
+				final List<List<String>> linhasColunas = new ArrayList<>(getLinhas().size());
+				for (String linha : getLinhas()) {
+					linhasColunas.add(Arrays.asList(linha.split(getColumnSeparator())));
+				}
+				insertInto = statementBuilder.insertInto(connection.get(), getTabelaConfig(), getCampos(), linhasColunas);
 				showInfo("Arquivo", String.format("%d linhas inseridas com sucesso.", insertInto.executeLargeUpdate()));
-			} catch (SQLException e) {
-				showError("Erro ao inserir dados", "Ocorreu um erro ao tentar inserir os dados na tabela.");
+			} catch (SQLException | ParseException e) {
+				showError(e, "Erro ao inserir dados", "Ocorreu um erro ao tentar inserir os dados na tabela.");
 			}
 		} else {
 			showError("Vazio", "Nenhuma linha encontrada para ser inserida.");
