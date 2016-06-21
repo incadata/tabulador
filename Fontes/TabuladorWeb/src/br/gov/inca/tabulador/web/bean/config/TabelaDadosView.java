@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Instance;
@@ -22,7 +23,6 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 import br.gov.inca.tabulador.domain.dao.config.TabelaConfigDao;
-import br.gov.inca.tabulador.domain.db.ConnectionFactory;
 import br.gov.inca.tabulador.domain.db.StatementBuilder;
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
 import br.gov.inca.tabulador.domain.entity.config.CampoImport;
@@ -35,9 +35,8 @@ public class TabelaDadosView implements Serializable, ViewBean {
 	private static final long serialVersionUID = 4473731490041477811L;
 
 	private @Inject TabelaConfigDao tabelaConfigDao;
-	private @Inject ConnectionFactory connectionFactory;
 	private @Inject StatementBuilder statementBuilder;
-	private @Inject Instance<Connection> connection;
+	private transient @Inject Instance<Connection> connection;
 
 	private TabelaConfig tabelaConfig;
 	private List<CampoImport> campos;
@@ -49,7 +48,6 @@ public class TabelaDadosView implements Serializable, ViewBean {
 	public void init() {
 		setTabelaConfig(new TabelaConfig());
 		setCampos(new ArrayList<>());
-		setLinhas(new ArrayList<>());
 		addCampo();
 		setColumnSeparator(";");
 	}
@@ -94,10 +92,6 @@ public class TabelaDadosView implements Serializable, ViewBean {
 		return tabelaConfigDao;
 	}
 
-	public ConnectionFactory getConnectionFactory() {
-		return connectionFactory;
-	}
-
 	public StatementBuilder getStatementBuilder() {
 		return statementBuilder;
 	}
@@ -138,6 +132,7 @@ public class TabelaDadosView implements Serializable, ViewBean {
 		final UploadedFile file = event.getFile();
 		if (file != null) {
 			try (final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(file.getInputstream()))) {
+				setLinhas(new ArrayList<>());
 				String sCurrentLine;
 				while ((sCurrentLine = bufferedReader.readLine()) != null) {
 					getLinhas().add(sCurrentLine);
@@ -147,6 +142,7 @@ public class TabelaDadosView implements Serializable, ViewBean {
 				showError(e, "Erro no arquivo", "Ocorreu um erro ao ler o arquivo.");
 			}
 		} else {
+			setLinhas(null);
 			showError("Arquivo não encontrado", "Arquivo ainda não foi submetido ou o upload não terminou.");
 		}
     }
@@ -160,15 +156,17 @@ public class TabelaDadosView implements Serializable, ViewBean {
 	}
 	
 	public void importar() {
-		if (!getLinhas().isEmpty()) {
+		if (getLinhas() == null) {
+			showError("Arquivo", "Nenhum arquivo recebido.");
+		} else if (!getLinhas().isEmpty()) {
 			PreparedStatement insertInto;
 			try {
 				final List<List<String>> linhasColunas = new ArrayList<>(getLinhas().size());
 				for (String linha : getLinhas()) {
 					linhasColunas.add(Arrays.asList(linha.split(getColumnSeparator())));
 				}
-				insertInto = statementBuilder.insertInto(connection.get(), getTabelaConfig(), getCampos(), linhasColunas);
-				showInfo("Arquivo", String.format("%d linhas inseridas com sucesso.", insertInto.executeLargeUpdate()));
+				insertInto = getStatementBuilder().insertInto(connection.get(), getTabelaConfig(), getCampos(), linhasColunas);
+				showInfo("Arquivo", String.format("%d/%d linhas inseridas com sucesso.", IntStream.of(insertInto.executeBatch()).sum(), linhasColunas.size()));
 			} catch (SQLException | ParseException e) {
 				showError(e, "Erro ao inserir dados", "Ocorreu um erro ao tentar inserir os dados na tabela.");
 			}
