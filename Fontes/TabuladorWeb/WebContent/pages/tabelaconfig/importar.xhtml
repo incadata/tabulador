@@ -51,6 +51,9 @@
 				<h:outputText value="Padrão: " rendered="#{campo.tipoCampo.isData()}" />
         		<p:inputText value="#{campo.pattern}" rendered="#{campo.tipoCampo.isData()}" />
 
+				<h:outputText value="Ignorar: " />
+        		<p:selectBooleanCheckbox value="#{campo.ignore}" />
+
 				<f:facet name="header">
 					<p:commandButton icon="ui-icon-minus" title="Remover coluna" 
 						actionListener="#{tabelaDadosView.removerCampo(carousel.rowIndex)}" update="colunasCarousel"/>
@@ -59,8 +62,6 @@
 				<h:outputText value="Entre aspas: " />
         		<p:selectBooleanCheckbox value="#{campo.aspas}" />
 
-				<h:outputText value="Ignorar: " />
-        		<p:selectBooleanCheckbox value="#{campo.aspas}" />
 				 -->
 	        </p:panelGrid>
 	 
@@ -72,7 +73,8 @@
 	    </p:carousel>
 
 		<p>
-			<p:commandButton icon="ui-icon-document" value="Importar" title="Importar dados" actionListener="#{tabelaDadosView.importar}"/>
+			<p:commandButton icon="ui-icon-script" value="Importar" title="Importar dados" actionListener="#{tabelaDadosView.importar}"/>
+			<p:commandButton icon="ui-icon-cancel" value="Cancelar" action="consultar"/>
 		</p>
 	</h:form>
 </h:body>

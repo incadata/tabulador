@@ -34,7 +34,7 @@ public class TabelaConfig implements Serializable, Entidade<Integer> {
 	private String titulo;
 	@Column(name = "fg_localidade")
 	private Boolean localidade;
-	@OneToMany(mappedBy = "tabelaConfig", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+	@OneToMany(mappedBy = "tabelaConfig", cascade = CascadeType.ALL)
 	private List<CampoConfig> campos;
 
 	public TabelaConfig() {

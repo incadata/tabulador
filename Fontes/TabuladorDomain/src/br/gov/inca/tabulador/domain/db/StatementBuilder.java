@@ -30,17 +30,13 @@ public class StatementBuilder implements Serializable {
 			colocarVirgula = true;
 		}
 		stringBuilder.append(")");
+		// TODO Criar índices
 		return stringBuilder.toString();
 	}
 
 	public String dropTable(TabelaConfig entity) {
+		// TODO Apagar índices
 		return String.format("DROP TABLE %s", getTableName(entity));
-	}
-	
-	public String tableExists(TabelaConfig entity) {
-		return String.format("SELECT (count(*) = 1) FROM INFORMATION_SCHEMA.TABLES" 
-				+ "WHERE TABLE_CATALOG = '%s'" 
-				+ "AND  TABLE_NAME = '%s'", getTableCatalog(entity), getTableName(entity));
 	}
 	
 	protected String insertIntoCommand(TabelaConfig entity, List<CampoImport> campos) {
@@ -59,13 +55,14 @@ public class StatementBuilder implements Serializable {
 		}
 		stringBuilder.append(") VALUES (");
 		virgula = false;
-		final int camposSize = campos.size();
-		for (int j = 0; j < camposSize; j++) {
-			if (virgula) {
-				stringBuilder.append(", ");
+		for (CampoImport campo : campos) {
+			if (!campo.isIgnore()) {
+				if (virgula) {
+					stringBuilder.append(", ");
+				}
+				stringBuilder.append("?");
+				virgula = true;
 			}
-			stringBuilder.append("?");
-			virgula = true;
 		}
 		stringBuilder.append(")");
 		return stringBuilder.toString();
@@ -75,34 +72,33 @@ public class StatementBuilder implements Serializable {
 		final PreparedStatement prepareStatement = connection.prepareStatement(insertIntoCommand(entity, campos));
 		for (List<String> valoresLinha : listaDeValores) {
 			final int camposSize = campos.size();
-			for (int indexValor = 0; indexValor < camposSize; indexValor++) {
-				final CampoImport campoImport = campos.get(indexValor);
-				switch (campoImport.getTipoCampo().getId()) {
+			int indexValor = 0;
+			for (int i = 0; i < camposSize; i++) {
+				final CampoImport campoImport = campos.get(i);
+				if (!campoImport.isIgnore()) {
+					switch (campoImport.getTipoCampo().getId()) {
 					case TipoCampo.TIPO_INTEIRO:
-						prepareStatement.setLong(indexValor + 1, Long.parseLong(valoresLinha.get(indexValor)));
+						prepareStatement.setLong(++indexValor, Long.parseLong(valoresLinha.get(i)));
 						break;
 					case TipoCampo.TIPO_TEXTO:
-						prepareStatement.setString(indexValor + 1, valoresLinha.get(indexValor));
+						prepareStatement.setString(++indexValor, valoresLinha.get(i));
 						break;
 					case TipoCampo.TIPO_DATA:
 					{
 						final Calendar cal = Calendar.getInstance();
-						cal.setTime(new SimpleDateFormat(campoImport.getPattern()).parse(valoresLinha.get(indexValor)));
-						prepareStatement.setTimestamp(indexValor + 1, new Timestamp(cal.getTimeInMillis()));
+						cal.setTime(new SimpleDateFormat(campoImport.getPattern()).parse(valoresLinha.get(i)));
+						prepareStatement.setTimestamp(++indexValor, new Timestamp(cal.getTimeInMillis()));
 						break;
 					}
 					default:
-						prepareStatement.setObject(indexValor, valoresLinha.get(indexValor));
+						prepareStatement.setObject(++indexValor, valoresLinha.get(i));
 						break;
+					}
 				}
 			}
 			prepareStatement.addBatch();
 		}
 		return prepareStatement;
-	}
-
-	protected String getTableCatalog(TabelaConfig entity) {
-		return "tabulador";
 	}
 
 	protected String getTableName(TabelaConfig entity) {

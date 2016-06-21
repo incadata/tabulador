@@ -5,16 +5,20 @@ import br.gov.inca.tabulador.domain.entity.tipo.TipoCampo;
 
 public class CampoImport extends CampoConfig {
 	private static final long serialVersionUID = -1011397846544532181L;
+
 	private boolean aspas;
 	private boolean ignore;
 	private String pattern;
 
 	public CampoImport() {
-		super();
+		this(new CampoConfig());
 	}
 
 	public CampoImport(CampoConfig campo) {
 		super(campo);
+		setAspas(false);
+		setIgnore(false);
+		setPattern("");
 	}
 
 	public CampoImport(CampoImport campo) {

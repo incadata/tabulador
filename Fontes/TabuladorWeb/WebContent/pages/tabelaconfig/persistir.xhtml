@@ -28,10 +28,10 @@
 			<p:column headerText="Nome">
 				<h:inputText value="#{campoItem.nome}" />
 			</p:column>
-			<p:column headerText="Título">
+			<p:column headerText="Título" priority="3">
 				<h:inputText value="#{campoItem.label}" />
 			</p:column>
-			<p:column headerText="Abreviado">
+			<p:column headerText="Abreviado" priority="3">
 				<h:inputText value="#{campoItem.abreviado}" />
 			</p:column>
 			<p:column headerText="Tipo">
@@ -41,7 +41,7 @@
 						itemLabel="#{tipoCampoIt.nome}" itemValue="#{tipoCampoIt.id}" />
 				</p:selectOneMenu>
 			</p:column>
-			<p:column headerText="Valores">
+			<p:column headerText="Valores" priority="">
 				<p:commandButton id="imageBtn" value="Valores" type="button" />
 				<p:overlayPanel for="imageBtn" hideEffect="fade">
 					<p:dataTable var="valorItem" rowIndexVar="valorRowIndex" value="#{campoItem.valores}" id="valoresTable" tableStyle="table-layout: auto;">
@@ -62,7 +62,7 @@
 					</p:commandButton>
 				</p:overlayPanel>
 			</p:column>
-			<p:column headerText="Filtro">
+			<p:column headerText="Filtro" priority="4">
 				<p:outputPanel id="valorFiltro">
 					<p:selectBooleanCheckbox value="#{campoItem.filtro}" id="campoItemCheck">
 						<p:ajax process="camposTable" update="valorFiltro"/>

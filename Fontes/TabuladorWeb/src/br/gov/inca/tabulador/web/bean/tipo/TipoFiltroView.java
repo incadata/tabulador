@@ -21,6 +21,10 @@ public class TipoFiltroView extends
 	private TipoFiltro tipoFiltro;
 	private @Inject TipoFiltroDao tipoFiltroDao;
 
+	public TipoFiltroView() {
+		super(true);
+	}
+
 	@Override
 	@PostConstruct
 	public void init() {
@@ -42,5 +46,5 @@ public class TipoFiltroView extends
 	protected void setEntity(TipoFiltro entity) {
 		this.tipoFiltro = entity;
 	}
-	
+
 }

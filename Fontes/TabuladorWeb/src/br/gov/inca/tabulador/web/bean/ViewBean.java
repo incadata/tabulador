@@ -12,7 +12,6 @@ public interface ViewBean {
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, detail, error);
 		}
 		showError(summary, detail);
-		//throw error;
 	}
 
 	 default void showError(String summary, String detail) {

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head>
+	<title>Tabular dados</title>
+</h:head>
+
+<h:body>
+	<h1>Tabular dados</h1>
+	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+	<f:metadata>
+    	<f:viewParam name="entity.id" value="#{tabularView.tabelaConfig.id}" />
+    	<f:viewAction action="#{tabularView.findById(tabularView.tabelaConfig.id)}"/>
+	</f:metadata>
+
+	<h2>
+		<h:outputText value="#{tabularView.tabelaConfig.nome}" />
+		<h:outputText value=" - " />
+		<h:outputText value="#{tabularView.tabelaConfig.titulo}" />
+	</h2>
+	<h:form id="formTabular">
+		<p:carousel value="#{tabularView.campos}" var="campo" id="colunasCarousel" binding="#{carousel}"
+	    	headerText="Filtros" itemStyle="text-align:center" responsive="true">
+	        <p:panelGrid columns="2" id="campoAtual"
+	        	style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid"
+	        	styleClass="ui-panelgrid-blank">
+
+				<h:outputText value="Campo: " />
+		        <p:selectOneMenu value="#{campo.id}" update="colunasCarousel">
+					<f:selectItem itemLabel="- Selecione -" itemValue="" />
+					<f:selectItems value="#{tabularView.camposFiltro}" var="tipoCampoIt"
+						itemLabel="#{tipoCampoIt.nome}" itemValue="#{tipoCampoIt.id}" />
+					<f:ajax listener="#{tabularView.atualizarTipoCampo(carousel.rowIndex)}" render="campoAtual" />
+				</p:selectOneMenu>
+
+				<f:facet name="header">
+					<p:commandButton icon="ui-icon-minus" title="Remover coluna" 
+						actionListener="#{tabularView.removerCampo(carousel.rowIndex)}" update="colunasCarousel"/>
+	            </f:facet>
+	        </p:panelGrid>
+	 
+	        <f:facet name="footer">
+        		<p:commandButton icon="ui-icon-plus" title="Adicionar coluna" value="Adicionar"
+        			actionListener="#{tabularView.addCampo}" update="colunasCarousel"/>
+                Total de filtros: #{fn:length(tabularView.campos)}
+	        </f:facet>
+	    </p:carousel>
+
+		<p>
+			<p:commandButton value="Tabular" icon="ui-icon-grip-dotted-vertical" action="#{tabularView.tabular}"/>
+			<p:commandButton value="Cancelar" icon="ui-icon-cancel" action="consultar"/>
+		</p>
+	</h:form>
+</h:body>
+</html>

@@ -165,6 +165,9 @@ public class TabelaDadosView implements Serializable, ViewBean {
 				for (String linha : getLinhas()) {
 					linhasColunas.add(Arrays.asList(linha.split(getColumnSeparator())));
 				}
+				if (isIgnoreFirstLine()) {
+					linhasColunas.remove(0);
+				}
 				insertInto = getStatementBuilder().insertInto(connection.get(), getTabelaConfig(), getCampos(), linhasColunas);
 				showInfo("Arquivo", String.format("%d/%d linhas inseridas com sucesso.", IntStream.of(insertInto.executeBatch()).sum(), linhasColunas.size()));
 			} catch (SQLException | ParseException e) {

@@ -32,7 +32,7 @@ public class TabelaConfigView extends
 	private @Inject CampoConfigDao campoConfigDao;
 	private @Inject TabelaConfigDao tabelaConfigDao;
 	private @Inject StatementBuilder statementBuilder;
-	private @Inject Instance<Connection> connection;
+	private transient @Inject Instance<Connection> connection;
 
 	@Override
 	@PostConstruct

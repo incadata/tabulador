@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -52,7 +53,7 @@ public class CampoConfig implements Serializable, Entidade<Integer> {
 	@ManyToOne
 	@JoinColumn(name = "id_tabela_config")
 	private TabelaConfig tabelaConfig;
-	@OneToMany(mappedBy = "campoConfig")
+	@OneToMany(mappedBy = "campoConfig", cascade = CascadeType.ALL)
 	private List<ValorCampoConfig> valores;
 
 	public CampoConfig() {

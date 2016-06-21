@@ -14,12 +14,15 @@ import br.gov.inca.tabulador.web.bean.ViewCrudBean;
 @Named
 @ViewScoped
 public class TipoCampoView extends
-		ViewCrudBean<TipoCampoDao, TipoCampo, Integer> implements
-		Serializable {
+		ViewCrudBean<TipoCampoDao, TipoCampo, Integer> implements Serializable {
 	private static final long serialVersionUID = -6539486572898169197L;
 
 	private TipoCampo tipoCampo;
 	private @Inject TipoCampoDao tipoCampoDao;
+
+	public TipoCampoView() {
+		super(true);
+	}
 
 	@Override
 	@PostConstruct
@@ -42,5 +45,5 @@ public class TipoCampoView extends
 	protected void setEntity(TipoCampo entity) {
 		this.tipoCampo = entity;
 	}
-	
+
 }

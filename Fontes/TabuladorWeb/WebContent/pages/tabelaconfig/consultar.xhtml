@@ -29,20 +29,29 @@
 			<p:column headerText="Nome">
 				<h:outputText value="#{entity.nome}" />
 			</p:column>
-			<p:column headerText="Título">
+			<p:column headerText="Título" priority="2">
 				<h:outputText value="#{entity.titulo}" />
 			</p:column>
 			<p:column headerText="Ações" >
-				<p:button icon="ui-icon-folder-open" outcome="persistir" title="Editar">
+				<p:button icon="ui-icon-pencil" outcome="persistir" title="Editar">
 					<f:param name="entity.id" value="#{entity.id}" />
 				</p:button>
-				<p:commandButton icon="ui-icon-minus" title="Remover configuração">
-					<f:ajax listener="#{tabelaConfigView.remove(entity.id)}" execute="@this" render="entitiesTable" />
+				<p:commandButton icon="ui-icon-minus" title="Remover configuração" actionListener="#{tabelaConfigView.remove(entity.id)}" process="@this" update="entitiesTable">
+					<p:confirm header="Remover configuração" message="Deseja realmente remover a configuração da tabela '#{entity.nome}'?" icon="ui-icon-alert" />
 				</p:commandButton>
-				<p:button icon="ui-icon-document" outcome="importar" title="Importar dados">
+
+				<h:outputText value=" - " />
+
+				<p:button icon="ui-icon-script" outcome="importar" title="Importar dados">
 					<f:param name="entity.id" value="#{entity.id}" />
 				</p:button>
-				<p:commandButton title="Criar tabela" icon="ui-icon-note" actionListener="#{tabelaConfigView.createTable(entity.id)}">
+				<p:button icon="ui-icon-grip-dotted-vertical" outcome="tabular" title="Tabular dados">
+					<f:param name="entity.id" value="#{entity.id}" />
+				</p:button>
+
+				<h:outputText value=" - " />
+
+				<p:commandButton title="Criar tabela" icon="ui-icon-document" actionListener="#{tabelaConfigView.createTable(entity.id)}">
 					<p:confirm header="Criar" message="Deseja realmente criar a tabela '#{entity.nome}'?" icon="ui-icon-alert" />
 				</p:commandButton>
 				<p:commandButton title="Remover tabela" icon="ui-icon-trash" actionListener="#{tabelaConfigView.dropTable(entity.id)}">

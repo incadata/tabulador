@@ -17,15 +17,18 @@ public class TabelaConfigDao extends DaoAbstract<TabelaConfig, Integer> {
 	@Override
 	@Transactional
 	public TabelaConfig saveOrUpdate(TabelaConfig entity) {
-		final TabelaConfig saveOrUpdate = super.saveOrUpdate(entity);
-		saveOrUpdate(entity, entity.getCampos());
-		return saveOrUpdate;
+		setRelationship(entity, entity.getCampos());
+		return super.saveOrUpdate(entity);
 	}
 
-	protected void saveOrUpdate(TabelaConfig entity, Collection<CampoConfig> campos) {
+	protected void setRelationship(TabelaConfig entity, Collection<CampoConfig> campos) {
 		for (CampoConfig campo : campos) {
 			campo.setTabelaConfig(entity);
-			campoConfigDao.saveOrUpdate(campo);
+			getCampoConfigDao().setRelationship(campo, campo.getValores());
 		}
+	}
+	
+	protected CampoConfigDao getCampoConfigDao() {
+		return campoConfigDao;
 	}
 }

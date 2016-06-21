@@ -11,23 +11,30 @@ import br.gov.inca.tabulador.domain.entity.config.ValorCampoConfig;
 
 public class CampoConfigDao extends DaoAbstract<CampoConfig, Integer> {
 	private static final long serialVersionUID = 3651220214258945079L;
+
 	private @Inject ValorCampoConfigDao valorCampoConfigDao;
-	
+
 	@Override
 	@Transactional
 	public CampoConfig saveOrUpdate(CampoConfig entity) {
+		setRelationship(entity, entity.getValores());
+		return super.saveOrUpdate(entity);
+	}
+
+	protected void setRelationship(CampoConfig entity, Collection<ValorCampoConfig> valores) {
+		correctFiltro(entity);
+		for (ValorCampoConfig valor : valores) {
+			valor.setCampoConfig(entity);
+		}
+	}
+
+	private void correctFiltro(CampoConfig entity) {
 		if (entity.getTipoFiltro() != null && (Boolean.FALSE.equals(entity.getFiltro()) || entity.getTipoFiltro().getId() == null)) {
 			entity.setTipoFiltro(null);
 		}
-		final CampoConfig resultado = super.saveOrUpdate(entity);
-		saveOrUpdate(entity, entity.getValores());
-		return resultado;
 	}
-	
-	protected void saveOrUpdate(CampoConfig entity, Collection<ValorCampoConfig> valores) {
-		for (ValorCampoConfig valor : valores) {
-			valor.setCampoConfig(entity);
-			valorCampoConfigDao.saveOrUpdate(valor);
-		}
+
+	protected ValorCampoConfigDao getValorCampoConfigDao() {
+		return valorCampoConfigDao;
 	}
 }
