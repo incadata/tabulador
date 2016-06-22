@@ -55,7 +55,7 @@ public class GerarConsultaView implements ViewBean {
 	public void findById(Integer id) {
 		if (id != null) {
 			setTabelaConfig(getTabelaConfigDao().findById(id));
-			setCamposConfig(getTabelaConfig().getCampos().stream().filter(x -> x.getFiltro()).collect(Collectors.toList()));
+			setCamposConfig(getTabelaConfig().getCampos().stream().filter(x -> x.isFiltro()).collect(Collectors.toList()));
 			setCamposFiltro(getCampos());
 		}
 	}
@@ -163,7 +163,7 @@ public class GerarConsultaView implements ViewBean {
 				campoAgrupar.getValores().add(valor);
 			}
 		}
-		for (CampoFiltro campo : getCamposFiltro()) {
+		for (CampoFiltro campo : getCampos()) {
 			final CampoConfig campoDb = getCampoConfigDao().findById(campo.getId());
 			campo.setNome(campoDb.getNome());
 			campo.setTipoFiltro(campoDb.getTipoFiltro());

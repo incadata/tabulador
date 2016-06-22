@@ -14,27 +14,27 @@
 	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
 	<f:metadata>
-    	<f:viewParam name="entity.id" value="#{gerarConsultaView.tabelaConfig.id}" />
-    	<f:viewAction action="#{gerarConsultaView.findById(gerarConsultaView.tabelaConfig.id)}"/>
+    	<f:viewParam name="entity.id" value="#{tabularView.tabelaConfig.id}" />
+    	<f:viewAction action="#{tabularView.findById(tabularView.tabelaConfig.id)}"/>
 	</f:metadata>
 
 	<h2>
-		<h:outputText value="#{gerarConsultaView.tabelaConfig.nome}" />
+		<h:outputText value="#{tabularView.tabelaConfig.nome}" />
 		<h:outputText value=" - " />
-		<h:outputText value="#{gerarConsultaView.tabelaConfig.titulo}" />
+		<h:outputText value="#{tabularView.tabelaConfig.titulo}" />
 	</h2>
 
 	<h:form id="formTabular">
-		<p:carousel value="#{gerarConsultaView.campos}" var="filtro" id="filtrosCarousel" binding="#{carouselFiltro}"
+		<p:carousel value="#{tabularView.campos}" var="filtro" id="filtrosCarousel" binding="#{carouselFiltro}"
 	    	headerText="Filtro" itemStyle="text-align:center" responsive="true">
 	        <p:panelGrid columns="1" id="campoAtual"
 	        	style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid"
 	        	styleClass="ui-panelgrid-blank">
 
 		        <p:selectOneMenu value="#{filtro.id}" update="filtrosCarousel" style="responsive" title="Campo do filtro">
-					<f:selectItems value="#{gerarConsultaView.camposFiltro}" var="tipoCampoIt"
+					<f:selectItems value="#{tabularView.camposFiltro}" var="tipoCampoIt"
 						itemLabel="#{tipoCampoIt.nome}" itemValue="#{tipoCampoIt.id}" />
-					<f:ajax listener="#{gerarConsultaView.atualizarTipoCampo(carouselFiltro.rowIndex)}" render="campoAtual" />
+					<f:ajax listener="#{tabularView.atualizarTipoCampo(carouselFiltro.rowIndex)}" render="campoAtual" />
 				</p:selectOneMenu>
 
 		        <!-- 
@@ -48,58 +48,58 @@
 
 				<f:facet name="header">
 					<p:commandButton icon="ui-icon-minus" title="Remover filtro" 
-						actionListener="#{gerarConsultaView.removerCampo(carouselFiltro.rowIndex)}" update="filtrosCarousel"/>
+						actionListener="#{tabularView.removerCampo(carouselFiltro.rowIndex)}" update="filtrosCarousel"/>
 	            </f:facet>
 	        </p:panelGrid>
 
 	        <f:facet name="footer">
         		<p:commandButton icon="ui-icon-plus" title="Adicionar coluna" value="Adicionar"
-        			actionListener="#{gerarConsultaView.addCampo}" update="filtrosCarousel"/>
-                Total de filtros: #{fn:length(gerarConsultaView.campos)}
+        			actionListener="#{tabularView.addCampo}" update="filtrosCarousel"/>
+                Total de filtros: #{fn:length(tabularView.campos)}
 	        </f:facet>
 	    </p:carousel>
 
 	    <br />
 
-		<p:carousel value="#{gerarConsultaView.camposAgrupar}" var="agrupador" id="agruparCarousel" binding="#{carouselAgrupador}"
+		<p:carousel value="#{tabularView.camposAgrupar}" var="agrupador" id="agruparCarousel" binding="#{carouselAgrupador}"
 	    	headerText="Agrupador" itemStyle="text-align:center" responsive="true">
 			<p:panelGrid id="agrupadorAtual" columns="1"
 	        	style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid"
 	        	styleClass="ui-panelgrid-blank">
 		    	<p:selectOneMenu value="#{agrupador.id}" update="agruparCarousel" style="responsive" title="Campo do agrupador">
-					<f:selectItems value="#{gerarConsultaView.tabelaConfig.campos}" var="tipoCampoIt"
+					<f:selectItems value="#{tabularView.tabelaConfig.campos}" var="tipoCampoIt"
 						itemLabel="#{tipoCampoIt.nome}" itemValue="#{tipoCampoIt.id}" />
 				</p:selectOneMenu>
 
 				<f:facet name="header">
 					<p:commandButton icon="ui-icon-minus" title="Remover agrupador" 
-						actionListener="#{gerarConsultaView.removerCampoAgrupar(carouselAgrupador.rowIndex)}" update="agruparCarousel"/>
+						actionListener="#{tabularView.removerCampoAgrupar(carouselAgrupador.rowIndex)}" update="agruparCarousel"/>
 	            </f:facet>
         	</p:panelGrid>
 
 	    	<f:facet name="footer">
         		<p:commandButton icon="ui-icon-plus" title="Adicionar coluna" value="Adicionar"
-        			actionListener="#{gerarConsultaView.addCampoAgrupar}" update="agruparCarousel"/>
-                Total de agrupadores: #{fn:length(gerarConsultaView.camposAgrupar)}
+        			actionListener="#{tabularView.addCampoAgrupar}" update="agruparCarousel"/>
+                Total de agrupadores: #{fn:length(tabularView.camposAgrupar)}
 	        </f:facet>
     	</p:carousel>
 
 		<p>
-			<p:commandButton value="Tabular" icon="ui-icon-grip-dotted-vertical" actionListener="#{gerarConsultaView.tabular}" update=":panelResultado"/>
+			<p:commandButton value="Tabular" icon="ui-icon-grip-dotted-vertical" actionListener="#{tabularView.tabular}" update=":panelResultado"/>
 			<p:commandButton value="Cancelar" icon="ui-icon-cancel" action="consultar"/>
 		</p>
 		
 	</h:form>
 
-	<h2><h:outputText value="Resultado" rendered="#{not empty gerarConsultaView.resultado.columns}"/></h2>
+	<h2><h:outputText value="Resultado" rendered="#{not empty tabularView.resultado.columns}"/></h2>
 
 	<h:panelGroup id="panelResultado">
-		<p:dataTable id="tabelaResultado" var="line" value="#{gerarConsultaView.resultado.lines}" rendered="#{not empty gerarConsultaView.resultado.columns}">                    
-	        <p:columns value="#{gerarConsultaView.resultado.columns}" var="column" columnIndexVar="colIndex">
+		<p:dataTable id="tabelaResultado" var="line" value="#{tabularView.resultado.lines}" rendered="#{not empty tabularView.resultado.columns}">                    
+	        <p:columns value="#{tabularView.resultado.columns}" var="column" columnIndexVar="colIndex">
 	            <f:facet name="header">
 	                <h:outputText value="#{column.labelOrNome}" />
 	            </f:facet>
-	            <h:outputText value="#{gerarConsultaView.resultado.getValor(column, line.get(column))}" />
+	            <h:outputText value="#{tabularView.resultado.getValor(column, line.get(column))}" />
 	        </p:columns>
     	</p:dataTable>
 	</h:panelGroup>

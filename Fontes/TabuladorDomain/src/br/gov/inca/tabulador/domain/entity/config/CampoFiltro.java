@@ -6,6 +6,7 @@ public class CampoFiltro extends CampoConfig {
 	private String value;
 
 	public CampoFiltro() {
+		super();
 	}
 
 	public CampoFiltro(CampoConfig campo) {

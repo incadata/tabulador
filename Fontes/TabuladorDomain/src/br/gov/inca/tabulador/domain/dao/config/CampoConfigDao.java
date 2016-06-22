@@ -29,7 +29,7 @@ public class CampoConfigDao extends DaoAbstract<CampoConfig, Integer> {
 	}
 
 	private void correctFiltro(CampoConfig entity) {
-		if (entity.getTipoFiltro() != null && (Boolean.FALSE.equals(entity.getFiltro()) || entity.getTipoFiltro().getId() == null)) {
+		if (!entity.isFiltro()) {
 			entity.setTipoFiltro(null);
 		}
 	}

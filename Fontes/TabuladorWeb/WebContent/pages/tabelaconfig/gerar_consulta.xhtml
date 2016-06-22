@@ -6,11 +6,11 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 <h:head>
-	<title>Tabular dados</title>
+	<title>Consulta dinâmica</title>
 </h:head>
 
 <h:body>
-	<h1>Tabular dados</h1>
+	<h1>Consulta dinâmica</h1>
 	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
 	<f:metadata>
@@ -85,23 +85,46 @@
     	</p:carousel>
 
 		<p>
-			<p:commandButton value="Tabular" icon="ui-icon-grip-dotted-vertical" actionListener="#{gerarConsultaView.tabular}" update=":panelResultado"/>
-			<p:commandButton value="Cancelar" icon="ui-icon-cancel" action="consultar"/>
+			<p:commandButton value="Consultar" icon="ui-icon-gear" actionListener="#{gerarConsultaView.tabular}" update="panelResultado" title="Gerar consulta"/>
+			<p:commandButton value="Cancelar" icon="ui-icon-cancel" action="consultar" title="Voltar para tela de consulta"/>
 		</p>
 		
+		<h2><h:outputText value="Resultado" rendered="#{not empty gerarConsultaView.resultado.columns}"/></h2>
+	
+		<h:panelGroup id="panelResultado">
+			<p:dataTable id="tabelaResultado" var="line" value="#{gerarConsultaView.resultado.lines}" rendered="#{not empty gerarConsultaView.resultado.columns}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+	            paginator="true">
+	            <f:facet name="{Exporters}">
+	            <h:commandLink>
+					<p:commandButton value="xls"/>
+	                <p:dataExporter type="xls" target="tabelaResultado" fileName="consulta" />
+	            </h:commandLink>
+	 
+	            <h:commandLink>
+					<p:commandButton value="pdf"/>
+	                <p:dataExporter type="pdf" target="tabelaResultado" fileName="consulta"/>
+	            </h:commandLink>
+	 
+	            <h:commandLink>
+					<p:commandButton value="csv"/>
+	                <p:dataExporter type="csv" target="tabelaResultado" fileName="consulta" />
+	            </h:commandLink>
+	 
+	            <h:commandLink>
+					<p:commandButton value="xml"/>
+	                <p:dataExporter type="xml" target="tabelaResultado" fileName="consulta" />
+	            </h:commandLink>
+	        </f:facet>
+		        <p:columns value="#{gerarConsultaView.resultado.columns}" var="column" columnIndexVar="colIndex">
+		            <f:facet name="header">
+		                <h:outputText value="#{column.labelOrNome}" />
+		            </f:facet>
+		            <h:outputText value="#{gerarConsultaView.resultado.getValor(column, line.get(column))}" />
+		        </p:columns>
+	    	</p:dataTable>
+		</h:panelGroup>
 	</h:form>
 
-	<h2><h:outputText value="Resultado" rendered="#{not empty gerarConsultaView.resultado.columns}"/></h2>
-
-	<h:panelGroup id="panelResultado">
-		<p:dataTable id="tabelaResultado" var="line" value="#{gerarConsultaView.resultado.lines}" rendered="#{not empty gerarConsultaView.resultado.columns}">                    
-	        <p:columns value="#{gerarConsultaView.resultado.columns}" var="column" columnIndexVar="colIndex">
-	            <f:facet name="header">
-	                <h:outputText value="#{column.labelOrNome}" />
-	            </f:facet>
-	            <h:outputText value="#{gerarConsultaView.resultado.getValor(column, line.get(column))}" />
-	        </p:columns>
-    	</p:dataTable>
-	</h:panelGroup>
 </h:body>
 </html>

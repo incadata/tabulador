@@ -42,8 +42,6 @@ public class CampoConfig implements Serializable, Entidade<Integer> {
 	private String label;
 	@Column(name = "nm_abreviado")
 	private String abreviado;
-	@Column(name = "fg_filtro")
-	private Boolean filtro;
 	@ManyToOne
 	@JoinColumn(name = "id_tipo_filtro")
 	private TipoFiltro tipoFiltro;
@@ -68,7 +66,6 @@ public class CampoConfig implements Serializable, Entidade<Integer> {
 		setNome(campo.getNome());
 		setLabel(campo.getLabel());
 		setAbreviado(campo.getAbreviado());
-		setFiltro(campo.getFiltro());
 		setTipoFiltro(campo.getTipoFiltro());
 		setTipoCampo(campo.getTipoCampo());
 		setTabelaConfig(campo.getTabelaConfig());
@@ -99,12 +96,8 @@ public class CampoConfig implements Serializable, Entidade<Integer> {
 		this.label = label;
 	}
 
-	public Boolean getFiltro() {
-		return filtro;
-	}
-
-	public void setFiltro(Boolean filtro) {
-		this.filtro = filtro;
+	public boolean isFiltro() {
+		return getTipoFiltro() != null && getTipoFiltro().getId() != null;
 	}
 
 	public String getAbreviado() {
@@ -117,6 +110,13 @@ public class CampoConfig implements Serializable, Entidade<Integer> {
 
 	public TipoFiltro getTipoFiltro() {
 		return tipoFiltro;
+	}
+
+	public TipoFiltro getTipoFiltroOrNew() {
+		if (getTipoFiltro() == null) {
+			setTipoFiltro(new TipoFiltro());
+		}
+		return getTipoFiltro();
 	}
 
 	public void setTipoFiltro(TipoFiltro tipoFiltro) {

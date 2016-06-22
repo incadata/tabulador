@@ -55,7 +55,7 @@ public class TabularView implements ViewBean {
 	public void findById(Integer id) {
 		if (id != null) {
 			setTabelaConfig(getTabelaConfigDao().findById(id));
-			setCamposConfig(getTabelaConfig().getCampos().stream().filter(x -> x.getFiltro()).collect(Collectors.toList()));
+			setCamposConfig(getTabelaConfig().getCampos().stream().filter(x -> x.isFiltro()).collect(Collectors.toList()));
 			setCamposFiltro(getCampos());
 		}
 	}
