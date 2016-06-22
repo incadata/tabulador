@@ -20,6 +20,15 @@ public class TipoFiltro implements Serializable, Entidade<Integer> {
 
 	private static final long serialVersionUID = 643158529234596693L;
 
+	public static final int FILTRO_IGUAL = 1;
+	public static final int FILTRO_INTERVALO = 2;
+	public static final int FILTRO_MAIOR = 3;
+	public static final int FILTRO_MENOR = 4;
+	public static final int FILTRO_MAIOR_IGUAL = 5;
+	public static final int FILTRO_MENOR_IGUAL = 6;
+	public static final int FILTRO_CONTEM = 7;
+	public static final int FILTRO_DIFERENTE = 8;
+	
 	@Id
 	@Column(name = "id_tipo_filtro")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE")

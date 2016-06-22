@@ -14,8 +14,8 @@
 
 	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 	<f:metadata>
-    	<f:viewParam name="entity.id" value="#{tabelaDadosView.tabelaConfig.id}" />
-    	<f:viewAction action="#{tabelaDadosView.findById(tabelaDadosView.tabelaConfig.id)}"/>
+    	<f:viewParam name="entity.id" value="#{tabelaImportarView.tabelaConfig.id}" />
+    	<f:viewAction action="#{tabelaImportarView.findById(tabelaImportarView.tabelaConfig.id)}"/>
 	</f:metadata>
 
 	<h:form enctype="multipart/form-data">
@@ -24,17 +24,17 @@
 				label="Arquivo" uploadLabel="Enviar" cancelLabel="Cancelar" 
 				multiple="false" auto="false"
 				mode="advanced" skinSimple="true"
-				fileUploadListener="#{tabelaDadosView.handleFileUpload}" allowTypes="/(\.|\/)(csv)$/"/>
+				fileUploadListener="#{tabelaImportarView.handleFileUpload}" allowTypes="/(\.|\/)(csv)$/"/>
 		</p>
 		<p:panelGrid columns="2" layout="grid">
 			<h:outputText value="Separador de colunas: " />
-			<p:inputText value="#{tabelaDadosView.columnSeparator}"/>
+			<p:inputText value="#{tabelaImportarView.columnSeparator}"/>
 
 			<h:outputText value="Ignorar a primeira linha: " />
-			<p:selectBooleanCheckbox value="#{tabelaDadosView.ignoreFirstLine}" />
+			<p:selectBooleanCheckbox value="#{tabelaImportarView.ignoreFirstLine}" />
 		</p:panelGrid>
 		
-	    <p:carousel value="#{tabelaDadosView.campos}" var="campo" id="colunasCarousel" binding="#{carousel}"
+	    <p:carousel value="#{tabelaImportarView.campos}" var="campo" id="colunasCarousel" binding="#{carousel}"
 	    	headerText="Colunas" itemStyle="text-align:center" responsive="true">
 	        <p:panelGrid columns="2" id="campoAtual"
 	        	style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid"
@@ -42,10 +42,10 @@
 				<h:outputText value="Campo: " />
 		        <p:selectOneMenu value="#{campo.id}" update="colunasCarousel">
 					<f:selectItem itemLabel="- Selecione -" itemValue="" />
-					<f:selectItems value="#{tabelaDadosView.tabelaConfig.campos}" var="tipoCampoIt"
+					<f:selectItems value="#{tabelaImportarView.tabelaConfig.campos}" var="tipoCampoIt"
 						itemLabel="#{tipoCampoIt.nome}" itemValue="#{tipoCampoIt.id}" />
 
-					<f:ajax listener="#{tabelaDadosView.atualizarTipoCampo(carousel.rowIndex)}" render="campoAtual" />
+					<f:ajax listener="#{tabelaImportarView.atualizarTipoCampo(carousel.rowIndex)}" render="campoAtual" />
 				</p:selectOneMenu>
 
 				<h:outputText value="Padrão: " rendered="#{campo.tipoCampo.isData()}" />
@@ -56,7 +56,7 @@
 
 				<f:facet name="header">
 					<p:commandButton icon="ui-icon-minus" title="Remover coluna" 
-						actionListener="#{tabelaDadosView.removerCampo(carousel.rowIndex)}" update="colunasCarousel"/>
+						actionListener="#{tabelaImportarView.removerCampo(carousel.rowIndex)}" update="colunasCarousel"/>
 	            </f:facet>
 				<!-- 
 				<h:outputText value="Entre aspas: " />
@@ -67,13 +67,13 @@
 	 
 	        <f:facet name="footer">
         		<p:commandButton icon="ui-icon-plus" title="Adicionar coluna" value="Adicionar"
-        			actionListener="#{tabelaDadosView.addCampo}" update="colunasCarousel"/>
-                Total de colunas: #{fn:length(tabelaDadosView.campos)}
+        			actionListener="#{tabelaImportarView.addCampo}" update="colunasCarousel"/>
+                Total de colunas: #{fn:length(tabelaImportarView.campos)}
 	        </f:facet>
 	    </p:carousel>
 
 		<p>
-			<p:commandButton icon="ui-icon-script" value="Importar" title="Importar dados" actionListener="#{tabelaDadosView.importar}"/>
+			<p:commandButton icon="ui-icon-script" value="Importar" title="Importar dados" actionListener="#{tabelaImportarView.importar}"/>
 			<p:commandButton icon="ui-icon-cancel" value="Cancelar" action="consultar"/>
 		</p>
 	</h:form>

@@ -31,7 +31,7 @@ import br.gov.inca.tabulador.web.bean.ViewBean;
 
 @Named
 @ViewScoped
-public class TabelaDadosView implements Serializable, ViewBean {
+public class TabelaImportarView implements Serializable, ViewBean {
 	private static final long serialVersionUID = 4473731490041477811L;
 
 	private @Inject TabelaConfigDao tabelaConfigDao;
@@ -159,7 +159,6 @@ public class TabelaDadosView implements Serializable, ViewBean {
 		if (getLinhas() == null) {
 			showError("Arquivo", "Nenhum arquivo recebido.");
 		} else if (!getLinhas().isEmpty()) {
-			PreparedStatement insertInto;
 			try {
 				final List<List<String>> linhasColunas = new ArrayList<>(getLinhas().size());
 				for (String linha : getLinhas()) {
@@ -168,8 +167,10 @@ public class TabelaDadosView implements Serializable, ViewBean {
 				if (isIgnoreFirstLine()) {
 					linhasColunas.remove(0);
 				}
-				insertInto = getStatementBuilder().insertInto(connection.get(), getTabelaConfig(), getCampos(), linhasColunas);
-				showInfo("Arquivo", String.format("%d/%d linhas inseridas com sucesso.", IntStream.of(insertInto.executeBatch()).sum(), linhasColunas.size()));
+				try (final Connection connectionLocal = connection.get()) {
+					final PreparedStatement insertInto = getStatementBuilder().insertInto(connectionLocal, getTabelaConfig(), getCampos(), linhasColunas);
+					showInfo("Arquivo", String.format("%d/%d linhas inseridas com sucesso.", IntStream.of(insertInto.executeBatch()).sum(), linhasColunas.size()));
+				}
 			} catch (SQLException | ParseException e) {
 				showError(e, "Erro ao inserir dados", "Ocorreu um erro ao tentar inserir os dados na tabela.");
 			}

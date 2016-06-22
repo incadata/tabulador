@@ -1,4 +1,4 @@
-package br.gov.inca.tabulador.web.bean;
+package br.gov.inca.tabulador.web;
 
 import java.util.List;
 import java.util.Map;

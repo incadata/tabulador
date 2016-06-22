@@ -4,6 +4,7 @@ import br.gov.inca.tabulador.domain.entity.tipo.TipoCampo;
 
 
 public class CampoImport extends CampoConfig {
+	public static final String DEFAULT_PATTERN = "dd/mm/yyyy";
 	private static final long serialVersionUID = -1011397846544532181L;
 
 	private boolean aspas;
@@ -26,7 +27,7 @@ public class CampoImport extends CampoConfig {
 		setAspas(campo.isAspas());
 		setIgnore(campo.isIgnore());
 		if (getTipoCampo().getId() != null && TipoCampo.TIPO_DATA == getTipoCampo().getId()) {
-			setPattern("dd/mm/yyyy");
+			setPattern(DEFAULT_PATTERN);
 		}
 	}
 

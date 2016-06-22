@@ -11,9 +11,11 @@ import java.util.Calendar;
 import java.util.List;
 
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
+import br.gov.inca.tabulador.domain.entity.config.CampoFiltro;
 import br.gov.inca.tabulador.domain.entity.config.CampoImport;
 import br.gov.inca.tabulador.domain.entity.config.TabelaConfig;
 import br.gov.inca.tabulador.domain.entity.tipo.TipoCampo;
+import br.gov.inca.tabulador.domain.entity.tipo.TipoFiltro;
 
 public class StatementBuilder implements Serializable {
 	private static final long serialVersionUID = 2437552777255361630L;
@@ -76,27 +78,81 @@ public class StatementBuilder implements Serializable {
 			for (int i = 0; i < camposSize; i++) {
 				final CampoImport campoImport = campos.get(i);
 				if (!campoImport.isIgnore()) {
-					switch (campoImport.getTipoCampo().getId()) {
-					case TipoCampo.TIPO_INTEIRO:
-						prepareStatement.setLong(++indexValor, Long.parseLong(valoresLinha.get(i)));
-						break;
-					case TipoCampo.TIPO_TEXTO:
-						prepareStatement.setString(++indexValor, valoresLinha.get(i));
-						break;
-					case TipoCampo.TIPO_DATA:
-					{
-						final Calendar cal = Calendar.getInstance();
-						cal.setTime(new SimpleDateFormat(campoImport.getPattern()).parse(valoresLinha.get(i)));
-						prepareStatement.setTimestamp(++indexValor, new Timestamp(cal.getTimeInMillis()));
-						break;
-					}
-					default:
-						prepareStatement.setObject(++indexValor, valoresLinha.get(i));
-						break;
-					}
+					setValueToStatement(prepareStatement, ++indexValor, campoImport, valoresLinha.get(i), campoImport.getPattern());
 				}
 			}
 			prepareStatement.addBatch();
+		}
+		return prepareStatement;
+	}
+	
+	protected String selectTabular(TabelaConfig entity, List<CampoConfig> camposAgrupar, List<CampoFiltro> camposFiltro) {
+		final StringBuilder stringBuilder = new StringBuilder("SELECT COUNT(*)");
+		for (CampoConfig campoAgrupar : camposAgrupar) {
+			stringBuilder.append(", ");
+			stringBuilder.append(getFieldName(campoAgrupar));
+		}
+
+		stringBuilder.append(" FROM ");
+		stringBuilder.append(getTableName(entity));
+
+		if (!camposFiltro.isEmpty()) {
+			stringBuilder.append(" WHERE ");
+			boolean andWord = false;
+			for (CampoFiltro campoFiltro : camposFiltro) {
+				if (andWord) {
+					stringBuilder.append(" AND ");
+				}
+				stringBuilder.append(getFieldName(campoFiltro));
+				switch (campoFiltro.getTipoFiltro().getId()) {
+					case TipoFiltro.FILTRO_IGUAL:
+						stringBuilder.append(" = ?");
+						break;
+					case TipoFiltro.FILTRO_MAIOR:
+						stringBuilder.append(" > ?");
+						break;
+					case TipoFiltro.FILTRO_MENOR:
+						stringBuilder.append(" < ?");
+						break;
+					case TipoFiltro.FILTRO_INTERVALO:
+						stringBuilder.append(" BETWEEN(? AND ?)");
+						break;
+					case TipoFiltro.FILTRO_MAIOR_IGUAL:
+						stringBuilder.append(" >= ?");
+						break;
+					case TipoFiltro.FILTRO_MENOR_IGUAL:
+						stringBuilder.append(" <= ?");
+						break;
+					case TipoFiltro.FILTRO_CONTEM:
+						stringBuilder.append(" LIKE ?");
+						break;
+					case TipoFiltro.FILTRO_DIFERENTE:
+						stringBuilder.append(" <> ?");
+						break;
+				}
+				andWord = true;
+			}
+		}
+
+		if (!camposAgrupar.isEmpty()) {
+			stringBuilder.append(" GROUP BY ");
+			boolean virgula = false;
+			for (CampoConfig campoAgrupar : camposAgrupar) {
+				if (virgula) {
+					stringBuilder.append(", ");
+				}
+				stringBuilder.append(getFieldName(campoAgrupar));
+				virgula = true;
+			}
+		}
+		return stringBuilder.toString();
+	}
+	
+	public PreparedStatement selectTabular(Connection connection, TabelaConfig entity, List<CampoConfig> camposAgrupar, List<CampoFiltro> camposFiltro) throws SQLException, NumberFormatException, ParseException {
+		final PreparedStatement prepareStatement = connection.prepareStatement(selectTabular(entity, camposAgrupar, camposFiltro));
+		int index = 0;
+		for (CampoFiltro campoFiltro : camposFiltro) {
+			setValueToStatement(prepareStatement, ++index, campoFiltro, campoFiltro.getValue(), CampoImport.DEFAULT_PATTERN);
 		}
 		return prepareStatement;
 	}
@@ -120,4 +176,26 @@ public class StatementBuilder implements Serializable {
 		}
 		throw new RuntimeException("Tipo inválido para o campo: " + campo.getNome());
 	}
+	
+	private void setValueToStatement(PreparedStatement prepareStatement, int index, CampoConfig campo, String value, String pattern) throws NumberFormatException, SQLException, ParseException {
+		switch (campo.getTipoCampo().getId()) {
+		case TipoCampo.TIPO_INTEIRO:
+			prepareStatement.setLong(index, Long.parseLong(value));
+			break;
+		case TipoCampo.TIPO_TEXTO:
+			prepareStatement.setString(index, value);
+			break;
+		case TipoCampo.TIPO_DATA:
+		{
+			final Calendar cal = Calendar.getInstance();
+			cal.setTime(new SimpleDateFormat(pattern).parse(value));
+			prepareStatement.setTimestamp(index, new Timestamp(cal.getTimeInMillis()));
+			break;
+		}
+		default:
+			prepareStatement.setObject(index, value);
+			break;
+		}
+	}
+	
 }

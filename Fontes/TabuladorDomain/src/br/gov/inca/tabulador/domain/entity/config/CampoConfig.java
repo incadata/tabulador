@@ -147,4 +147,12 @@ public class CampoConfig implements Serializable, Entidade<Integer> {
 		this.valores = valores;
 	}
 
+	public String getLabelOrNome() {
+		return getLabel() != null ? getLabel() : getNome();
+	}
+
+	@Override
+	public int hashCode() {
+		return getId();
+	}
 }

@@ -8,8 +8,13 @@ import org.primefaces.model.LazyDataModel;
 import br.gov.inca.tabulador.domain.db.DaoAbstract;
 import br.gov.inca.tabulador.domain.db.DbResult;
 import br.gov.inca.tabulador.domain.entity.Entidade;
+import br.gov.inca.tabulador.web.LazyDataModelDbResult;
 
 public abstract class ViewCrudBean<U extends DaoAbstract<T, K>, T extends Entidade<K>, K> implements ViewBean {
+	private static final long serialVersionUID = -630850690048051284L;
+
+	public static final String CONSULTAR = "consultar";
+
 	private boolean cached;
 	private Collection<T> entitiesCache;
 	private DbResult<T> entities;
@@ -38,7 +43,7 @@ public abstract class ViewCrudBean<U extends DaoAbstract<T, K>, T extends Entida
 		try {
 			getDao().saveOrUpdate(getEntity());
 			setEntities(null);
-			return "consultar";
+			return CONSULTAR;
 		} catch (RuntimeException e) {
 			showError(e, "Erro", "Problema ao salvar.");
 			return null;

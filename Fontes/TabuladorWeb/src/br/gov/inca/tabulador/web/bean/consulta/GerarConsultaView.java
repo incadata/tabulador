@@ -1,4 +1,4 @@
-package br.gov.inca.tabulador.web.bean.config;
+package br.gov.inca.tabulador.web.bean.consulta;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,13 +28,13 @@ import br.gov.inca.tabulador.web.bean.ViewBean;
 
 @Named
 @ViewScoped
-public class TabularView implements ViewBean {
+public class GerarConsultaView implements ViewBean {
 	private static final long serialVersionUID = 4473731490041477811L;
 
 	private @Inject TabelaConfigDao tabelaConfigDao;
 	private @Inject CampoConfigDao campoConfigDao;
 	private @Inject StatementBuilder statementBuilder;
-	private @Inject TabularResultado resultado;
+	private @Inject GerarConsultaResultado resultado;
 	private transient @Inject Instance<Connection> connection;
 
 	private TabelaConfig tabelaConfig;
@@ -136,7 +136,7 @@ public class TabularView implements ViewBean {
 		return camposAgrupar;
 	}
 	
-	public TabularResultado getResultado() {
+	public GerarConsultaResultado getResultado() {
 		return resultado;
 	}
 	
