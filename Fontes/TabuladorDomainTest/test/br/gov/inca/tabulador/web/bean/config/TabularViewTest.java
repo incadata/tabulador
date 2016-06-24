@@ -46,22 +46,22 @@ public class TabularViewTest extends TabularView {
 		final HashMap<CampoConfig, Object> linha01 = new HashMap<>();
 		linha01.put(nome, "Fulano");
 		linha01.put(categoria, "1");
-		linha01.put(total, "2");
+		linha01.put(total, 2);
 		linhas.add(linha01);
 		final HashMap<CampoConfig, Object> linha02 = new HashMap<>();
 		linha02.put(nome, "Beltrano");
 		linha02.put(categoria, "3");
-		linha02.put(total, "4");
+		linha02.put(total, 4);
 		linhas.add(linha02);
 		final HashMap<CampoConfig, Object> linha03 = new HashMap<>();
 		linha03.put(nome, "Beltrano");
 		linha03.put(categoria, "2");
-		linha03.put(total, "4");
+		linha03.put(total, 3);
 		linhas.add(linha03);
 		final HashMap<CampoConfig, Object> linha04 = new HashMap<>();
 		linha04.put(nome, "Fulano");
 		linha04.put(categoria, "2");
-		linha04.put(total, "3");
+		linha04.put(total, 3);
 		linhas.add(linha04);
 		
 		final GerarConsultaResultado resultado = new GerarConsultaResultado();
@@ -70,9 +70,15 @@ public class TabularViewTest extends TabularView {
 		final GerarConsultaResultado linhasResultado = converterResultado(resultado);
 		Assert.assertNotNull(linhasResultado);
 		Assert.assertFalse(linhasResultado.getColumns().isEmpty());
-		Assert.assertEquals(4, linhasResultado.getColumns().size());
+		// Coluna de total
+		Assert.assertEquals(5, linhasResultado.getColumns().size());
+
+		final CampoConfig totalColuna = linhasResultado.getColumns().get(linhasResultado.getColumns().size() - 1);
+		Assert.assertEquals("Total", totalColuna.getLabelOrNome());
+		Assert.assertEquals(7L, linhasResultado.getLines().get(0).get(totalColuna)); 
+		Assert.assertEquals(5L, linhasResultado.getLines().get(1).get(totalColuna)); 
 		
 		Assert.assertFalse(linhasResultado.getLines().isEmpty());
-		Assert.assertEquals(2, linhasResultado.getLines().size());
+		Assert.assertEquals(3, linhasResultado.getLines().size());
 	}
 }

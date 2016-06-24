@@ -1,5 +1,6 @@
 package br.gov.inca.tabulador.domain.entity.config;
 
+
 public class CampoFiltro extends CampoConfig {
 	private static final long serialVersionUID = -3857590020028288112L;
 

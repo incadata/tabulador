@@ -45,6 +45,11 @@
 				</p:selectOneMenu>
 		         -->
 
+				<p:selectOneMenu value="#{filtro.tipoFiltro}" tittle="Tipo do filtro" converter="entityConverter">
+					<f:selectItems value="#{tipoFiltroView.entities}" var="tipoFiltroIt"
+						itemLabel="#{tipoFiltroIt.nome}" itemValue="#{tipoFiltroIt}" />
+				</p:selectOneMenu>
+
 				<p:inputText value="#{filtro.value}" placeholder="Valor"/>
 
 				<f:facet name="header">
@@ -86,7 +91,7 @@
     	</p:carousel>
 
 		<p>
-			<p:commandButton value="Tabular" icon="ui-icon-grip-dotted-vertical" actionListener="#{tabularView.tabular}" update="panelResultado"/>
+			<p:commandButton value="Tabular" icon="ui-icon-grip-dotted-vertical" actionListener="#{tabularView.tabular}" process="@form" update="panelResultado"/>
 			<p:commandButton value="Cancelar" icon="ui-icon-cancel" action="consultar"/>
 		</p>
 

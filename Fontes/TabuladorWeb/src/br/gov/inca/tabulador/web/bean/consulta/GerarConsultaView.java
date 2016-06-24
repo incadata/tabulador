@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -50,6 +51,7 @@ public class GerarConsultaView implements ViewBean {
 		setCamposFiltro(new ArrayList<>());
 		setCamposAgrupar(new ArrayList<>());
 		addCampoAgrupar();
+		//setRandom(new Random());
 	}
 
 	public void findById(Integer id) {
@@ -98,7 +100,10 @@ public class GerarConsultaView implements ViewBean {
 	}
 
 	public void addCampo() {
-		getCampos().add(new CampoFiltro());
+		final int nextInt = new Random().nextInt();
+		final CampoFiltro campoFiltro = new CampoFiltro();
+		campoFiltro.getTipoFiltro().setId(nextInt > 0 ? -nextInt : nextInt);
+		getCampos().add(campoFiltro);
 	}
 
 	public void addCampoAgrupar() {
@@ -154,7 +159,7 @@ public class GerarConsultaView implements ViewBean {
 	protected StatementBuilder getStatementBuilder() {
 		return statementBuilder;
 	}
-
+	
 	public void tabular() {
 		final int sizeCamposAgrupar = getCamposAgrupar().size();
 		for (int i = 0; i < sizeCamposAgrupar; i++) {

@@ -14,16 +14,14 @@ public abstract class EntidadeAbstract<T> implements Entidade<T> {
 		}
 		@SuppressWarnings("unchecked")
 		final EntidadeAbstract<T> objTipoCampo = (EntidadeAbstract<T>) obj;
-		/*
 		if (getId() == null || objTipoCampo.getId() == null) {
 			return false;
 		}
-		*/
 		return getId().equals(objTipoCampo.getId());
 	}
-	
+
 	@Override
 	public int hashCode() {
-		return getId().hashCode();
+		return getClass().hashCode() + getId().hashCode();
 	}
 }

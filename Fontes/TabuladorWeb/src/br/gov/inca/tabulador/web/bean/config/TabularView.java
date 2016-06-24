@@ -63,7 +63,7 @@ public class TabularView extends GerarConsultaView {
 			resposta.init();
 			final CampoConfig linhaColuna = new CampoConfig();
 			linhaColuna.setId(-1);
-			linhaColuna.setNome(String.format("%s / %s", linha.getLabelOrNome(), coluna.getLabelOrNome()));
+			linhaColuna.setNome(String.format("%s", linha.getLabelOrNome()));
 			linhaColuna.setValores(linha.getValores());
 			resposta.getColumns().add(linhaColuna);
 			final Map<Object, CampoConfig> colunaCategoria = new HashMap<Object, CampoConfig>();
@@ -76,14 +76,46 @@ public class TabularView extends GerarConsultaView {
 				colunaCategoria.put(colunaValor, campoConfig);
 				resposta.getColumns().add(campoConfig);
 			}
+			final String keyTotal = "__Total___Index%";
+			final String labelTotal = "Total";
+			{
+				final CampoConfig campoConfig = new CampoConfig();
+				campoConfig.setId(--index);
+				campoConfig.setNome(labelTotal);
+				resposta.getColumns().add(campoConfig);
+				colunaCategoria.put(keyTotal, campoConfig);
+			}
+
+			final Map<Object, Long> totaisColunas = new HashMap<>();
 			for (Object linhaValor : linhaValoresSet) {
 				final HashMap<CampoConfig, Object> linhaAtual = new HashMap<>();
 				linhaAtual.put(linhaColuna, linhaValor);
+				Long valorTotal = 0L;
 				for (Object colunaValor : colunaValoresSet) {
-					linhaAtual.put(colunaCategoria.get(colunaValor), valoresTabulado.get(linhaValor).get(colunaValor));
+					final Object valorAtual = valoresTabulado.get(linhaValor).get(colunaValor);
+					linhaAtual.put(colunaCategoria.get(colunaValor), valorAtual);
+					long valorAtualLong = 0L;
+					if (valorAtual instanceof Integer || Integer.class.isInstance(valorAtual)) {
+						valorAtualLong = (Integer) valorAtual; 
+					} else if (valorAtual instanceof Long) {
+						valorAtualLong = (Long) valorAtual; 
+					} else if ((valorAtual instanceof String) && ((String) valorAtual).matches("\\d+")) {
+						valorAtualLong = Long.parseLong((String) valorAtual);
+					}
+					valorTotal += valorAtualLong;
+					totaisColunas.put(colunaValor, totaisColunas.getOrDefault(colunaValor, 0L) + valorAtualLong);
 				}
+				linhaAtual.put(colunaCategoria.get(keyTotal), valorTotal);
 
 				resposta.getLines().add(linhaAtual);
+			}
+			{
+				final HashMap<CampoConfig, Object> linhaTotal = new HashMap<>();
+				linhaTotal.put(linhaColuna, labelTotal);
+				for (Object colunaValor : colunaValoresSet) {
+					linhaTotal.put(colunaCategoria.get(colunaValor), totaisColunas.get(colunaValor));
+				}
+				resposta.getLines().add(linhaTotal);
 			}
 
 			return resposta;
