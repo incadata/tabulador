@@ -1,6 +1,5 @@
 package br.gov.inca.tabulador.domain.entity.config;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,18 +14,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import br.gov.inca.tabulador.domain.entity.Entidade;
+import br.gov.inca.tabulador.domain.entity.EntidadeAbstract;
 import br.gov.inca.tabulador.domain.entity.tipo.TipoCampo;
 import br.gov.inca.tabulador.domain.entity.tipo.TipoFiltro;
 
 @Entity
 @Table(name = CampoConfig.TABLE_NAME)
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "campo_config_seq", allocationSize = 1)
-public class CampoConfig implements Serializable, Entidade<Integer> {
+public class CampoConfig extends EntidadeAbstract<Integer> {
 	public static final String TABLE_NAME = "campo_config";
 
 	private static final long serialVersionUID = -9047437387992306550L;
@@ -47,6 +47,7 @@ public class CampoConfig implements Serializable, Entidade<Integer> {
 	private TipoFiltro tipoFiltro;
 	@ManyToOne
 	@JoinColumn(name = "id_tipo_campo")
+	@NotNull
 	private TipoCampo tipoCampo;
 	@ManyToOne
 	@JoinColumn(name = "id_tabela_config")
@@ -112,13 +113,6 @@ public class CampoConfig implements Serializable, Entidade<Integer> {
 		return tipoFiltro;
 	}
 
-	public TipoFiltro getTipoFiltroOrNew() {
-		if (getTipoFiltro() == null) {
-			setTipoFiltro(new TipoFiltro());
-		}
-		return getTipoFiltro();
-	}
-
 	public void setTipoFiltro(TipoFiltro tipoFiltro) {
 		this.tipoFiltro = tipoFiltro;
 	}
@@ -151,8 +145,4 @@ public class CampoConfig implements Serializable, Entidade<Integer> {
 		return getLabel() != null ? getLabel() : getNome();
 	}
 
-	@Override
-	public int hashCode() {
-		return getId();
-	}
 }

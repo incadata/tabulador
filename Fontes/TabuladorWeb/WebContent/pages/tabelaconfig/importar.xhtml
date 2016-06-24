@@ -40,12 +40,9 @@
 	        	style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid"
 	        	styleClass="ui-panelgrid-blank">
 				<h:outputText value="Campo: " />
-		        <p:selectOneMenu value="#{campo.id}" update="colunasCarousel">
-					<f:selectItem itemLabel="- Selecione -" itemValue="" />
-					<f:selectItems value="#{tabelaImportarView.tabelaConfig.campos}" var="tipoCampoIt"
-						itemLabel="#{tipoCampoIt.nome}" itemValue="#{tipoCampoIt.id}" />
-
-					<f:ajax listener="#{tabelaImportarView.atualizarTipoCampo(carousel.rowIndex)}" render="campoAtual" />
+		        <p:selectOneMenu value="#{campo.id}">
+					<f:selectItems value="#{tabelaImportarView.camposBusca}" var="campoIt"
+						itemLabel="#{campoIt.nome}" itemValue="#{campoIt.id}" />
 				</p:selectOneMenu>
 
 				<h:outputText value="Padrão: " rendered="#{campo.tipoCampo.isData()}" />

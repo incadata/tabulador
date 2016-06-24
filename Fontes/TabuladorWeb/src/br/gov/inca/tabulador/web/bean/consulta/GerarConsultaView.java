@@ -136,8 +136,12 @@ public class GerarConsultaView implements ViewBean {
 		return camposAgrupar;
 	}
 	
-	public GerarConsultaResultado getResultado() {
+	protected GerarConsultaResultado getResultado() {
 		return resultado;
+	}
+	
+	protected void setResultado(GerarConsultaResultado resultado) {
+		this.resultado = resultado;
 	}
 	
 	public void setCamposAgrupar(List<CampoConfig> campoAgrupar) {
@@ -199,4 +203,5 @@ public class GerarConsultaView implements ViewBean {
 			showError(e, "Erro ao inserir dados", "Ocorreu um erro ao tentar inserir os dados na tabela.");
 		}
 	}
+	
 }

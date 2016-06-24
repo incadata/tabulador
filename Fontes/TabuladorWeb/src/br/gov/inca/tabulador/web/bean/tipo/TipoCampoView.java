@@ -21,7 +21,7 @@ public class TipoCampoView extends
 	private @Inject TipoCampoDao tipoCampoDao;
 
 	public TipoCampoView() {
-		super(true);
+		super();
 	}
 
 	@Override

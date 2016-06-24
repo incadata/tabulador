@@ -1,7 +1,5 @@
 package br.gov.inca.tabulador.domain.entity.regiao;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,10 +10,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import br.gov.inca.tabulador.domain.entity.Entidade;
+
 @Entity
 @Table(name = Cidade.TABLE_NAME)
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "cidade_seq", allocationSize = 1)
-public class Cidade implements Serializable {
+public class Cidade implements Entidade<Integer> {
 	public static final String TABLE_NAME = "cidade";
 
 	private static final long serialVersionUID = -926457384777724122L;

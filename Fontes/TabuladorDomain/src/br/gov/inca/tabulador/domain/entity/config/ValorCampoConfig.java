@@ -1,7 +1,5 @@
 package br.gov.inca.tabulador.domain.entity.config;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +15,7 @@ import br.gov.inca.tabulador.domain.entity.Entidade;
 @Entity
 @Table(name = ValorCampoConfig.TABLE_NAME)
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "valor_campo_config_seq", allocationSize = 1)
-public class ValorCampoConfig implements Serializable, Entidade<Integer> {
+public class ValorCampoConfig implements Entidade<Integer> {
 	public static final String TABLE_NAME = "valor_campo_config";
 
 	private static final long serialVersionUID = 240439219702372392L;

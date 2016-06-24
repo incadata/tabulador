@@ -1,6 +1,5 @@
 package br.gov.inca.tabulador.domain.entity.config;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,7 @@ import br.gov.inca.tabulador.domain.entity.Entidade;
 @Entity
 @Table(name = TabelaConfig.TABLE_NAME)
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "tabela_config_seq", allocationSize = 1)
-public class TabelaConfig implements Serializable, Entidade<Integer> {
+public class TabelaConfig implements Entidade<Integer> {
 	public static final String TABLE_NAME = "tabela_config";
 
 	private static final long serialVersionUID = -8063822049973314165L;

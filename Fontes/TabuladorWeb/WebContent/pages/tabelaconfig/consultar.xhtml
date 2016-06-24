@@ -47,9 +47,11 @@
 				</p:button>
 				<p:button icon="ui-icon-grip-dotted-vertical" outcome="tabular" title="Tabular dados">
 					<f:param name="entity.id" value="#{entity.id}" />
+					<f:param name="converter" value="#{true}" />
 				</p:button>
-				<p:button icon="ui-icon-gear" outcome="gerar_consulta" title="Consulta dinâmica">
+				<p:button icon="ui-icon-gear" outcome="tabular" title="Consulta dinâmica">
 					<f:param name="entity.id" value="#{entity.id}" />
+					<f:param name="converter" value="#{false}" />
 				</p:button>
 
 				<h:outputText value=" - " />

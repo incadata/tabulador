@@ -22,7 +22,7 @@ public class TipoFiltroView extends
 	private @Inject TipoFiltroDao tipoFiltroDao;
 
 	public TipoFiltroView() {
-		super(true);
+		super();
 	}
 
 	@Override

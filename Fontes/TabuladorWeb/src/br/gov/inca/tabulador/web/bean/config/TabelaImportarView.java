@@ -40,6 +40,7 @@ public class TabelaImportarView implements Serializable, ViewBean {
 
 	private TabelaConfig tabelaConfig;
 	private List<CampoImport> campos;
+	private List<CampoImport> camposBusca;
 	private String columnSeparator;
 	private boolean ignoreFirstLine;
 	private List<String> linhas;
@@ -48,6 +49,7 @@ public class TabelaImportarView implements Serializable, ViewBean {
 	public void init() {
 		setTabelaConfig(new TabelaConfig());
 		setCampos(new ArrayList<>());
+		setCamposBusca(new ArrayList<>());
 		addCampo();
 		setColumnSeparator(";");
 	}
@@ -55,7 +57,8 @@ public class TabelaImportarView implements Serializable, ViewBean {
 	public void findById(Integer id) {
 		if (id != null) {
 			setTabelaConfig(getTabelaConfigDao().findById(id));
-			setCamposConfig(getTabelaConfig().getCampos());
+			setCampos(convertCampoConfig(getTabelaConfig().getCampos()));
+			setCamposBusca(convertCampoConfig(getTabelaConfig().getCampos()));
 		}
 	}
 
@@ -73,19 +76,28 @@ public class TabelaImportarView implements Serializable, ViewBean {
 		}
 	}
 
+	private List<CampoImport> convertCampoConfig(List<CampoConfig> converter) {
+		final ArrayList<CampoImport> convertido = new ArrayList<CampoImport>();
+		for (CampoConfig campo : converter) {
+			convertido.add(new CampoImport(campo));
+		}
+		return convertido;
+	}
+
 	public List<CampoImport> getCampos() {
 		return campos;
 	}
-
-	public void setCamposConfig(List<CampoConfig> campos) {
-		this.campos = new ArrayList<>();
-		for (CampoConfig campo : campos) {
-			this.campos.add(new CampoImport(campo));
-		}
-	}
-
+	
 	public void setCampos(List<CampoImport> campos) {
 		this.campos = campos;
+	}
+
+	public List<CampoImport> getCamposBusca() {
+		return camposBusca;
+	}
+
+	private void setCamposBusca(List<CampoImport> camposBusca) {
+		this.camposBusca = camposBusca;
 	}
 
 	public TabelaConfigDao getTabelaConfigDao() {
@@ -97,19 +109,11 @@ public class TabelaImportarView implements Serializable, ViewBean {
 	}
 
 	public void addCampo() {
-		this.campos.add(new CampoImport());
-	}
-
-	public void atualizarTipoCampo(Integer index) {
-		final CampoImport campoAtualizado = getCampos().get(index);
-		tabelaConfig.getCampos().stream()
-				.filter(x -> x.getId().equals(campoAtualizado.getId()))
-				.findAny().map(x -> x.getTipoCampo())
-				.ifPresent(x -> campoAtualizado.setTipoCampo(x));
+		getCampos().add(new CampoImport());
 	}
 
 	public void removerCampo(Integer index) {
-		this.campos.remove(index.intValue());
+		getCampos().remove(index.intValue());
 	}
 	
 	public String getColumnSeparator() {
@@ -119,15 +123,15 @@ public class TabelaImportarView implements Serializable, ViewBean {
 	public void setColumnSeparator(String columnSeparator) {
 		this.columnSeparator = columnSeparator;
 	}
-	
+
 	public boolean isIgnoreFirstLine() {
 		return ignoreFirstLine;
 	}
-	
+
 	public void setIgnoreFirstLine(boolean ignoreFirstLine) {
 		this.ignoreFirstLine = ignoreFirstLine;
 	}
-	
+
 	public void handleFileUpload(FileUploadEvent event) {
 		final UploadedFile file = event.getFile();
 		if (file != null) {
@@ -146,15 +150,15 @@ public class TabelaImportarView implements Serializable, ViewBean {
 			showError("Arquivo não encontrado", "Arquivo ainda não foi submetido ou o upload não terminou.");
 		}
     }
-	
+
 	private List<String> getLinhas() {
 		return linhas;
 	}
-	
+
 	public void setLinhas(List<String> linhas) {
 		this.linhas = linhas;
 	}
-	
+
 	public void importar() {
 		if (getLinhas() == null) {
 			showError("Arquivo", "Nenhum arquivo recebido.");
@@ -168,6 +172,11 @@ public class TabelaImportarView implements Serializable, ViewBean {
 					linhasColunas.remove(0);
 				}
 				try (final Connection connectionLocal = connection.get()) {
+					final int camposSize = getCampos().size();
+					for (int i = 0; i < camposSize; i++) {
+						final Integer campoId = getCampos().get(i).getId();
+						getCampos().set(i, getCamposBusca().stream().filter(x -> x.getId().equals(campoId)).findAny().get());
+					}
 					final PreparedStatement insertInto = getStatementBuilder().insertInto(connectionLocal, getTabelaConfig(), getCampos(), linhasColunas);
 					showInfo("Arquivo", String.format("%d/%d linhas inseridas com sucesso.", IntStream.of(insertInto.executeBatch()).sum(), linhasColunas.size()));
 				}

@@ -43,6 +43,10 @@ public class CampoImport extends CampoConfig {
 		return ignore;
 	}
 
+	public boolean getIgnore() {
+		return isIgnore();
+	}
+
 	public void setIgnore(boolean ignore) {
 		this.ignore = ignore;
 	}

@@ -1,7 +1,5 @@
 package br.gov.inca.tabulador.domain.entity.regiao;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +17,7 @@ import br.gov.inca.tabulador.domain.entity.Entidade;
 @Entity
 @Table(name = RegionalSaude.TABLE_NAME)
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "regional_saude_seq", allocationSize = 1)
-public class RegionalSaude implements Serializable, Entidade<Integer> {
+public class RegionalSaude implements Entidade<Integer> {
 	public static final String TABLE_NAME = "regional_saude";
 
 	private static final long serialVersionUID = -6826160985492396491L;

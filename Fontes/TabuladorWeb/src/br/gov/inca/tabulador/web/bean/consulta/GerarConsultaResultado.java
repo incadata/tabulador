@@ -38,7 +38,7 @@ public class GerarConsultaResultado implements Serializable {
 		this.lines = linesList;
 	}
 	
-	public Object getValor(CampoConfig campo, Object valor) {
+	public Object convertValor(CampoConfig campo, Object valor) {
 		if (campo.getValores().isEmpty() || !(valor instanceof Number)) {
 			return valor;
 		}

@@ -28,19 +28,23 @@
 			<p:column headerText="Nome">
 				<h:inputText value="#{campoItem.nome}" />
 			</p:column>
+
 			<p:column headerText="Título" priority="3">
 				<h:inputText value="#{campoItem.label}" />
 			</p:column>
-			<p:column headerText="Abreviado" priority="3">
+
+			<p:column headerText="Abreviado" priority="4">
 				<h:inputText value="#{campoItem.abreviado}" />
 			</p:column>
+
 			<p:column headerText="Tipo">
-				<p:selectOneMenu value="#{campoItem.tipoCampo.id}">
-					<f:selectItem itemLabel="- Selecione -" itemValue="" />
+				<p:selectOneMenu value="#{campoItem.tipoCampo}" converter="entityConverter">
+					<f:selectItem noSelectionOption="true" itemLabel=" - "/>
 					<f:selectItems value="#{tipoCampoView.entities}" var="tipoCampoIt"
-						itemLabel="#{tipoCampoIt.nome}" itemValue="#{tipoCampoIt.id}" />
+						itemLabel="#{tipoCampoIt.nome}" itemValue="#{tipoCampoIt}" />
 				</p:selectOneMenu>
 			</p:column>
+
 			<p:column headerText="Valores" priority="">
 				<p:commandButton id="imageBtn" icon="ui-icon-comment" type="button" title="Valores"/>
 				<p:overlayPanel for="imageBtn" hideEffect="fade">
@@ -62,13 +66,15 @@
 					</p:commandButton>
 				</p:overlayPanel>
 			</p:column>
+
 			<p:column headerText="Filtro" priority="4">
-				<p:selectOneMenu value="#{campoItem.tipoFiltroOrNew.id}">
-					<f:selectItem itemLabel="- Selecione -" itemValue="" />
+				<p:selectOneMenu value="#{campoItem.tipoFiltro}" converter="entityConverter">
+					<f:selectItem itemLabel=" - " itemValue="" />
 					<f:selectItems value="#{tipoFiltroView.entities}" var="tipoFiltroIt"
-						itemLabel="#{tipoFiltroIt.nome}" itemValue="#{tipoFiltroIt.id}" />
+						itemLabel="#{tipoFiltroIt.nome}" itemValue="#{tipoFiltroIt}" />
 				</p:selectOneMenu>
 			</p:column>
+
 			<p:column headerText="Ações" >
 				<p:commandButton icon="ui-icon-minus" title="Remover campo">
 					<f:ajax listener="#{tabelaConfigView.removerCampo(rowIndex)}" execute="camposTable" render="camposTable" />
@@ -82,7 +88,7 @@
 		</p>
 
 		<p>
-			<p:commandButton value="Salvar" icon="ui-icon-disk" action="#{tabelaConfigView.saveOrUpdate}"/>
+			<p:commandButton value="Salvar" icon="ui-icon-disk" process="@form" action="#{tabelaConfigView.saveOrUpdate}"/>
 			<p:commandButton value="Cancelar" icon="ui-icon-cancel" action="consultar"/>
 		</p>
 	</h:form>
