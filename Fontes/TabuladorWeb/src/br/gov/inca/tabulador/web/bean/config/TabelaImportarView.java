@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.PropertyResourceBundle;
 import java.util.stream.IntStream;
 
 import javax.annotation.PostConstruct;
@@ -36,11 +37,12 @@ public class TabelaImportarView implements Serializable, ViewBean {
 
 	private @Inject TabelaConfigDao tabelaConfigDao;
 	private @Inject StatementBuilder statementBuilder;
+	private transient @Inject PropertyResourceBundle messages;
 	private transient @Inject Instance<Connection> connection;
 
 	private TabelaConfig tabelaConfig;
 	private List<CampoImport> campos;
-	private List<CampoImport> camposBusca;
+	private List<CampoConfig> camposBusca;
 	private String columnSeparator;
 	private boolean ignoreFirstLine;
 	private List<String> linhas;
@@ -58,7 +60,7 @@ public class TabelaImportarView implements Serializable, ViewBean {
 		if (id != null) {
 			setTabelaConfig(getTabelaConfigDao().findById(id));
 			setCampos(convertCampoConfig(getTabelaConfig().getCampos()));
-			setCamposBusca(convertCampoConfig(getTabelaConfig().getCampos()));
+			setCamposBusca(new ArrayList<>(getTabelaConfig().getCampos()));
 		}
 	}
 
@@ -92,11 +94,11 @@ public class TabelaImportarView implements Serializable, ViewBean {
 		this.campos = campos;
 	}
 
-	public List<CampoImport> getCamposBusca() {
+	public List<CampoConfig> getCamposBusca() {
 		return camposBusca;
 	}
 
-	private void setCamposBusca(List<CampoImport> camposBusca) {
+	private void setCamposBusca(List<CampoConfig> camposBusca) {
 		this.camposBusca = camposBusca;
 	}
 
@@ -132,6 +134,10 @@ public class TabelaImportarView implements Serializable, ViewBean {
 		this.ignoreFirstLine = ignoreFirstLine;
 	}
 
+	protected PropertyResourceBundle getMessages() {
+		return messages;
+	}
+
 	public void handleFileUpload(FileUploadEvent event) {
 		final UploadedFile file = event.getFile();
 		if (file != null) {
@@ -141,13 +147,14 @@ public class TabelaImportarView implements Serializable, ViewBean {
 				while ((sCurrentLine = bufferedReader.readLine()) != null) {
 					getLinhas().add(sCurrentLine);
 				}
-				showInfo("Arquivo", String.format("Arquivo '%s' recebido com sucesso.", file.getFileName()));
+				
+				showInfo(getMessages().getString("file_received_title"), String.format(getMessages().getString("file_received_msg"), file.getFileName()));
 			} catch (IOException e) {
-				showError(e, "Erro no arquivo", "Ocorreu um erro ao ler o arquivo.");
+				showError(e, getMessages().getString("file_read_title"), getMessages().getString("file_read_msg"));
 			}
 		} else {
 			setLinhas(null);
-			showError("Arquivo não encontrado", "Arquivo ainda não foi submetido ou o upload não terminou.");
+			showError(getMessages().getString("file_not_found_title"), getMessages().getString("file_not_found_msg"));
 		}
     }
 
@@ -161,7 +168,7 @@ public class TabelaImportarView implements Serializable, ViewBean {
 
 	public void importar() {
 		if (getLinhas() == null) {
-			showError("Arquivo", "Nenhum arquivo recebido.");
+			showError(getMessages().getString("file_received_title"), getMessages().getString("no_file_received_msg"));
 		} else if (!getLinhas().isEmpty()) {
 			try {
 				final List<List<String>> linhasColunas = new ArrayList<>(getLinhas().size());
@@ -174,17 +181,19 @@ public class TabelaImportarView implements Serializable, ViewBean {
 				try (final Connection connectionLocal = connection.get()) {
 					final int camposSize = getCampos().size();
 					for (int i = 0; i < camposSize; i++) {
-						final Integer campoId = getCampos().get(i).getId();
-						getCampos().set(i, getCamposBusca().stream().filter(x -> x.getId().equals(campoId)).findAny().get());
+						final Integer campoId = getCampos().get(i).getCampo().getId();
+						final CampoImport campoImport = new CampoImport(getCampos().get(i));
+						campoImport.setCampo(getCamposBusca().stream().filter(x -> x.getId().equals(campoId)).findAny().get());
+						getCampos().set(i, campoImport);
 					}
 					final PreparedStatement insertInto = getStatementBuilder().insertInto(connectionLocal, getTabelaConfig(), getCampos(), linhasColunas);
-					showInfo("Arquivo", String.format("%d/%d linhas inseridas com sucesso.", IntStream.of(insertInto.executeBatch()).sum(), linhasColunas.size()));
+					showInfo(getMessages().getString("file_received_title"), String.format(getMessages().getString("n_m_lines_received_msg"), IntStream.of(insertInto.executeBatch()).sum(), linhasColunas.size()));
 				}
 			} catch (SQLException | ParseException e) {
-				showError(e, "Erro ao inserir dados", "Ocorreu um erro ao tentar inserir os dados na tabela.");
+				showError(e, getMessages().getString("insert_data_title"), getMessages().getString("insert_data_msg"));
 			}
 		} else {
-			showError("Vazio", "Nenhuma linha encontrada para ser inserida.");
+			showError(getMessages().getString("table_empty_title"), getMessages().getString("table_empty_msg"));
 		}
 	}
 }

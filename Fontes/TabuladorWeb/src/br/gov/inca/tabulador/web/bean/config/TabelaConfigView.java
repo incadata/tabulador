@@ -115,9 +115,9 @@ public class TabelaConfigView extends
 		if (getEntity() != null) {
 			try {
 				connection.get().createStatement().executeUpdate(statementBuilder.createTable(getEntity()));
-				showInfo("Criar tabela", String.format("Tabela '%s' criada com sucesso.", getEntity().getNome()));
+				showInfo(getMessages().getString("create_table"), String.format(getMessages().getString("create_table_name_success_msg"), getEntity().getNome()));
 			} catch (Exception e) {
-				showError(e, "Erro", "Erro ao criar tabela");
+				showError(e, getMessages().getString("error"), getMessages().getString("create_table_error_msg"));
 			}
 		}
 	}
@@ -128,9 +128,9 @@ public class TabelaConfigView extends
 		if (getEntity() != null) {
 			try {
 				connection.get().createStatement().executeUpdate(statementBuilder.dropTable(getEntity()));
-				showInfo("Remover tabela", String.format("Tabela '%s' removida com sucesso.", getEntity().getNome()));
+				showInfo("Remover tabela", String.format(getMessages().getString("remove_table_name_success_msg"), getEntity().getNome()));
 			} catch (Exception e) {
-				showError(e, "Erro", "Erro ao remover tabela");
+				showError(e, getMessages().getString("error"), getMessages().getString("remove_table_error_msg"));
 			}
 		}
 	}

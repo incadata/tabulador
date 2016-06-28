@@ -6,11 +6,11 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 <h:head>
-	<title>Importar dados</title>
+	<title><h:outputText value="#{msg['import_data']}" /></title>
 </h:head>
 
 <h:body>
-	<h1>Importar dados</h1>
+	<h1><h:outputText value="#{msg['import_data']}" /></h1>
 
 	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 	<f:metadata>
@@ -20,58 +20,53 @@
 
 	<h:form enctype="multipart/form-data">
 		<p>
-			<p:fileUpload required="true" requiredMessage="O arquivo é obrigatório para que seja feita a importação"
-				label="Arquivo" uploadLabel="Enviar" cancelLabel="Cancelar" 
+			<p:fileUpload required="true" requiredMessage="#{msg['mandatory_file']}"
+				label="#{msg['file']}" uploadLabel="Enviar" cancelLabel="#{msg['cancel']}" 
 				multiple="false" auto="false"
 				mode="advanced" skinSimple="true"
 				fileUploadListener="#{tabelaImportarView.handleFileUpload}" allowTypes="/(\.|\/)(csv)$/"/>
 		</p>
 		<p:panelGrid columns="2" layout="grid">
-			<h:outputText value="Separador de colunas: " />
+			<h:outputText value="#{msg['column_delimiter']}: " />
 			<p:inputText value="#{tabelaImportarView.columnSeparator}"/>
 
-			<h:outputText value="Ignorar a primeira linha: " />
+			<h:outputText value="#{msg['ignore_first_line']}: " />
 			<p:selectBooleanCheckbox value="#{tabelaImportarView.ignoreFirstLine}" />
 		</p:panelGrid>
 		
 	    <p:carousel value="#{tabelaImportarView.campos}" var="campo" id="colunasCarousel" binding="#{carousel}"
-	    	headerText="Colunas" itemStyle="text-align:center" responsive="true">
+	    	headerText="#{msg['columns']}" itemStyle="text-align:center" responsive="true">
 	        <p:panelGrid columns="2" id="campoAtual"
 	        	style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid"
 	        	styleClass="ui-panelgrid-blank">
-				<h:outputText value="Campo: " />
-		        <p:selectOneMenu value="#{campo.id}">
+				<h:outputText value="#{msg['field']}: " />
+		        <p:selectOneMenu value="#{campo.campo}" converter="entityConverter">
 					<f:selectItems value="#{tabelaImportarView.camposBusca}" var="campoIt"
-						itemLabel="#{campoIt.nome}" itemValue="#{campoIt.id}" />
+						itemLabel="#{campoIt.labelOrNome}" itemValue="#{campoIt}" />
 				</p:selectOneMenu>
 
-				<h:outputText value="Padrão: " rendered="#{campo.tipoCampo.isData()}" />
-        		<p:inputText value="#{campo.pattern}" rendered="#{campo.tipoCampo.isData()}" />
+				<h:outputText value="#{msg['pattern']}: " rendered="#{campo.campo.tipoCampo.isData()}" />
+        		<p:inputText value="#{campo.pattern}" rendered="#{campo.campo.tipoCampo.isData()}" size="10"/>
 
-				<h:outputText value="Ignorar: " />
+				<h:outputText value="#{msg['ignore']}: " />
         		<p:selectBooleanCheckbox value="#{campo.ignore}" />
 
 				<f:facet name="header">
-					<p:commandButton icon="ui-icon-minus" title="Remover coluna" 
+					<p:commandButton icon="ui-icon-minus" title="#{msg['remove_column']}" 
 						actionListener="#{tabelaImportarView.removerCampo(carousel.rowIndex)}" update="colunasCarousel"/>
 	            </f:facet>
-				<!-- 
-				<h:outputText value="Entre aspas: " />
-        		<p:selectBooleanCheckbox value="#{campo.aspas}" />
-
-				 -->
 	        </p:panelGrid>
 	 
 	        <f:facet name="footer">
-        		<p:commandButton icon="ui-icon-plus" title="Adicionar coluna" value="Adicionar"
+        		<p:commandButton icon="ui-icon-plus" title="#{msg['add_column']}" value="#{msg['add']}"
         			actionListener="#{tabelaImportarView.addCampo}" update="colunasCarousel"/>
-                Total de colunas: #{fn:length(tabelaImportarView.campos)}
+                #{msg['total_columns']}: #{fn:length(tabelaImportarView.campos)}
 	        </f:facet>
 	    </p:carousel>
 
 		<p>
-			<p:commandButton icon="ui-icon-script" value="Importar" title="Importar dados" actionListener="#{tabelaImportarView.importar}"/>
-			<p:commandButton icon="ui-icon-cancel" value="Cancelar" action="consultar"/>
+			<p:commandButton icon="ui-icon-script" value="#{msg['import']}" title="#{msg['import_data']}" actionListener="#{tabelaImportarView.importar}"/>
+			<p:commandButton icon="ui-icon-cancel" value="#{msg['cancel']}" action="consultar"/>
 		</p>
 	</h:form>
 </h:body>

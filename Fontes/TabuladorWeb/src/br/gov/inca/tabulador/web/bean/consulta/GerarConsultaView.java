@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.PropertyResourceBundle;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -36,12 +37,14 @@ public class GerarConsultaView implements ViewBean {
 	private @Inject CampoConfigDao campoConfigDao;
 	private @Inject StatementBuilder statementBuilder;
 	private @Inject GerarConsultaResultado resultado;
+	private transient @Inject PropertyResourceBundle messages;
 	private transient @Inject Instance<Connection> connection;
 
 	private TabelaConfig tabelaConfig;
 	private List<CampoFiltro> campos;
-	private List<CampoFiltro> camposFiltro;
+	private List<CampoConfig> camposFiltro;
 	private List<CampoConfig> camposAgrupar;
+	private int resultadosPorPagina;
 
 	@PostConstruct
 	public void init() {
@@ -51,14 +54,15 @@ public class GerarConsultaView implements ViewBean {
 		setCamposFiltro(new ArrayList<>());
 		setCamposAgrupar(new ArrayList<>());
 		addCampoAgrupar();
-		//setRandom(new Random());
+		setResultadosPorPagina(10);
 	}
 
 	public void findById(Integer id) {
 		if (id != null) {
 			setTabelaConfig(getTabelaConfigDao().findById(id));
-			setCamposConfig(getTabelaConfig().getCampos().stream().filter(x -> x.isFiltro()).collect(Collectors.toList()));
-			setCamposFiltro(getCampos());
+			final List<CampoConfig> campoIsFiltro = getTabelaConfig().getCampos().stream().filter(x -> x.isFiltro()).collect(Collectors.toList());
+			setCamposWithCampoConfig(campoIsFiltro);
+			setCamposFiltro(campoIsFiltro);
 		}
 	}
 
@@ -80,7 +84,7 @@ public class GerarConsultaView implements ViewBean {
 		return campos;
 	}
 
-	public void setCamposConfig(List<CampoConfig> campos) {
+	public void setCamposWithCampoConfig(List<CampoConfig> campos) {
 		this.campos = new ArrayList<>();
 		for (CampoConfig campo : campos) {
 			getCampos().add(new CampoFiltro(campo));
@@ -102,7 +106,7 @@ public class GerarConsultaView implements ViewBean {
 	public void addCampo() {
 		final int nextInt = new Random().nextInt();
 		final CampoFiltro campoFiltro = new CampoFiltro();
-		campoFiltro.getTipoFiltro().setId(nextInt > 0 ? -nextInt : nextInt);
+		campoFiltro.getCampo().getTipoFiltro().setId(nextInt > 0 ? -nextInt : nextInt);
 		getCampos().add(campoFiltro);
 	}
 
@@ -110,15 +114,7 @@ public class GerarConsultaView implements ViewBean {
 		getCamposAgrupar().add(new CampoConfig());
 	}
 
-	public void atualizarTipoCampo(Integer index) {
-		final CampoFiltro campoAtualizado = getCampos().get(index);
-		tabelaConfig.getCampos().stream()
-				.filter(x -> x.getId().equals(campoAtualizado.getId()))
-				.findAny().map(x -> x.getTipoCampo())
-				.ifPresent(x -> campoAtualizado.setTipoCampo(x));
-	}
-
-	public void removerCampo(Integer index) {
+	public void removerFiltro(Integer index) {
 		getCampos().remove(index.intValue());
 	}
 
@@ -126,13 +122,13 @@ public class GerarConsultaView implements ViewBean {
 		getCamposAgrupar().remove(index.intValue());
 	}
 
-	public List<CampoFiltro> getCamposFiltro() {
+	public List<CampoConfig> getCamposFiltro() {
 		return camposFiltro;
 	}
 
-	public void setCamposFiltro(List<CampoFiltro> camposFiltro) {
+	public void setCamposFiltro(List<CampoConfig> camposFiltro) {
 		this.camposFiltro = new ArrayList<>();
-		for (CampoFiltro campo : camposFiltro) {
+		for (CampoConfig campo : camposFiltro) {
 			this.camposFiltro.add(campo);
 		}
 	}
@@ -140,26 +136,38 @@ public class GerarConsultaView implements ViewBean {
 	public List<CampoConfig> getCamposAgrupar() {
 		return camposAgrupar;
 	}
-	
+
 	protected GerarConsultaResultado getResultado() {
 		return resultado;
 	}
-	
+
 	protected void setResultado(GerarConsultaResultado resultado) {
 		this.resultado = resultado;
 	}
-	
+
 	public void setCamposAgrupar(List<CampoConfig> campoAgrupar) {
 		this.camposAgrupar = new ArrayList<>();
 		for (CampoConfig campo : campoAgrupar) {
 			this.camposAgrupar.add(campo);
 		}
 	}
-	
+
 	protected StatementBuilder getStatementBuilder() {
 		return statementBuilder;
 	}
-	
+
+	public int getResultadosPorPagina() {
+		return resultadosPorPagina;
+	}
+
+	public void setResultadosPorPagina(int resultadosPorPagina) {
+		this.resultadosPorPagina = resultadosPorPagina;
+	}
+
+	protected PropertyResourceBundle getMessages() {
+		return messages;
+	}
+
 	public void tabular() {
 		final int sizeCamposAgrupar = getCamposAgrupar().size();
 		for (int i = 0; i < sizeCamposAgrupar; i++) {
@@ -173,9 +181,9 @@ public class GerarConsultaView implements ViewBean {
 			}
 		}
 		for (CampoFiltro campo : getCampos()) {
-			final CampoConfig campoDb = getCampoConfigDao().findById(campo.getId());
-			campo.setNome(campoDb.getNome());
-			campo.setTipoFiltro(campoDb.getTipoFiltro());
+			final CampoConfig campoDb = getCampoConfigDao().findById(campo.getCampo().getId());
+			campo.getCampo().setNome(campoDb.getNome());
+			campo.getCampo().setTipoFiltro(campoDb.getTipoFiltro());
 		}
 		try (final Connection connectionLocal = connection.get()) {
 			final PreparedStatement insertInto = getStatementBuilder().selectTabular(connectionLocal, getTabelaConfig(), getCamposAgrupar(), getCampos());
@@ -203,9 +211,9 @@ public class GerarConsultaView implements ViewBean {
 				contador++;
 			}
 			resultColumns.add(countAsterisco);
-			showInfo(null, String.format("%d linhas encontradas", contador));
+			showInfo(null, String.format(getMessages().getString("n_lines_found"), contador));
 		} catch (SQLException | ParseException e) {
-			showError(e, "Erro ao inserir dados", "Ocorreu um erro ao tentar inserir os dados na tabela.");
+			showError(e, getMessages().getString("insert_data_title"), getMessages().getString("insert_data_msg"));
 		}
 	}
 	

@@ -7,9 +7,11 @@ import java.util.Collection;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 
 import br.gov.inca.tabulador.domain.entity.Entidade;
 
+@FacesConverter("entityConverter")
 public class EntityConverter implements Converter {
 	@Override
 	public Object getAsObject(FacesContext ctx, UIComponent component, String value) {

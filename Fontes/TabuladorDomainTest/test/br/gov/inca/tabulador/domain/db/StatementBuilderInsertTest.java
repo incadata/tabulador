@@ -21,12 +21,12 @@ public class StatementBuilderInsertTest extends StatementBuilder {
 		
 		final List<CampoImport> campos = new ArrayList<>();
 		campos.add(new CampoImport());
-		campos.get(0).setNome("campo01");
+		campos.get(0).getCampo().setNome("campo01");
 		
 		final String insertIntoCommand = insertIntoCommand(entity, campos);
 		
 		Assert.assertNotNull(insertIntoCommand);
-		Assert.assertEquals(insertIntoCommand, String.format("INSERT INTO %s (%s) VALUES (?)", getTableName(entity), getFieldName(campos.get(0))));
+		Assert.assertEquals(insertIntoCommand, String.format("INSERT INTO %s (%s) VALUES (?)", getTableName(entity), getFieldName(campos.get(0).getCampo())));
 	}
 
 	@Test
@@ -37,14 +37,14 @@ public class StatementBuilderInsertTest extends StatementBuilder {
 		
 		final List<CampoImport> campos = new ArrayList<>();
 		campos.add(new CampoImport());
-		campos.get(0).setNome("campo01");
+		campos.get(0).getCampo().setNome("campo01");
 		campos.add(new CampoImport());
-		campos.get(1).setNome("campo02");
+		campos.get(1).getCampo().setNome("campo02");
 		
 		final String insertIntoCommand = insertIntoCommand(entity, campos);
 		
 		Assert.assertNotNull(insertIntoCommand);
-		Assert.assertEquals(insertIntoCommand, String.format("INSERT INTO %s (%s, %s) VALUES (?, ?)", getTableName(entity), getFieldName(campos.get(0)), getFieldName(campos.get(1))));
+		Assert.assertEquals(insertIntoCommand, String.format("INSERT INTO %s (%s, %s) VALUES (?, ?)", getTableName(entity), getFieldName(campos.get(0).getCampo()), getFieldName(campos.get(1).getCampo())));
 	}
 	
 	@Test
@@ -55,12 +55,12 @@ public class StatementBuilderInsertTest extends StatementBuilder {
 		
 		final List<CampoImport> campos = new ArrayList<>();
 		campos.add(new CampoImport());
-		campos.get(0).setNome("campo01");
+		campos.get(0).getCampo().setNome("campo01");
 		
 		final String insertIntoCommand = insertIntoCommand(entity, campos);
 		
 		Assert.assertNotNull(insertIntoCommand);
-		Assert.assertEquals(insertIntoCommand, String.format("INSERT INTO %s (%s) VALUES (?)", getTableName(entity), getFieldName(campos.get(0))));
+		Assert.assertEquals(insertIntoCommand, String.format("INSERT INTO %s (%s) VALUES (?)", getTableName(entity), getFieldName(campos.get(0).getCampo())));
 	}
 
 	@Test
@@ -71,13 +71,13 @@ public class StatementBuilderInsertTest extends StatementBuilder {
 		
 		final List<CampoImport> campos = new ArrayList<>();
 		campos.add(new CampoImport());
-		campos.get(0).setNome("campo01");
+		campos.get(0).getCampo().setNome("campo01");
 		campos.add(new CampoImport());
-		campos.get(1).setNome("campo02");
+		campos.get(1).getCampo().setNome("campo02");
 		
 		final String insertIntoCommand = insertIntoCommand(entity, campos);
 		
 		Assert.assertNotNull(insertIntoCommand);
-		Assert.assertEquals(insertIntoCommand, String.format("INSERT INTO %s (%s, %s) VALUES (?, ?)", getTableName(entity), getFieldName(campos.get(0)), getFieldName(campos.get(1))));
+		Assert.assertEquals(insertIntoCommand, String.format("INSERT INTO %s (%s, %s) VALUES (?, ?)", getTableName(entity), getFieldName(campos.get(0).getCampo()), getFieldName(campos.get(1).getCampo())));
 	}
 }

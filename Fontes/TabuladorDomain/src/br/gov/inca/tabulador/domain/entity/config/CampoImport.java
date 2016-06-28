@@ -1,34 +1,37 @@
 package br.gov.inca.tabulador.domain.entity.config;
 
+import java.io.Serializable;
+
 import br.gov.inca.tabulador.domain.entity.tipo.TipoCampo;
 
 
-public class CampoImport extends CampoConfig {
-	public static final String DEFAULT_PATTERN = "dd/mm/yyyy";
+public class CampoImport implements Serializable {
+	public static final String DEFAULT_PATTERN = "dd/MM/yyyy";
 	private static final long serialVersionUID = -1011397846544532181L;
 
 	private boolean aspas;
 	private boolean ignore;
 	private String pattern;
+	private CampoConfig campo;
 
 	public CampoImport() {
 		this(new CampoConfig());
 	}
 
 	public CampoImport(CampoConfig campo) {
-		super(campo);
+		setCampo(campo);
 		setAspas(false);
 		setIgnore(false);
-		setPattern("");
+		if (getCampo().getTipoCampo().getId() != null && TipoCampo.TIPO_DATA == getCampo().getTipoCampo().getId()) {
+			setPattern(DEFAULT_PATTERN);
+		}
 	}
 
 	public CampoImport(CampoImport campo) {
-		this((CampoConfig) campo);
+		this(campo.getCampo());
 		setAspas(campo.isAspas());
 		setIgnore(campo.isIgnore());
-		if (getTipoCampo().getId() != null && TipoCampo.TIPO_DATA == getTipoCampo().getId()) {
-			setPattern(DEFAULT_PATTERN);
-		}
+		setPattern(campo.getPattern());
 	}
 
 	public boolean isAspas() {
@@ -57,5 +60,13 @@ public class CampoImport extends CampoConfig {
 	
 	public void setPattern(String pattern) {
 		this.pattern = pattern;
+	}
+	
+	public CampoConfig getCampo() {
+		return campo;
+	}
+	
+	public void setCampo(CampoConfig campo) {
+		this.campo = campo;
 	}
 }

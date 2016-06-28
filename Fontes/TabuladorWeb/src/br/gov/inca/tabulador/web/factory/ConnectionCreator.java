@@ -1,4 +1,4 @@
-package br.gov.inca.tabulador.web;
+package br.gov.inca.tabulador.web.factory;
 
 import java.io.Serializable;
 import java.sql.Connection;

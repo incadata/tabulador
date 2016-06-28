@@ -34,12 +34,12 @@ public class StatementBuilderSelectTest extends StatementBuilder {
 		
 		final List<CampoFiltro> camposFiltro = new ArrayList<>();
 		camposFiltro.add(new CampoFiltro());
-		camposFiltro.get(0).setNome("filtro01");
-		camposFiltro.get(0).getTipoFiltro().setId(TipoFiltro.FILTRO_IGUAL);
+		camposFiltro.get(0).getCampo().setNome("filtro01");
+		camposFiltro.get(0).getCampo().getTipoFiltro().setId(TipoFiltro.FILTRO_IGUAL);
 		final String selectTabular = selectTabular(entity, Collections.emptyList(), camposFiltro);
 		
 		Assert.assertNotNull(selectTabular);
-		Assert.assertEquals(selectTabular, String.format("SELECT COUNT(*) FROM %s WHERE %s = ?", getTableName(entity), getFieldName(camposFiltro.get(0))));
+		Assert.assertEquals(selectTabular, String.format("SELECT COUNT(*) FROM %s WHERE %s = ?", getTableName(entity), getFieldName(camposFiltro.get(0).getCampo())));
 	}
 
 	@Test
@@ -49,15 +49,15 @@ public class StatementBuilderSelectTest extends StatementBuilder {
 		
 		final List<CampoFiltro> camposFiltro = new ArrayList<>();
 		camposFiltro.add(new CampoFiltro());
-		camposFiltro.get(0).setNome("filtro01");
-		camposFiltro.get(0).getTipoFiltro().setId(TipoFiltro.FILTRO_IGUAL);
+		camposFiltro.get(0).getCampo().setNome("filtro01");
+		camposFiltro.get(0).getCampo().getTipoFiltro().setId(TipoFiltro.FILTRO_IGUAL);
 		camposFiltro.add(new CampoFiltro());
-		camposFiltro.get(1).setNome("filtro02");
-		camposFiltro.get(1).getTipoFiltro().setId(TipoFiltro.FILTRO_MAIOR);
+		camposFiltro.get(1).getCampo().setNome("filtro02");
+		camposFiltro.get(1).getCampo().getTipoFiltro().setId(TipoFiltro.FILTRO_MAIOR);
 		final String selectTabular = selectTabular(entity, Collections.emptyList(), camposFiltro);
 		
 		Assert.assertNotNull(selectTabular);
-		Assert.assertEquals(selectTabular, String.format("SELECT COUNT(*) FROM %s WHERE %s = ? AND %s > ?", getTableName(entity), getFieldName(camposFiltro.get(0)), getFieldName(camposFiltro.get(1))));
+		Assert.assertEquals(selectTabular, String.format("SELECT COUNT(*) FROM %s WHERE %s = ? AND %s > ?", getTableName(entity), getFieldName(camposFiltro.get(0).getCampo()), getFieldName(camposFiltro.get(1).getCampo())));
 	}
 
 	@Test
@@ -86,8 +86,8 @@ public class StatementBuilderSelectTest extends StatementBuilder {
 
 		final List<CampoFiltro> camposFiltro = new ArrayList<>();
 		camposFiltro.add(new CampoFiltro());
-		camposFiltro.get(0).setNome("filtro01");
-		camposFiltro.get(0).getTipoFiltro().setId(TipoFiltro.FILTRO_IGUAL);
+		camposFiltro.get(0).getCampo().setNome("filtro01");
+		camposFiltro.get(0).getCampo().getTipoFiltro().setId(TipoFiltro.FILTRO_IGUAL);
 		
 		final String selectTabular = selectTabular(entity, camposAgrupar, camposFiltro);
 		
@@ -97,7 +97,7 @@ public class StatementBuilderSelectTest extends StatementBuilder {
 						"SELECT COUNT(*), %s FROM %s WHERE %s = ? GROUP BY %s", 
 						getFieldName(camposAgrupar.get(0)),
 						getTableName(entity),
-						getFieldName(camposFiltro.get(0)),
+						getFieldName(camposFiltro.get(0).getCampo()),
 						getFieldName(camposAgrupar.get(0))));
 	}
 
@@ -112,11 +112,11 @@ public class StatementBuilderSelectTest extends StatementBuilder {
 		
 		final List<CampoFiltro> camposFiltro = new ArrayList<>();
 		camposFiltro.add(new CampoFiltro());
-		camposFiltro.get(0).setNome("filtro01");
-		camposFiltro.get(0).getTipoFiltro().setId(TipoFiltro.FILTRO_IGUAL);
+		camposFiltro.get(0).getCampo().setNome("filtro01");
+		camposFiltro.get(0).getCampo().getTipoFiltro().setId(TipoFiltro.FILTRO_IGUAL);
 		camposFiltro.add(new CampoFiltro());
-		camposFiltro.get(1).setNome("filtro02");
-		camposFiltro.get(1).getTipoFiltro().setId(TipoFiltro.FILTRO_MENOR);
+		camposFiltro.get(1).getCampo().setNome("filtro02");
+		camposFiltro.get(1).getCampo().getTipoFiltro().setId(TipoFiltro.FILTRO_MENOR);
 		
 		final String selectTabular = selectTabular(entity, camposAgrupar, camposFiltro);
 		
@@ -126,8 +126,8 @@ public class StatementBuilderSelectTest extends StatementBuilder {
 						"SELECT COUNT(*), %s FROM %s WHERE %s = ? AND %s < ? GROUP BY %s", 
 						getFieldName(camposAgrupar.get(0)),
 						getTableName(entity),
-						getFieldName(camposFiltro.get(0)),
-						getFieldName(camposFiltro.get(1)),
+						getFieldName(camposFiltro.get(0).getCampo()),
+						getFieldName(camposFiltro.get(1).getCampo()),
 						getFieldName(camposAgrupar.get(0))));
 	}
 
@@ -168,8 +168,8 @@ public class StatementBuilderSelectTest extends StatementBuilder {
 		
 		final List<CampoFiltro> camposFiltro = new ArrayList<>();
 		camposFiltro.add(new CampoFiltro());
-		camposFiltro.get(0).setNome("filtro01");
-		camposFiltro.get(0).getTipoFiltro().setId(TipoFiltro.FILTRO_IGUAL);
+		camposFiltro.get(0).getCampo().setNome("filtro01");
+		camposFiltro.get(0).getCampo().getTipoFiltro().setId(TipoFiltro.FILTRO_IGUAL);
 		
 		final String selectTabular = selectTabular(entity, camposAgrupar, camposFiltro);
 		
@@ -180,7 +180,7 @@ public class StatementBuilderSelectTest extends StatementBuilder {
 						getFieldName(camposAgrupar.get(0)),
 						getFieldName(camposAgrupar.get(1)),
 						getTableName(entity),
-						getFieldName(camposFiltro.get(0)),
+						getFieldName(camposFiltro.get(0).getCampo()),
 						getFieldName(camposAgrupar.get(0)),
 						getFieldName(camposAgrupar.get(1))));
 	}
@@ -198,11 +198,11 @@ public class StatementBuilderSelectTest extends StatementBuilder {
 		
 		final List<CampoFiltro> camposFiltro = new ArrayList<>();
 		camposFiltro.add(new CampoFiltro());
-		camposFiltro.get(0).setNome("filtro01");
-		camposFiltro.get(0).getTipoFiltro().setId(TipoFiltro.FILTRO_IGUAL);
+		camposFiltro.get(0).getCampo().setNome("filtro01");
+		camposFiltro.get(0).getCampo().getTipoFiltro().setId(TipoFiltro.FILTRO_IGUAL);
 		camposFiltro.add(new CampoFiltro());
-		camposFiltro.get(1).setNome("filtro02");
-		camposFiltro.get(1).getTipoFiltro().setId(TipoFiltro.FILTRO_DIFERENTE);
+		camposFiltro.get(1).getCampo().setNome("filtro02");
+		camposFiltro.get(1).getCampo().getTipoFiltro().setId(TipoFiltro.FILTRO_DIFERENTE);
 		
 		final String selectTabular = selectTabular(entity, camposAgrupar, camposFiltro);
 		
@@ -213,8 +213,8 @@ public class StatementBuilderSelectTest extends StatementBuilder {
 						getFieldName(camposAgrupar.get(0)),
 						getFieldName(camposAgrupar.get(1)),
 						getTableName(entity),
-						getFieldName(camposFiltro.get(0)),
-						getFieldName(camposFiltro.get(1)),
+						getFieldName(camposFiltro.get(0).getCampo()),
+						getFieldName(camposFiltro.get(1).getCampo()),
 						getFieldName(camposAgrupar.get(0)),
 						getFieldName(camposAgrupar.get(1))));
 	}

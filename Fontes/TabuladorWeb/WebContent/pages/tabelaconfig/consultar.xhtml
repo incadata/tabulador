@@ -4,72 +4,72 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>Configurações de tabelas</title>
+	<title><h:outputText value="#{msg['table_config']}" /></title>
 </h:head>
 
 <h:body>
-	<h1>Configurações de tabelas</h1>
+	<h1><h:outputText value="#{msg['table_config']}" /></h1>
 	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
 	<h:form>
-		<p:inputText placeholder="Nome" value="#{tabelaConfigView.entity.nome}">
+		<p:inputText placeholder="#{msg['name']}" value="#{tabelaConfigView.entity.nome}">
 			<f:validateBean disabled="true" />
 		</p:inputText>
 		<br />
 		<p>
 			<p:defaultCommand target="buscarButton"/>
-			<p:commandButton value="Buscar" icon="ui-icon-search" id="buscarButton">
+			<p:commandButton value="#{msg['find']}" icon="ui-icon-search" id="buscarButton">
 				<f:ajax listener="#{tabelaConfigView.findByExample}" execute="@form" render="entitiesTable" />
 			</p:commandButton>
 		</p>
 	</h:form>
 	<h:form>
-		<p:dataTable var="entity" value="#{tabelaConfigView.entitiesLazy}" id="entitiesTable" paginator="true" rows="10" lazy="true" tableStyle="table-layout: auto;">
-			<p:column headerText="Nome">
+		<p:dataTable var="entity" value="#{tabelaConfigView.entitiesLazy}" id="entitiesTable" paginator="true" rows="10" lazy="true" tableStyle="table-layout: auto;" emptyMessage="#{msg['table_empty_msg']}">
+			<p:column headerText="#{msg['name']}">
 				<h:outputText value="#{entity.nome}" />
 			</p:column>
-			<p:column headerText="Título" priority="2">
+			<p:column headerText="#{msg['title']}" priority="2">
 				<h:outputText value="#{entity.titulo}" />
 			</p:column>
-			<p:column headerText="Ações" >
-				<p:button icon="ui-icon-pencil" outcome="persistir" title="Editar">
+			<p:column headerText="#{msg['actions']}" >
+				<p:button icon="ui-icon-pencil" outcome="persistir" title="#{msg['edit']}">
 					<f:param name="entity.id" value="#{entity.id}" />
 				</p:button>
-				<p:commandButton icon="ui-icon-minus" title="Remover configuração" actionListener="#{tabelaConfigView.remove(entity.id)}" process="@this" update="entitiesTable">
-					<p:confirm header="Remover configuração" message="Deseja realmente remover a configuração da tabela '#{entity.nome}'?" icon="ui-icon-alert" />
+				<p:commandButton icon="ui-icon-minus" title="#{msg['remove_config']}" actionListener="#{tabelaConfigView.remove(entity.id)}" process="@this" update="entitiesTable">
+					<p:confirm header="#{msg['remove_config']}" message="#{msg['remove_config_msg']}" icon="ui-icon-alert" />
 				</p:commandButton>
 
 				<h:outputText value=" - " />
 
-				<p:button icon="ui-icon-script" outcome="importar" title="Importar dados">
+				<p:button icon="ui-icon-script" outcome="importar" title="#{msg['import_data']}">
 					<f:param name="entity.id" value="#{entity.id}" />
 				</p:button>
-				<p:button icon="ui-icon-grip-dotted-vertical" outcome="tabular" title="Tabular dados">
+				<p:button icon="ui-icon-grip-dotted-vertical" outcome="tabular" title="#{msg['table_data']}">
 					<f:param name="entity.id" value="#{entity.id}" />
 					<f:param name="converter" value="#{true}" />
 				</p:button>
-				<p:button icon="ui-icon-gear" outcome="tabular" title="Consulta dinâmica">
+				<p:button icon="ui-icon-gear" outcome="tabular" title="#{msg['dynamic_query']}">
 					<f:param name="entity.id" value="#{entity.id}" />
 					<f:param name="converter" value="#{false}" />
 				</p:button>
 
 				<h:outputText value=" - " />
 
-				<p:commandButton title="Criar tabela" icon="ui-icon-document" actionListener="#{tabelaConfigView.createTable(entity.id)}">
-					<p:confirm header="Criar" message="Deseja realmente criar a tabela '#{entity.nome}'?" icon="ui-icon-alert" />
+				<p:commandButton title="#{msg['create_table']}" icon="ui-icon-document" actionListener="#{tabelaConfigView.createTable(entity.id)}">
+					<p:confirm header="#{msg['create']}" message="#{msg['create_table_msg']}" icon="ui-icon-alert" />
 				</p:commandButton>
-				<p:commandButton title="Remover tabela" icon="ui-icon-trash" actionListener="#{tabelaConfigView.dropTable(entity.id)}">
-					<p:confirm header="Excluir" message="Deseja realmente excluir a tabela '#{entity.nome}'?" icon="ui-icon-alert" />
+				<p:commandButton title="#{msg['remove_table']}" icon="ui-icon-trash" actionListener="#{tabelaConfigView.dropTable(entity.id)}">
+					<p:confirm header="#{msg['delete']}" message="#{msg['remove_table_msg']}" icon="ui-icon-alert" />
 				</p:commandButton>
 				
 				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" id="confirmDialogCriar">
-			        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-			        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			        <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			        <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 			    </p:confirmDialog>
 			</p:column>
 		</p:dataTable>
 		<p>
-			<p:button icon="ui-icon-document" outcome="persistir" value="Inserir" title="Inserir nova configuração"/>
+			<p:button icon="ui-icon-document" outcome="persistir" value="#{msg['add']}" title="#{msg['new_configuration']}"/>
 		</p>
 	</h:form>
 </h:body>

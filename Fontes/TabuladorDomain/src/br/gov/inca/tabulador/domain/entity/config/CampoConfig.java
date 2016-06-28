@@ -142,7 +142,7 @@ public class CampoConfig extends EntidadeAbstract<Integer> {
 	}
 
 	public String getLabelOrNome() {
-		return getLabel() != null ? getLabel() : getNome();
+		return getLabel() != null && !getLabel().isEmpty() ? getLabel() : getNome();
 	}
 
 }

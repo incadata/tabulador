@@ -19,7 +19,6 @@ public class TipoFiltro extends EntidadeAbstract<Integer> {
 	private static final long serialVersionUID = 643158529234596693L;
 
 	public static final int FILTRO_IGUAL = 1;
-	public static final int FILTRO_INTERVALO = 2;
 	public static final int FILTRO_MAIOR = 3;
 	public static final int FILTRO_MENOR = 4;
 	public static final int FILTRO_MAIOR_IGUAL = 5;
@@ -49,4 +48,5 @@ public class TipoFiltro extends EntidadeAbstract<Integer> {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 }

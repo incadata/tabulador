@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import br.gov.inca.tabulador.domain.ValidationException;
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
 import br.gov.inca.tabulador.domain.entity.config.CampoFiltro;
 import br.gov.inca.tabulador.domain.entity.config.CampoImport;
@@ -51,7 +52,7 @@ public class StatementBuilder implements Serializable {
 				if (virgula) {
 					stringBuilder.append(", ");
 				}
-				stringBuilder.append(getFieldName(campo));
+				stringBuilder.append(getFieldName(campo.getCampo()));
 				virgula = true;
 			}
 		}
@@ -78,7 +79,7 @@ public class StatementBuilder implements Serializable {
 			for (int i = 0; i < camposSize; i++) {
 				final CampoImport campoImport = campos.get(i);
 				if (!campoImport.isIgnore()) {
-					setValueToStatement(prepareStatement, ++indexValor, campoImport, valoresLinha.get(i), campoImport.getPattern());
+					setValueToStatement(prepareStatement, ++indexValor, campoImport.getCampo(), valoresLinha.get(i), campoImport.getPattern());
 				}
 			}
 			prepareStatement.addBatch();
@@ -103,8 +104,8 @@ public class StatementBuilder implements Serializable {
 				if (andWord) {
 					stringBuilder.append(" AND ");
 				}
-				stringBuilder.append(getFieldName(campoFiltro));
-				switch (campoFiltro.getTipoFiltro().getId()) {
+				stringBuilder.append(getFieldName(campoFiltro.getCampo()));
+				switch (campoFiltro.getCampo().getTipoFiltro().getId()) {
 					case TipoFiltro.FILTRO_IGUAL:
 						stringBuilder.append(" = ?");
 						break;
@@ -113,9 +114,6 @@ public class StatementBuilder implements Serializable {
 						break;
 					case TipoFiltro.FILTRO_MENOR:
 						stringBuilder.append(" < ?");
-						break;
-					case TipoFiltro.FILTRO_INTERVALO:
-						stringBuilder.append(" BETWEEN(? AND ?)");
 						break;
 					case TipoFiltro.FILTRO_MAIOR_IGUAL:
 						stringBuilder.append(" >= ?");
@@ -152,7 +150,7 @@ public class StatementBuilder implements Serializable {
 		final PreparedStatement prepareStatement = connection.prepareStatement(selectTabular(entity, camposAgrupar, camposFiltro));
 		int index = 0;
 		for (CampoFiltro campoFiltro : camposFiltro) {
-			setValueToStatement(prepareStatement, ++index, campoFiltro, campoFiltro.getValue(), CampoImport.DEFAULT_PATTERN);
+			setValueToStatement(prepareStatement, ++index, campoFiltro.getCampo(), campoFiltro.getValueAsString(), CampoImport.DEFAULT_PATTERN);
 		}
 		return prepareStatement;
 	}
@@ -177,25 +175,33 @@ public class StatementBuilder implements Serializable {
 		throw new RuntimeException("Tipo inválido para o campo: " + campo.getNome());
 	}
 	
-	private void setValueToStatement(PreparedStatement prepareStatement, int index, CampoConfig campo, String value, String pattern) throws NumberFormatException, SQLException, ParseException {
-		switch (campo.getTipoCampo().getId()) {
-		case TipoCampo.TIPO_INTEIRO:
-			prepareStatement.setLong(index, Long.parseLong(value));
-			break;
-		case TipoCampo.TIPO_TEXTO:
-			prepareStatement.setString(index, value);
-			break;
-		case TipoCampo.TIPO_DATA:
-		{
-			final Calendar cal = Calendar.getInstance();
-			cal.setTime(new SimpleDateFormat(pattern).parse(value));
-			prepareStatement.setTimestamp(index, new Timestamp(cal.getTimeInMillis()));
-			break;
-		}
-		default:
-			prepareStatement.setObject(index, value);
-			break;
+	private void setValueToStatement(PreparedStatement prepareStatement, int index, CampoConfig campo, String value, String datePattern) throws NumberFormatException, SQLException, ParseException {
+		try {
+			switch (campo.getTipoCampo().getId()) {
+				case TipoCampo.TIPO_INTEIRO:
+					if (value == null || value.isEmpty()) {
+						throw new ValidationException(String.format("Filtro do campo '%s' do tipo número não pode ser vazio.", campo.getLabelOrNome()));
+					}
+					prepareStatement.setLong(index, Long.parseLong(value));
+					break;
+				case TipoCampo.TIPO_TEXTO:
+					prepareStatement.setString(index, value);
+					break;
+				case TipoCampo.TIPO_DATA:
+					if (value == null || value.isEmpty()) {
+						throw new ValidationException(String.format("Filtro do campo '%' do tipo data não pode ser vazio.", campo.getLabelOrNome()));
+					} else 	{
+						final Calendar cal = Calendar.getInstance();
+						cal.setTime(new SimpleDateFormat(datePattern).parse(value));
+						prepareStatement.setTimestamp(index, new Timestamp(cal.getTimeInMillis()));
+						break;
+					}
+				default:
+					prepareStatement.setObject(index, value);
+					break;
+			}
+		} catch (NumberFormatException e) {
+			throw new ValidationException(String.format("Filtro do campo '%s' do tipo número possui um valor inválido: '%s'.", campo.getLabelOrNome(), value));
 		}
 	}
-	
 }

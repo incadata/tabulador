@@ -48,5 +48,13 @@ public class TipoCampo extends EntidadeAbstract<Integer> {
 	public boolean isData() {
 		return getId() != null && TIPO_DATA == getId();
 	}
+
+	public boolean isInteiro() {
+		return getId() != null && TIPO_INTEIRO == getId();
+	}
+
+	public boolean isTexto() {
+		return getId() != null && TIPO_TEXTO == getId();
+	}
 	
 }

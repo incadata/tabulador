@@ -2,6 +2,9 @@ package br.gov.inca.tabulador.web.bean;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.PropertyResourceBundle;
+
+import javax.inject.Inject;
 
 import org.primefaces.model.LazyDataModel;
 
@@ -19,6 +22,7 @@ public abstract class ViewCrudBean<U extends DaoAbstract<T, K>, T extends Entida
 	private Collection<T> entitiesCache;
 	private DbResult<T> entities;
 	private LazyDataModel<T> lazyEntities;
+	private transient @Inject PropertyResourceBundle messages;
 
 	/** @return DAO para acesso aos dados. */
 	public abstract U getDao();
@@ -45,7 +49,7 @@ public abstract class ViewCrudBean<U extends DaoAbstract<T, K>, T extends Entida
 			setEntities(null);
 			return CONSULTAR;
 		} catch (RuntimeException e) {
-			showError(e, "Erro", "Problema ao salvar.");
+			showError(e, getMessages().getString("error"), getMessages().getString("save_error_msg"));
 			return null;
 		}
 	}
@@ -53,7 +57,7 @@ public abstract class ViewCrudBean<U extends DaoAbstract<T, K>, T extends Entida
 	public void findById(K id) {
 		setEntity(getDao().findById(id));
 		if (getEntity() == null) {
-			showError("Erro", "Não foi encontrado nenhum registro para o identificador: " + id);
+			showError(getMessages().getString("error"), getMessages().getString("no_result_for_i"));
 		}
 	}
 
@@ -62,7 +66,7 @@ public abstract class ViewCrudBean<U extends DaoAbstract<T, K>, T extends Entida
 			getDao().removeById(id);
 			setEntities(null);
 		} catch (RuntimeException e) {
-			showError(e, "Erro", "Problema ao remover.");
+			showError(e, getMessages().getString("error"), getMessages().getString("delete_error_msg"));
 		}
 	}
 
@@ -125,5 +129,9 @@ public abstract class ViewCrudBean<U extends DaoAbstract<T, K>, T extends Entida
 	
 	private void setEntitiesCache(Collection<T> entitiesCache) {
 		this.entitiesCache = entitiesCache;
+	}
+	
+	protected PropertyResourceBundle getMessages() {
+		return messages;
 	}
 }

@@ -45,8 +45,8 @@ public class GerarConsultaResultado implements Serializable {
 		final ValorCampoConfig valorCampoConfig = new ValorCampoConfig();
 		valorCampoConfig.setDescricao(valor.toString());
 		final Integer valorInt = ((Long) valor).intValue();
-		return campo.getValores().stream().
+		return String.format("%s - %s", valor, campo.getValores().stream().
 				filter(x -> x.getCodigo().equals(valorInt)).
-				findAny().orElse(valorCampoConfig).getDescricao();
+				findAny().orElse(valorCampoConfig).getDescricao());
 	}
 }

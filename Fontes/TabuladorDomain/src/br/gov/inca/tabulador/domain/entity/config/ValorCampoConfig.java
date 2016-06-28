@@ -67,4 +67,8 @@ public class ValorCampoConfig implements Entidade<Integer> {
 	public void setCampoConfig(CampoConfig campoConfig) {
 		this.campoConfig = campoConfig;
 	}
+	
+	public String getCodigoDescricao() {
+		return String.format("%d - %s", getCodigo(), getDescricao());
+	}
 }
