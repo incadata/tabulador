@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<eclipse-userlibraries version="2">
+    <library name="antlr" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/antlr/antlr-2.7.7.jar"/>
+    </library>
+    <library name="AOP" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/aopalliance/aopalliance.jar"/>
+    </library>
+    <library name="Apache Commons" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/commons-logging-1.1.1/commons-logging-1.1.1-bin.zip"/>
+        <archive path="C:/REPSVN/Libs/commons-lang3-3.1/commons-lang3-3.1.jar"/>
+        <archive path="C:/REPSVN/Libs/commons-io-1.4/commons-io-1.4.jar"/>
+        <archive path="C:/REPSVN/Libs/commons-beanutils-1.8.0/commons-beanutils-1.8.0.jar"/>
+        <archive path="C:/REPSVN/Libs/commons-beanutils-1.8.0/commons-beanutils-bean-collections-1.8.0.jar"/>
+        <archive path="C:/REPSVN/Libs/commons-beanutils-1.8.0/commons-beanutils-core-1.8.0.jar"/>
+        <archive path="C:/REPSVN/Libs/commons-collections-3.2.1/commons-collections-3.2.1.jar"/>
+    </library>
+    <library name="Apache Poi" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Apache POI/commons-codec-1.5.jar"/>
+        <archive path="C:/REPSVN/Libs/Apache POI/dom4j-1.6.1.jar"/>
+        <archive path="C:/REPSVN/Libs/Apache POI/stax-api-1.0.1.jar"/>
+        <archive path="C:/REPSVN/Libs/Apache POI/commons-logging-1.1.jar"/>
+        <archive path="C:/REPSVN/Libs/Apache POI/junit-4.11.jar"/>
+        <archive path="C:/REPSVN/Libs/Apache POI/log4j-1.2.13.jar"/>
+        <archive path="C:/REPSVN/Libs/Apache POI/poi-3.10.1-20140818.jar"/>
+        <archive path="C:/REPSVN/Libs/Apache POI/poi-examples-3.10.1-20140818.jar"/>
+        <archive path="C:/REPSVN/Libs/Apache POI/poi-excelant-3.10.1-20140818.jar"/>
+        <archive path="C:/REPSVN/Libs/Apache POI/poi-ooxml-3.10.1-20140818.jar"/>
+        <archive path="C:/REPSVN/Libs/Apache POI/poi-ooxml-schemas-3.10.1-20140818.jar"/>
+        <archive path="C:/REPSVN/Libs/Apache POI/poi-scratchpad-3.10.1-20140818.jar"/>
+        <archive path="C:/REPSVN/Libs/Apache POI/xmlbeans-2.6.0.jar"/>
+    </library>
+    <library name="apache-ant-1.8.2" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-antlr.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-apache-bcel.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-apache-bsf.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-apache-log4j.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-apache-oro.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-apache-regexp.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-apache-resolver.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-apache-xalan2.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-commons-logging.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-commons-net.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-jai.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-javamail.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-jdepend.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-jmf.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-jsch.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-junit.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-junit4.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-launcher.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-netrexx.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-swing.jar"/>
+        <archive path="C:/REPSVN/Libs/apache-ant-1.8.2/lib/ant-testutil.jar"/>
+    </library>
+    <library name="apache.poi-3.14" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/apache/poi/3.14/poi-3.14.jar"/>
+    </library>
+    <library name="apache.xmlbeans-2.6.0" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/apache/xmlbeans/2.6.0/xmlbeans-2.6.0.jar"/>
+    </library>
+    <library name="caelum-stella" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/caelum-stella/caelum-stella-bean-validation-2.1.2.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/caelum-stella/caelum-stella-core-2.1.2.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/caelum-stella/caelum-stella-faces-2.1.2.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/caelum-stella/caelum-stella-hibernate-user-types-2.1.2.jar"/>
+    </library>
+    <library name="Common FileUpload" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/commons-fileUpload/commons-fileupload-1.3.jar"/>
+    </library>
+    <library name="commons" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/commons/commons-lang-2.6.jar"/>
+    </library>
+    <library name="Commons IO" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/commons-io-1.4/commons-io-1.4.jar"/>
+    </library>
+    <library name="Commons Logging" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Struts 2/libs-all/commons-logging-api-1.1.jar"/>
+        <archive path="C:/REPSVN/Libs/Struts 2/libs-all/commons-logging-1.0.4.jar"/>
+    </library>
+    <library name="Commons Math3" systemlibrary="false">
+        <archive javadoc="jar:file:/C:/repsvn/Libs/commons-math3/commons-math3-3.3-javadoc.jar!/" path="C:/REPSVN/Libs/commons-math3/commons-math3-3.3.jar"/>
+    </library>
+    <library name="Commons-BeansUtils" systemlibrary="false">
+        <archive javadoc="jar:file:/C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/commons-beansutils/commons-beanutils-1.9.2-javadoc.jar!/" path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/commons-beansutils/commons-beanutils-1.9.2.jar" source="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/commons-beansutils/commons-beanutils-1.9.2-sources.jar"/>
+    </library>
+    <library name="Commons-codec" systemlibrary="false">
+        <archive javadoc="jar:file:/C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/commons-codec/commons-codec-1.10-javadoc.jar!/" path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/commons-codec/commons-codec-1.10.jar" source="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/commons-codec/commons-codec-1.10-sources.jar"/>
+    </library>
+    <library name="Commons-collections" systemlibrary="false">
+        <archive javadoc="jar:file:/C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/commons-collections/commons-collections4-4.0-javadoc.jar!/" path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/commons-collections/commons-collections4-4.0.jar" source="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/commons-collections/commons-collections4-4.0-sources.jar"/>
+    </library>
+    <library name="Commons-fileUpload" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/commons-fileUpload/1.3.2/commons-fileupload-1.3.2.jar" source="C:/repsvn_rhcweb/RHCWeb/trunk/Libs/commons-fileupload/commons-fileupload-1.3.1-src.zip"/>
+    </library>
+    <library name="Commons-io" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/commons-io/commons-io-2.2.jar" source="C:/repsvn_rhcweb/RHCWeb/trunk/Libs/commons-io/commons-io-2.2-sources.jar.zip"/>
+    </library>
+    <library name="Commons-lang" systemlibrary="false">
+        <archive javadoc="jar:file:/C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/commons-lang/commons-lang3-3.4-javadoc.jar!/" path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/commons-lang/commons-lang3-3.4.jar" source="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/commons-lang/commons-lang3-3.4-src.zip"/>
+    </library>
+    <library name="DBF" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/DBF/javadbf-0.4.0.jar"/>
+    </library>
+    <library name="dom4j" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/dom4j/dom4j-1.6.1.jar"/>
+    </library>
+    <library name="DWR" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/DWR/dwr.jar"/>
+    </library>
+    <library name="DWR 3" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/DWR/dwr3.jar"/>
+    </library>
+    <library name="EasyCriteria 3" systemlibrary="false">
+        <archive javadoc="jar:file:/C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/uaiCriteria/EasyCriteria-3.0.0-javadoc.jar!/" path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/uaiCriteria/EasyCriteria-3.0.0.jar" source="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/uaiCriteria/EasyCriteria-3.0.0-sources.jar"/>
+    </library>
+    <library name="el" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/el/el-api-2.2.jar"/>
+    </library>
+    <library name="FlexJson" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/json/flexjson.jar"/>
+    </library>
+    <library name="guava" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/guava/guava-18.0.jar"/>
+    </library>
+    <library name="Guava 19.0" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Guava-19.0/guava-19.0.jar"/>
+    </library>
+    <library name="hibernate" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/hibernate/hibernate-commons-annotations-4.0.2.Final.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/hibernate/hibernate-core-4.2.7.Final.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/hibernate/hibernate-entitymanager-4.2.7.Final.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/hibernate/hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
+    </library>
+    <library name="Hibernate 3.2" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/antlr-2.7.6.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/asm.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/asm-attrs.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/c3p0-0.9.1.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/cglib-2.1.3.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/commons-logging-1.0.4.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/derbyclient.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/dom4j-1.6.1.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/ehcache-1.2.3.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/ejb3-persistence.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/hibernate3.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/hibernate-annotations.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/hibernate-commons-annotations.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/hibernate-core.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/hibernate-entitymanager.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/hibernate-validator.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/jaas.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/javassist.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/jaxen-1.1-beta-7.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/jboss-archive-browsing.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/jdbc2_0-stdext.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/jta.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/log4j-1.2.11.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/slf4j-api.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/slf4j-jcl-1.5.2.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/slf4j-jdk14-1.5.2.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/slf4j-migrator-1.5.2.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/slf4j-nop-1.5.2.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/slf4j-simple-1.5.2.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/xerces-2.6.2.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/xml-apis.jar"/>
+    </library>
+    <library name="Hibernate 3.2 Basic" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2 Basic/jta.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2 Basic/antlr-2.7.6.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2 Basic/asm.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2 Basic/asm-attrs.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2 Basic/cglib-2.1.3.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2 Basic/commons-collections-2.1.1.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2 Basic/commons-logging-1.0.4.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2 Basic/dom4j-1.6.1.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2 Basic/ehcache-1.2.3.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2 Basic/hibernate3.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2 Basic/hibernate-annotations.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2 Basic/hibernate-commons-annotations.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2 Basic/jdbc2_0-stdext.jar"/>
+    </library>
+    <library name="Hibernate 4.3.9" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Hibernate 4.3/required/antlr-2.7.7.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 4.3/required/dom4j-1.6.1.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 4.3/required/hibernate-commons-annotations-4.0.5.Final.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 4.3/required/hibernate-core-4.3.9.Final.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 4.3/required/hibernate-jpa-2.1-api-1.0.0.Final.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 4.3/required/javassist-3.18.1-GA.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 4.3/required/jboss-logging-3.1.3.GA.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 4.3/required/jboss-logging-annotations-1.2.0.Beta1.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 4.3/required/jboss-transaction-api_1.2_spec-1.0.0.Final.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 4.3/optional/c3p0/c3p0-0.9.2.1.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 4.3/optional/c3p0/hibernate-c3p0-4.3.9.Final.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 4.3/optional/c3p0/mchange-commons-java-0.2.3.4.jar"/>
+    </library>
+    <library name="Hibernate 4.3.9 JPA" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Hibernate 4.3/jpa/hibernate-entitymanager-4.3.9.Final.jar"/>
+        <archive path="C:/REPSVN/Libs/Hibernate 4.3/validatior/hibernate-validator-4.3.2.Final.jar"/>
+    </library>
+    <library name="HtmlToPdf" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/HtmlToPdf/core-renderer.jar"/>
+        <archive path="C:/REPSVN/Libs/HtmlToPdf/iText-2.0.8.jar"/>
+        <archive path="C:/REPSVN/Libs/HtmlToPdf/Tidy.jar"/>
+    </library>
+    <library name="IncaProjects" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/INCAProjects/antlr-2.7.6.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/asm.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/asm-attrs.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/c3p0-0.9.1.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/cglib-2.1.3.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/commons-beanutils-1.8.0.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/commons-collections-3.1.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/commons-fileupload-1.3.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/commons-io-2.2.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/commons-lang3-3.1.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/commons-logging-1.1.3.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/displaytag-1.2.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/displaytag-export-poi-1.2.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/dom4j-1.6.1.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/ehcache-1.2.3.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/ejb3-persistence.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/freemarker-2.3.19.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/guava-r09.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/hibernate3.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/hibernate-annotations.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/hibernate-commons-annotations.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/hibernate-core.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/javassist-3.11.0.GA.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/jdbc2_0-stdext.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/jstl.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/jta.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/log4j-1.2.11.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/ognl-3.0.6.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/sitemesh-2.4.2.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/slf4j-api.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/slf4j-jcl-1.5.2.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/slf4j-jdk14-1.5.2.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/slf4j-migrator-1.5.2.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/slf4j-nop-1.5.2.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/slf4j-simple-1.5.2.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/standard.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/struts2-core-2.3.16.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/xwork-core-2.3.16.jar"/>
+        <archive path="C:/REPSVN/Libs/INCAProjects/commons-lang-2.4.jar"/>
+    </library>
+    <library name="istack" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/istack/istack-commons-runtime-2.16.jar"/>
+    </library>
+    <library name="itextpdf-5.5.9" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/itextpdf/5.5.9/itextpdf-5.5.9.jar"/>
+    </library>
+    <library name="JamelDbf" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/JamelDbf/jamel-dbf-reader.jar" source="C:/repsvn/Libs/JamelDbf/src"/>
+    </library>
+    <library name="Jandex" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Weld/2.3.4/jboss/jandex-2.0.2.Final.jar"/>
+    </library>
+    <library name="jasper" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/castor-core-1.3.3.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/castor-xml-1.3.3.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/com.jaspersoft.studio.bundles.barbecue_1.5.0.beta1.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/com.jaspersoft.studio.bundles.jxl_2.6.10.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/commons-beanutils-1.9.0.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/commons-collections-3.2.1.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/commons-digester-2.1.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/commons-logging-1.1.1.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/groovy-all-2.0.1.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/itext-2.1.7.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/jackson-core-2.1.4.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/jasperreports-6.2.0.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/jasperreports-chart-themes-6.2.0.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/jasperreports-fonts-6.1.1.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/jasperreports-functions-6.2.0.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/jaxen-1.1.1.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/org.apache.commons.io_2.4.0.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/org.apache.log4j_1.2.15.v201012070815.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/org.apache.servicemix.bundles.antlr_2.7.7.5.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/org.apache.servicemix.bundles.commons-collections_3.2.1.3.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/org.apache.servicemix.bundles.jaxen_1.1.1.2.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/org.apache.servicemix.bundles.rhino_1.7.6.1.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/org.apache.servicemix.bundles.xmlbeans_2.5.0.2.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/org.apache.xalan_2.7.1.v201005080400.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/org.apache.xerces_2.9.0.v201101211617.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/org.apache.xml.resolver_1.2.0.v201005080400.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/org.apache.xml.serializer_2.7.1.v201005080400.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/org.dom4j_1.6.1.v201312101416.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/org.jfree.chart-osgi_1.0.19.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/org.jfree.jcommon-osgi_1.0.23.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/org.krysalis.barcode4j_2.1.0.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/org.w3c.dom.svg_1.1.0.v201011041433.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/poi-3.10.1.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/poi-ooxml-3.10.1.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/poi-ooxml-schemas-3.10.1.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/servlet-api-2.4.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/org.springframework.beans-3.0.5.RELEASE.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/org.springframework.core-3.0.5.RELEASE.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jasperreports/joda-time_2.1.0.jar"/>
+    </library>
+    <library name="Jasper" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Jasper/itext-1.3.1.jar"/>
+        <archive path="C:/REPSVN/Libs/Jasper/itext-1.3.jar"/>
+        <archive path="C:/REPSVN/Libs/Jasper/jasperreports-1.3.4.jar"/>
+        <archive path="C:/REPSVN/Libs/Jasper/jcommon-1.0.0.jar"/>
+        <archive path="C:/REPSVN/Libs/Jasper/poi-2.5.1.jar"/>
+        <archive path="C:/REPSVN/Libs/Jasper/struts2-jasperreports-plugin-2.3.16.jar"/>
+    </library>
+    <library name="Jasper JSF" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Jasper JSF/commons-beanutils-1.8.0.jar"/>
+        <archive path="C:/REPSVN/Libs/Jasper JSF/commons-collections-2.1.1.jar"/>
+        <archive path="C:/REPSVN/Libs/Jasper JSF/commons-digester-2.1.jar"/>
+        <archive path="C:/REPSVN/Libs/Jasper JSF/commons-logging-1.1.1.jar"/>
+        <archive path="C:/REPSVN/Libs/Jasper JSF/groovy-all-2.0.1.jar"/>
+        <archive path="C:/REPSVN/Libs/Jasper JSF/iText-2.1.7.js2.jar"/>
+        <archive path="C:/REPSVN/Libs/Jasper JSF/jasperreports-5.1.0.jar"/>
+        <archive path="C:/REPSVN/Libs/Jasper JSF/poi-2.5.1.jar"/>
+    </library>
+    <library name="JavaEE-web-api" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/javaee-web-api/javaee-web-api-6.0.jar"/>
+    </library>
+    <library name="javassist" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/javassist/javassist-3.18.1-GA.jar"/>
+    </library>
+    <library name="Javax Validation" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Hibernate 4.3/validatior/validation-api-1.1.0.Final.jar"/>
+    </library>
+    <library name="jboss" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jboss/jboss-logging-3.1.0.GA.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jboss/jboss-transaction-api_1.1_spec-1.0.1.Final.jar"/>
+    </library>
+    <library name="JDBF" systemlibrary="false">
+        <archive javadoc="jar:file:/C:/repsvn/Libs/JDBF/jdbf-doc-1.2.zip!/" path="C:/REPSVN/Libs/JDBF/jdbf-1.2.jar" source="C:/repsvn/Libs/JDBF/src"/>
+    </library>
+    <library name="JDom 2.0" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/JDom2.0/jaxen-1.1.3.jar"/>
+        <archive path="C:/REPSVN/Libs/JDom2.0/jdom-2.0.1.jar"/>
+        <archive path="C:/REPSVN/Libs/JDom2.0/xercesImpl.jar"/>
+        <archive path="C:/REPSVN/Libs/JDom2.0/xml-apis.jar"/>
+    </library>
+    <library name="jfree" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jfree/jcommon-1.0.15.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jfree/jfreechart-1.0.12.jar"/>
+    </library>
+    <library name="JFreeChart" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/JFreeChart/jfreechart-1.0.11.jar"/>
+        <archive path="C:/REPSVN/Libs/JFreeChart/jcommon-1.0.14.jar"/>
+        <archive path="C:/REPSVN/Libs/JFreeChart/struts2-jfreechart-plugin-2.3.16.jar"/>
+    </library>
+    <library name="JodaTime" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/JodaTime/joda-time-1.6.jar"/>
+    </library>
+    <library name="JPA" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jpa/javax.persistence-2.0.5.jar"/>
+    </library>
+    <library name="jsf" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jsf/jsf-api-2.2.6.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jsf/jsf-facelets-1.1.14.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jsf/jsf-impl-2.1.19.jar"/>
+    </library>
+    <library name="JSF" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/JSF/commons-beanutils-1.8.3.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF/commons-codec-1.3.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF/commons-collections-3.2.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF/commons-digester-1.8.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF/commons-logging-1.1.1.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF/cssparser-0.9.5.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF/guava-r09.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF/jsf-api.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF/jsf-impl.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF/sac-1.3.jar"/>
+    </library>
+    <library name="JSF-2.1" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/JSF-2.2/cssparser-0.9.5.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/guava-r09.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/commons-beanutils-1.8.3.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/commons-codec-1.3.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/commons-collections-3.2.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/commons-digester-1.8.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/commons-logging-1.1.1.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/sac-1.3.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/javax.faces-2.1.20.jar"/>
+    </library>
+    <library name="JSF-2.2" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/JSF-2.2/javax.faces-2.1.20.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/cssparser-0.9.5.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/guava-r09.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/commons-beanutils-1.8.3.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/commons-codec-1.3.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/commons-collections-3.2.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/commons-digester-1.8.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/commons-logging-1.1.1.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/sac-1.3.jar"/>
+    </library>
+    <library name="JSF2.2" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/JSF-2.2/commons-beanutils-1.8.3.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/commons-codec-1.3.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/commons-collections-3.2.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/commons-digester-1.8.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/commons-logging-1.1.1.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/cssparser-0.9.5.jar"/>
+        <archive javadoc="jar:file:/C:/repsvn/Libs-doc/JSF%202.2.X/javax.faces-2.2.8-javadoc.jar!/" path="C:/REPSVN/Libs/JSF-2.2/javax.faces-2.2.8.jar" source="C:/repsvn/Libs-doc/JSF 2.2.X/javax.faces-2.2.8-sources.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/sac-1.3.jar"/>
+        <archive path="C:/REPSVN/Libs/JSF-2.2/trugger-4.1.1.jar"/>
+    </library>
+    <library name="JSon" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/json/jsonplugin-0[1].30.jar"/>
+    </library>
+    <library name="JSON Struts" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/json/jsonplugin-0.33.jar"/>
+    </library>
+    <library name="jstl" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/jstl/jstl-1.2.jar"/>
+    </library>
+    <library name="JSTL 1.2" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/JSTL1.2/jstl-1.2.jar"/>
+    </library>
+    <library name="jUnit" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/jUnit/junit-4.8.2.jar"/>
+        <archive path="C:/REPSVN/Libs/jUnit/dbunit-2.4.8.jar"/>
+        <archive path="C:/REPSVN/Libs/jUnit/commons-logging-1.1.1.jar"/>
+        <archive path="C:/REPSVN/Libs/jUnit/commons-io-1.4.jar"/>
+    </library>
+    <library name="Log4j" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/log4j/log4j-1.2.17.jar"/>
+    </library>
+    <library name="Log4j 2" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Log4j/log4j-core-2.3.jar"/>
+    </library>
+    <library name="lowagie-2.1.7" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/lowagie/itext/2.1.7/itext-2.1.7.jar"/>
+    </library>
+    <library name="lowagie-4.2.1" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/lowagie/itext/4.2.1/itext-4.2.1.jar"/>
+    </library>
+    <library name="mail" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/mail/commons-email-1.3.2.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/mail/javax.mail.jar"/>
+    </library>
+    <library name="Mail" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Mail/mail.jar"/>
+        <archive path="C:/REPSVN/Libs/Mail/commons-email-1.3.2.jar"/>
+    </library>
+    <library name="Mockito 1.10.19" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Mockito-1.10.19/mockito-all-1.10.19.jar"/>
+    </library>
+    <library name="omni" systemlibrary="false">
+        <archive javadoc="jar:file:/C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/omnifaces/omnifaces-2.1-javadoc.jar!/" path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/omnifaces/omnifaces-2.1.jar" source="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/omnifaces/omnifaces-2.1-sources.jar"/>
+    </library>
+    <library name="OmniFaces" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/OmniFaces/omnifaces-1.8.1.jar"/>
+    </library>
+    <library name="Oracle" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Oracle/ojdbc14.jar"/>
+    </library>
+    <library name="Pool Conexoes" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Hibernate 3.2/c3p0-0.9.1.jar"/>
+    </library>
+    <library name="PostgreSQL" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/PostgreSQL/postgresql-8.4-701.jdbc4.jar"/>
+    </library>
+    <library name="PostgreSQL-9.2" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/PostgreSQL/postgresql-9.2-1004.jdbc41.jar"/>
+    </library>
+    <library name="Primefaces" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/primefaces/primefaces-5.0.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/primefaces/humanity-1.0.10.jar"/>
+    </library>
+    <library name="Primefaces 3.5" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Primefaces 3.5/primefaces-3.5.jar"/>
+    </library>
+    <library name="PrimeFaces 4" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/PrimeFaces 4/primefaces-4.0.jar"/>
+    </library>
+    <library name="Primefaces 5.2" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Primefaces 5.2/primefaces-5.2.jar" source="C:/repsvn/Libs-doc/Primefaces/primefaces-5.2-sources.jar"/>
+    </library>
+    <library name="Primefaces 5.3" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/primefaces/primefaces-5.3.jar" source="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/primefaces/primefaces-5.3-sources.jar"/>
+    </library>
+    <library name="Primefaces-extensions" systemlibrary="false">
+        <archive javadoc="jar:file:/C:/repsvn_rhcweb/RHCWeb/trunk/Libs/Primefaces-extensions/primefaces-extensions-4.0.0-javadoc.jar!/" path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/Primefaces-extensions/primefaces-extensions-4.0.0.jar" source="C:/repsvn_rhcweb/RHCWeb/trunk/Libs/Primefaces-extensions/primefaces-extensions-4.0.0-sources.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/Primefaces-extensions/gson-2.5.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/Primefaces-extensions/resources-ckeditor-4.0.0.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/Primefaces-extensions/resources-codemirror-4.0.0.jar"/>
+    </library>
+    <library name="Primefaces5.2" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/primefaces/primefaces-5.2.jar" source="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/primefaces/primefaces-5.2-sources.jar"/>
+    </library>
+    <library name="Quartz" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Quartz/quartz-all-1.6.5.jar"/>
+    </library>
+    <library name="Richfaces 4.0.0" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Richfaces 4.0.0/richfaces-components-api-4.0.0.Final.jar"/>
+        <archive path="C:/REPSVN/Libs/Richfaces 4.0.0/richfaces-components-ui-4.0.0.Final.jar"/>
+        <archive path="C:/REPSVN/Libs/Richfaces 4.0.0/richfaces-core-api-4.0.0.Final.jar"/>
+        <archive path="C:/REPSVN/Libs/Richfaces 4.0.0/richfaces-core-impl-4.0.0.Final.jar"/>
+    </library>
+    <library name="Richfaces 4.3.5" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Richfaces 4.3.5/richfaces-components-api-4.3.5.Final.jar"/>
+        <archive path="C:/REPSVN/Libs/Richfaces 4.3.5/richfaces-components-ui-4.3.5.Final.jar"/>
+        <archive path="C:/REPSVN/Libs/Richfaces 4.3.5/richfaces-core-api-4.3.5.Final.jar"/>
+        <archive path="C:/REPSVN/Libs/Richfaces 4.3.5/richfaces-core-impl-4.3.5.Final.jar"/>
+    </library>
+    <library name="servlet" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/servlet/jsp-api-2.0.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/servlet/servlet-api-2.4.jar"/>
+    </library>
+    <library name="slf4j-1.7.21" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/slf4j/slf4j-api-1.7.21.jar"/>
+    </library>
+    <library name="Spring Basic" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.beans-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.context-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.core-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.expression-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.web-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.asm-3.1.1.RELEASE.jar"/>
+    </library>
+    <library name="Spring Full" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.aop-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.asm-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.aspects-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.beans-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.context.support-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.context-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.core-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.expression-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.instrument.tomcat-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.instrument-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.jdbc-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.jms-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.orm-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.oxm-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.test-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.transaction-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.web.portlet-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.web.servlet-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.web.struts-3.1.1.RELEASE.jar"/>
+        <archive path="C:/REPSVN/Libs/spring-framework-3.1.1/dist/org.springframework.web-3.1.1.RELEASE.jar"/>
+    </library>
+    <library name="Stella" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Stella/caelum-stella-core-2.0.4.jar"/>
+        <archive path="C:/REPSVN/Libs/Stella/caelum-stella-faces-2.0.4.jar"/>
+        <archive path="C:/REPSVN/Libs/Stella/caelum-stella-bean-validation-2.0.4.jar"/>
+        <archive path="C:/REPSVN/Libs/Stella/caelum-stella-hibernate-user-types-2.0.4.jar"/>
+        <archive path="C:/REPSVN/Libs/Stella/caelum-stella-boleto-2.0.4.jar"/>
+        <archive path="C:/REPSVN/Libs/Stella/javax.validation-1.0.0.GA.jar"/>
+    </library>
+    <library name="Struts 2 WebService" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Struts WebService/oro-2.0.8.jar"/>
+        <archive path="C:/REPSVN/Libs/Struts WebService/commons-chain-1.1.jar"/>
+        <archive path="C:/REPSVN/Libs/Struts WebService/commons-validator-1.3.0.jar"/>
+        <archive path="C:/REPSVN/Libs/Struts WebService/jsonplugin-0.33.jar"/>
+    </library>
+    <library name="Struts Upload" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Struts 2/uploadStruts/commons-io-1.4.jar"/>
+        <archive path="C:/REPSVN/Libs/Struts 2/uploadStruts/commons-fileupload-1.2.1.jar"/>
+    </library>
+    <library name="Weld" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/Weld/weld-servlet.jar"/>
+        <archive path="C:/REPSVN/Libs/Weld/cdi-api.jar"/>
+    </library>
+    <library name="Weld-2.3.4" systemlibrary="false">
+        <archive javadoc="jar:file:/C:/REPSVN/Libs/Weld/2.3.4/cdi/cdi-api-javadoc.jar!/" path="C:/REPSVN/Libs/Weld/2.3.4/cdi/cdi-api.jar" source="C:/REPSVN/Libs/Weld/2.3.4/cdi/cdi-api-sources.jar"/>
+        <archive path="C:/REPSVN/Libs/Weld/2.3.4/weld/weld-servlet.jar"/>
+        <archive path="C:/REPSVN/Libs/Weld/2.3.4/weld/weld-api.jar"/>
+        <archive path="C:/REPSVN/Libs/Weld/2.3.4/weld/weld-core.jar"/>
+        <archive path="C:/REPSVN/Libs/Weld/2.3.4/weld/weld-core-impl.jar"/>
+        <archive path="C:/REPSVN/Libs/Weld/2.3.4/weld/weld-environment-common.jar"/>
+        <archive path="C:/REPSVN/Libs/Weld/2.3.4/weld/weld-servlet-core.jar"/>
+        <archive path="C:/REPSVN/Libs/Weld/2.3.4/weld/weld-spi.jar"/>
+        <archive path="C:/REPSVN/Libs/Weld/2.3.4/weld/weld-core-jsf.jar"/>
+    </library>
+    <library name="xstream" systemlibrary="false">
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/xstream/xpp3_min-1.1.4c.jar"/>
+        <archive path="C:/REPSVN_RHCWEB/RHCWeb/trunk/Libs/xstream/xstream-1.3.jar"/>
+    </library>
+    <library name="XStream" systemlibrary="false">
+        <archive path="C:/REPSVN/Libs/XStream/xstream-1.3.jar"/>
+        <archive path="C:/REPSVN/Libs/XStream/xpp3_min-1.1.4c.jar"/>
+    </library>
+</eclipse-userlibraries>
