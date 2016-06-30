@@ -31,7 +31,7 @@ import br.gov.inca.tabulador.web.entity.StatementBuilder;
 
 @Named
 @ViewScoped
-public class GerarConsultaView implements ViewBean {
+public abstract class GerarConsultaView implements ViewBean {
 	private static final long serialVersionUID = 4473731490041477811L;
 
 	private @Inject TabelaConfigDao tabelaConfigDao;

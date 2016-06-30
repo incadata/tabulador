@@ -80,4 +80,7 @@ public class TabelaConfig implements Entidade<Integer> {
 		this.campos = campos;
 	}
 
+	public String getTituloOrNome() {
+		return getTitulo() != null && !getTitulo().isEmpty() ? getTitulo() : getNome();
+	}
 }
