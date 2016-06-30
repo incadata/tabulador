@@ -1,96 +1,94 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition template="/pages/comum/layout.xhtml" 
+	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsf/function"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<title><h:outputText value="#{msg['config']}" /></title>
-</h:head>
-
-<h:body>
-	<h1><h:outputText value="#{msg['config']}" /></h1>
-	<h:form id="formTableConfig">
-		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-
-		<f:metadata>
-	    	<f:viewParam name="entity.id" value="#{tabelaConfigView.entity.id}" />
-	    	<f:viewAction action="#{tabelaConfigView.findById(tabelaConfigView.entity.id)}"/>
-		</f:metadata>
-
-		<p:inputText placeholder="Nome" value="#{tabelaConfigView.entity.nome}"/><br />
-		<p:inputText placeholder="Título" value="#{tabelaConfigView.entity.titulo}"/><br />
-		<h:outputText value="#{msg['include_location_fields']}: " />
-        <p:selectBooleanCheckbox value="#{tabelaConfigView.entity.localidade}" /> <br/>
-        <br/>
-        <br/>
-
-		<p:dataTable var="campoItem" rowIndexVar="rowIndex" value="#{tabelaConfigView.entity.campos}" id="camposTable" tableStyle="table-layout: auto;" emptyMessage="#{msg['table_empty_msg']}">
-			<p:column headerText="#{msg['name']}">
-				<h:inputText value="#{campoItem.nome}" />
-			</p:column>
-
-			<p:column headerText="#{msg['title']}" priority="3">
-				<h:inputText value="#{campoItem.label}" />
-			</p:column>
-
-			<p:column headerText="#{msg['for_short']}" priority="4">
-				<h:inputText value="#{campoItem.abreviado}" />
-			</p:column>
-
-			<p:column headerText="#{msg['type']}">
-				<p:selectOneMenu value="#{campoItem.tipoCampo}" converter="entityConverter">
-					<f:selectItem noSelectionOption="true" itemLabel=" - "/>
-					<f:selectItems value="#{tipoCampoView.entities}" var="tipoCampoIt"
-						itemLabel="#{tipoCampoIt.nome}" itemValue="#{tipoCampoIt}" />
-				</p:selectOneMenu>
-			</p:column>
-
-			<p:column headerText="#{msg['values']}" priority="">
-				<p:commandButton id="imageBtn" icon="ui-icon-comment" type="button" title="#{msg['values']}"/>
-				<p:overlayPanel for="imageBtn" hideEffect="fade">
-					<p:dataTable var="valorItem" rowIndexVar="valorRowIndex" value="#{campoItem.valores}" id="valoresTable" tableStyle="table-layout: auto;" emptyMessage="#{msg['table_empty_msg']}">
-						<p:column headerText="#{msg['code']}">
-							<h:inputText value="#{valorItem.codigo}" />
-						</p:column>
-						<p:column headerText="#{msg['description']}">
-							<h:inputText value="#{valorItem.descricao}" />
-						</p:column>
-						<p:column headerText="#{msg['actions']}">
-							<p:commandButton icon="ui-icon-minus" title="#{msg['remove_value']}">
-								<f:ajax listener="#{tabelaConfigView.removerValor(rowIndex, valorRowIndex)}" execute="valoresTable" render="valoresTable" />
-							</p:commandButton>
-						</p:column>
-					</p:dataTable>
-					<p:commandButton icon="ui-icon-plus" title="#{msg['add_value']}" value="#{msg['add']}">
-						<f:ajax listener="#{tabelaConfigView.addValor(rowIndex)}" execute="valoresTable" render="valoresTable" />
+	<ui:define name="body">
+		<h1><h:outputText value="#{msg['config']}" /></h1>
+		<h:form id="formTableConfig">
+			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+	
+			<f:metadata>
+		    	<f:viewParam name="entity.id" value="#{tabelaConfigView.entity.id}" />
+		    	<f:viewAction action="#{tabelaConfigView.findById(tabelaConfigView.entity.id)}"/>
+			</f:metadata>
+	
+			<p:inputText placeholder="Nome" value="#{tabelaConfigView.entity.nome}"/><br />
+			<p:inputText placeholder="Título" value="#{tabelaConfigView.entity.titulo}"/><br />
+			<h:outputText value="#{msg['include_location_fields']}: " />
+	        <p:selectBooleanCheckbox value="#{tabelaConfigView.entity.localidade}" /> <br/>
+	        <br/>
+	        <br/>
+	
+			<p:dataTable var="campoItem" rowIndexVar="rowIndex" value="#{tabelaConfigView.entity.campos}" id="camposTable" tableStyle="table-layout: auto;" emptyMessage="#{msg['table_empty_msg']}">
+				<p:column headerText="#{msg['name']}">
+					<h:inputText value="#{campoItem.nome}" />
+				</p:column>
+	
+				<p:column headerText="#{msg['title']}" priority="3">
+					<h:inputText value="#{campoItem.label}" />
+				</p:column>
+	
+				<p:column headerText="#{msg['for_short']}" priority="4">
+					<h:inputText value="#{campoItem.abreviado}" />
+				</p:column>
+	
+				<p:column headerText="#{msg['type']}">
+					<p:selectOneMenu value="#{campoItem.tipoCampo}" converter="entityConverter">
+						<f:selectItem noSelectionOption="true" itemLabel=" - "/>
+						<f:selectItems value="#{tipoCampoView.entities}" var="tipoCampoIt"
+							itemLabel="#{tipoCampoIt.nome}" itemValue="#{tipoCampoIt}" />
+					</p:selectOneMenu>
+				</p:column>
+	
+				<p:column headerText="#{msg['values']}" priority="">
+					<p:commandButton id="imageBtn" icon="ui-icon-comment" type="button" title="#{msg['values']}"/>
+					<p:overlayPanel for="imageBtn" hideEffect="fade">
+						<p:dataTable var="valorItem" rowIndexVar="valorRowIndex" value="#{campoItem.valores}" id="valoresTable" tableStyle="table-layout: auto;" emptyMessage="#{msg['table_empty_msg']}">
+							<p:column headerText="#{msg['code']}">
+								<h:inputText value="#{valorItem.codigo}" />
+							</p:column>
+							<p:column headerText="#{msg['description']}">
+								<h:inputText value="#{valorItem.descricao}" />
+							</p:column>
+							<p:column headerText="#{msg['actions']}">
+								<p:commandButton icon="ui-icon-minus" title="#{msg['remove_value']}">
+									<f:ajax listener="#{tabelaConfigView.removerValor(rowIndex, valorRowIndex)}" execute="valoresTable" render="valoresTable" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+						<p:commandButton icon="ui-icon-plus" title="#{msg['add_value']}" value="#{msg['add']}">
+							<f:ajax listener="#{tabelaConfigView.addValor(rowIndex)}" execute="valoresTable" render="valoresTable" />
+						</p:commandButton>
+					</p:overlayPanel>
+				</p:column>
+	
+				<p:column headerText="#{msg['filter']}" priority="4">
+					<p:selectOneMenu value="#{campoItem.tipoFiltro}" converter="entityConverter">
+						<f:selectItem itemLabel=" - " itemValue="" />
+						<f:selectItems value="#{tipoFiltroView.entities}" var="tipoFiltroIt"
+							itemLabel="#{tipoFiltroIt.nome}" itemValue="#{tipoFiltroIt}" />
+					</p:selectOneMenu>
+				</p:column>
+	
+				<p:column headerText="#{msg['actions']}" >
+					<p:commandButton icon="ui-icon-minus" title="#{msg['remove_field']}">
+						<f:ajax listener="#{tabelaConfigView.removerCampo(rowIndex)}" execute="camposTable" render="camposTable" />
 					</p:commandButton>
-				</p:overlayPanel>
-			</p:column>
-
-			<p:column headerText="#{msg['filter']}" priority="4">
-				<p:selectOneMenu value="#{campoItem.tipoFiltro}" converter="entityConverter">
-					<f:selectItem itemLabel=" - " itemValue="" />
-					<f:selectItems value="#{tipoFiltroView.entities}" var="tipoFiltroIt"
-						itemLabel="#{tipoFiltroIt.nome}" itemValue="#{tipoFiltroIt}" />
-				</p:selectOneMenu>
-			</p:column>
-
-			<p:column headerText="#{msg['actions']}" >
-				<p:commandButton icon="ui-icon-minus" title="#{msg['remove_field']}">
-					<f:ajax listener="#{tabelaConfigView.removerCampo(rowIndex)}" execute="camposTable" render="camposTable" />
+				</p:column>
+			</p:dataTable>
+			<p>
+				<p:commandButton icon="ui-icon-plus" title="#{msg['add_field']}" value="#{msg['add']}">
+					<f:ajax listener="#{tabelaConfigView.addCampo}" execute="camposTable" render="camposTable" />
 				</p:commandButton>
-			</p:column>
-		</p:dataTable>
-		<p>
-			<p:commandButton icon="ui-icon-plus" title="#{msg['add_field']}" value="#{msg['add']}">
-				<f:ajax listener="#{tabelaConfigView.addCampo}" execute="camposTable" render="camposTable" />
-			</p:commandButton>
-		</p>
-
-		<p>
-			<p:commandButton value="#{msg['save']}" icon="ui-icon-disk" process="@form" action="#{tabelaConfigView.saveOrUpdate}"/>
-			<p:commandButton value="#{msg['cancel']}" icon="ui-icon-cancel" action="consultar"/>
-		</p>
-	</h:form>
-</h:body>
-</html>
+			</p>
+	
+			<p>
+				<p:commandButton value="#{msg['save']}" icon="ui-icon-disk" process="@form" action="#{tabelaConfigView.saveOrUpdate}"/>
+				<p:commandButton value="#{msg['cancel']}" icon="ui-icon-cancel" action="consultar"/>
+			</p>
+		</h:form>
+	</ui:define>
+</ui:composition>
