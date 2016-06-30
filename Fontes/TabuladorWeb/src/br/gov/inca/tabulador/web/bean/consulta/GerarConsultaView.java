@@ -3,14 +3,15 @@ package br.gov.inca.tabulador.web.bean.consulta;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.ParseException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PropertyResourceBundle;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -21,12 +22,12 @@ import javax.inject.Named;
 
 import br.gov.inca.tabulador.domain.dao.config.CampoConfigDao;
 import br.gov.inca.tabulador.domain.dao.config.TabelaConfigDao;
-import br.gov.inca.tabulador.domain.db.StatementBuilder;
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
-import br.gov.inca.tabulador.domain.entity.config.CampoFiltro;
 import br.gov.inca.tabulador.domain.entity.config.TabelaConfig;
 import br.gov.inca.tabulador.domain.entity.config.ValorCampoConfig;
 import br.gov.inca.tabulador.web.bean.ViewBean;
+import br.gov.inca.tabulador.web.entity.CampoFiltro;
+import br.gov.inca.tabulador.web.entity.StatementBuilder;
 
 @Named
 @ViewScoped
@@ -185,10 +186,10 @@ public class GerarConsultaView implements ViewBean {
 			campo.getCampo().setNome(campoDb.getNome());
 			campo.getCampo().setTipoFiltro(campoDb.getTipoFiltro());
 		}
-		try (final Connection connectionLocal = connection.get()) {
-			final PreparedStatement insertInto = getStatementBuilder().selectTabular(connectionLocal, getTabelaConfig(), getCamposAgrupar(), getCampos());
-			final ResultSet executeQuery = insertInto.executeQuery();
-
+		try (final Connection connectionLocal = connection.get();
+				final StatementBuilder statementBuilderLocal = getStatementBuilder();
+				final PreparedStatement insertInto = statementBuilderLocal.selectTabular(connectionLocal, getTabelaConfig(), getCamposAgrupar(), getCampos());
+				final ResultSet executeQuery = insertInto.executeQuery()) {
 			final List<CampoConfig> resultColumns = getResultado().getColumns();
 			resultColumns.clear();
 			final CampoConfig countAsterisco = new CampoConfig();
@@ -212,7 +213,13 @@ public class GerarConsultaView implements ViewBean {
 			}
 			resultColumns.add(countAsterisco);
 			showInfo(null, String.format(getMessages().getString("n_lines_found"), contador));
-		} catch (SQLException | ParseException e) {
+		} catch (SQLFeatureNotSupportedException e) {
+			if (e.getMessage().contains("free()")) {
+				Logger.getLogger(this.getClass().getName()).log(Level.WARNING, e.getLocalizedMessage());
+			} else {
+				showError(e, getMessages().getString("insert_data_title"), getMessages().getString("insert_data_msg"));
+			}
+		} catch (Exception e) {
 			showError(e, getMessages().getString("insert_data_title"), getMessages().getString("insert_data_msg"));
 		}
 	}

@@ -19,7 +19,6 @@
     	<f:viewAction action="#{tabularView.findById(tabularView.tabelaConfig.id)}"/>
 	</f:metadata>
 
-
 	<h2>
 		<h:outputText value="#{tabularView.tabelaConfig.nome}" />
 		<h:outputText value=" - " />
@@ -44,19 +43,27 @@
 	        	style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid"
 	        	styleClass="ui-panelgrid-blank">
 
-		        <p:selectOneMenu id="filtroCampoSelect" value="#{filtro.campo}" title="Campo do filtro" converter="entityConverter">
+		        <p:selectOneMenu id="filtroCampoSelect" value="#{filtro.campo}" title="#{msg['filter_field']}" converter="entityConverter">
 					<f:selectItems value="#{tabularView.camposFiltro}" var="tipoCampoIt"
 						itemLabel="#{tipoCampoIt.labelOrNome}" itemValue="#{tipoCampoIt}" />
 					<f:ajax execute="campoAtual" render="campoAtual"/>
 				</p:selectOneMenu>
 
-				<ui:fragment id="filtroCampoAtual">
-					<h:outputText value="#{filtro.campo.tipoFiltro.nome}: " />
-			        <ui:fragment rendered="#{empty filtro.campo.valores}">
-						<p:inputText value="#{filtro.value}" placeholder="#{msg['value']}" rendered="#{!filtro.campo.tipoCampo.isData()}"/>
-						<p:calendar value="#{filtro.value}" placeholder="#{msg['value']}" rendered="#{filtro.campo.tipoCampo.isData()}" pattern="#{filtro.pattern}"/>
-			        </ui:fragment>
-			        <p:selectOneMenu value="#{filtro.value}" title="#{msg['value']}" rendered="#{not empty filtro.campo.valores}">
+				<p:selectOneMenu value="#{filtro.filtro}" title="#{msg['filter']}" converter="entityConverter">
+					<f:selectItems value="#{tipoFiltroView.entities}" var="filterIt"
+						itemLabel='#{filterIt.nome}' itemValue="#{filterIt}" />
+					<f:ajax execute="campoAtual" render="campoAtual"/>
+				</p:selectOneMenu>
+		        <ui:fragment rendered="#{empty filtro.campo.valores}">
+					<p:inputText value="#{filtro.value}" placeholder="#{msg['value']}" rendered="#{!filtro.campo.tipoCampo.isData()}"/>
+					<p:calendar value="#{filtro.value}" placeholder="#{msg['value']}" pattern="#{filtro.pattern}" rendered="#{filtro.campo.tipoCampo.isData()}"/>
+		        </ui:fragment>
+				<ui:fragment rendered="#{not empty filtro.campo.valores}">
+					<p:pickList rendered="#{filtro.filtro.multiplo}"
+						value="#{filtro.valores}" var="valor" converter="entityConverter" responsive="true" style="layout: auto;"
+						itemLabel="#{valor.codigoDescricao}" itemValue="#{valor}">
+					</p:pickList>
+			        <p:selectOneMenu value="#{filtro.value}" title="#{msg['value']}" rendered="#{!filtro.filtro.multiplo}">
 			        	<f:selectItem itemLabel="- Selecione -" itemValue="" />
 						<f:selectItems value="#{filtro.campo.valores}" var="valueIt"
 							itemLabel='#{valueIt.codigoDescricao}' itemValue="#{valueIt.codigo}" />

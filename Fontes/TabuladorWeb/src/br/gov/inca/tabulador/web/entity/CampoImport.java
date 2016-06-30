@@ -1,7 +1,8 @@
-package br.gov.inca.tabulador.domain.entity.config;
+package br.gov.inca.tabulador.web.entity;
 
 import java.io.Serializable;
 
+import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
 import br.gov.inca.tabulador.domain.entity.tipo.TipoCampo;
 
 

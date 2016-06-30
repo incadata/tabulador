@@ -9,9 +9,10 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
-import br.gov.inca.tabulador.domain.entity.config.CampoFiltro;
 import br.gov.inca.tabulador.domain.entity.config.TabelaConfig;
 import br.gov.inca.tabulador.domain.entity.tipo.TipoFiltro;
+import br.gov.inca.tabulador.web.entity.CampoFiltro;
+import br.gov.inca.tabulador.web.entity.StatementBuilder;
 
 public class StatementBuilderSelectTest extends StatementBuilder {
 	private static final long serialVersionUID = -3697066093891617075L;
@@ -210,6 +211,40 @@ public class StatementBuilderSelectTest extends StatementBuilder {
 		Assert.assertEquals(selectTabular, 
 				String.format(
 						"SELECT COUNT(*), %s, %s FROM %s WHERE %s = ? AND %s <> ? GROUP BY %s, %s", 
+						getFieldName(camposAgrupar.get(0)),
+						getFieldName(camposAgrupar.get(1)),
+						getTableName(entity),
+						getFieldName(camposFiltro.get(0).getCampo()),
+						getFieldName(camposFiltro.get(1).getCampo()),
+						getFieldName(camposAgrupar.get(0)),
+						getFieldName(camposAgrupar.get(1))));
+	}
+	
+	@Test
+	public void commDoisAgrupadoresComDoisFiltrosUmMultiplo() {
+		final TabelaConfig entity = new TabelaConfig();
+		entity.setId(1);
+		
+		final List<CampoConfig> camposAgrupar = new ArrayList<>();
+		camposAgrupar.add(new CampoConfig());
+		camposAgrupar.get(0).setNome("campo01");
+		camposAgrupar.add(new CampoConfig());
+		camposAgrupar.get(1).setNome("campo02");
+		
+		final List<CampoFiltro> camposFiltro = new ArrayList<>();
+		camposFiltro.add(new CampoFiltro());
+		camposFiltro.get(0).getCampo().setNome("filtro01");
+		camposFiltro.get(0).getCampo().getTipoFiltro().setId(TipoFiltro.FILTRO_IGUAL);
+		camposFiltro.add(new CampoFiltro());
+		camposFiltro.get(1).getCampo().setNome("filtro02");
+		camposFiltro.get(1).getCampo().getTipoFiltro().setId(TipoFiltro.FILTRO_MULTIPLO);
+		
+		final String selectTabular = selectTabular(entity, camposAgrupar, camposFiltro);
+		
+		Assert.assertNotNull(selectTabular);
+		Assert.assertEquals(selectTabular, 
+				String.format(
+						"SELECT COUNT(*), %s, %s FROM %s WHERE %s = ? AND %s IN(?) GROUP BY %s, %s", 
 						getFieldName(camposAgrupar.get(0)),
 						getFieldName(camposAgrupar.get(1)),
 						getTableName(entity),

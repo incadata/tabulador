@@ -24,11 +24,11 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 import br.gov.inca.tabulador.domain.dao.config.TabelaConfigDao;
-import br.gov.inca.tabulador.domain.db.StatementBuilder;
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
-import br.gov.inca.tabulador.domain.entity.config.CampoImport;
 import br.gov.inca.tabulador.domain.entity.config.TabelaConfig;
 import br.gov.inca.tabulador.web.bean.ViewBean;
+import br.gov.inca.tabulador.web.entity.CampoImport;
+import br.gov.inca.tabulador.web.entity.StatementBuilder;
 
 @Named
 @ViewScoped
@@ -180,7 +180,8 @@ public class TabelaImportarView implements Serializable, ViewBean {
 					cabecalho = linhasColunas.get(0);
 					linhasColunas.remove(0);
 				}
-				try (final Connection connectionLocal = connection.get()) {
+				try (final Connection connectionLocal = connection.get();
+					final StatementBuilder statementBuilderLocal = getStatementBuilder()) {
 					final int camposSize = getCampos().size();
 					for (int i = 0; i < camposSize; i++) {
 						final Integer campoId = getCampos().get(i).getCampo().getId();
@@ -190,8 +191,9 @@ public class TabelaImportarView implements Serializable, ViewBean {
 						campoImport.setPositionInFile(cabecalho != null ? cabecalho.indexOf(campoImport.getCampo().getNome().trim().toUpperCase()) : i);
 						getCampos().set(i, campoImport);
 					}
-					final PreparedStatement insertInto = getStatementBuilder().insertInto(connectionLocal, getTabelaConfig(), getCampos(), linhasColunas);
+					final PreparedStatement insertInto = statementBuilderLocal.insertInto(connectionLocal, getTabelaConfig(), getCampos(), linhasColunas);
 					showInfo(getMessages().getString("file_received_title"), String.format(getMessages().getString("n_m_lines_received_msg"), IntStream.of(insertInto.executeBatch()).sum(), linhasColunas.size()));
+					insertInto.close();
 				}
 			} catch (SQLException | ParseException e) {
 				showError(e, getMessages().getString("insert_data_title"), getMessages().getString("insert_data_msg"));

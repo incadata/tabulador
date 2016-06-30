@@ -9,6 +9,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+import org.primefaces.model.DualListModel;
+
 import br.gov.inca.tabulador.domain.entity.Entidade;
 
 @FacesConverter("entityConverter")
@@ -45,7 +47,7 @@ public class EntityConverter implements Converter {
 	private Class<?> getClazz(FacesContext facesContext, UIComponent component, Object obj) {
 		Class<?> clazz = component.getValueExpression("value").getType(
 				facesContext.getELContext());
-		if (Collection.class.isAssignableFrom(clazz)) {
+		if (Collection.class.isAssignableFrom(clazz) || DualListModel.class.isAssignableFrom(clazz)) {
 			Type superclassType = clazz.getGenericSuperclass();
 			if (superclassType != null && ParameterizedType.class.isAssignableFrom(superclassType.getClass()))
 				return (Class<?>) ((ParameterizedType) superclassType).getActualTypeArguments()[0];
