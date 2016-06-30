@@ -5,9 +5,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 import br.gov.inca.tabulador.domain.ValidationException;
@@ -17,20 +17,18 @@ import br.gov.inca.tabulador.domain.entity.config.CampoImport;
 import br.gov.inca.tabulador.domain.entity.config.TabelaConfig;
 import br.gov.inca.tabulador.domain.entity.tipo.TipoCampo;
 import br.gov.inca.tabulador.domain.entity.tipo.TipoFiltro;
+import br.gov.inca.tabulador.util.StringUtils;
 
 public class StatementBuilder implements Serializable {
 	private static final long serialVersionUID = 2437552777255361630L;
 
 	public String createTable(TabelaConfig entity) throws SQLException {
-		final StringBuilder stringBuilder = new StringBuilder(String.format(
-				"CREATE TABLE %s (", getTableName(entity)));
-		boolean colocarVirgula = false;
+		String tableName = getTableName(entity);
+		final StringBuilder stringBuilder = new StringBuilder(String.format("CREATE SEQUENCE %s_seq;\n", getTableName(entity)));
+		stringBuilder.append(String.format("CREATE TABLE IF NOT EXISTS %s (", tableName));
+		stringBuilder.append(String.format("id_%1$s bigint not null default nextval('%1$s_seq')", tableName));
 		for (CampoConfig campo : entity.getCampos()) {
-			if (colocarVirgula) {
-				stringBuilder.append(", ");
-			}
-			stringBuilder.append(String.format("%s %s", getFieldName(campo), getFieldType(campo)));
-			colocarVirgula = true;
+			stringBuilder.append(", ").append(String.format("%s %s", getFieldName(campo), getFieldType(campo)));
 		}
 		stringBuilder.append(")");
 		// TODO Criar índices
@@ -38,8 +36,7 @@ public class StatementBuilder implements Serializable {
 	}
 
 	public String dropTable(TabelaConfig entity) {
-		// TODO Apagar índices
-		return String.format("DROP TABLE %s", getTableName(entity));
+		return String.format("DROP TABLE IF EXISTS %1$s;\nDROP SEQUENCE IF EXISTS %1$s_seq;", getTableName(entity));
 	}
 	
 	protected String insertIntoCommand(TabelaConfig entity, List<CampoImport> campos) {
@@ -79,7 +76,7 @@ public class StatementBuilder implements Serializable {
 			for (int i = 0; i < camposSize; i++) {
 				final CampoImport campoImport = campos.get(i);
 				if (!campoImport.isIgnore()) {
-					setValueToStatement(prepareStatement, ++indexValor, campoImport.getCampo(), valoresLinha.get(i), campoImport.getPattern());
+					setValueToStatement(prepareStatement, ++indexValor, campoImport.getCampo(), valoresLinha.get(campoImport.getPositionInFile()), campoImport.getPattern());
 				}
 			}
 			prepareStatement.addBatch();
@@ -177,25 +174,30 @@ public class StatementBuilder implements Serializable {
 	
 	private void setValueToStatement(PreparedStatement prepareStatement, int index, CampoConfig campo, String value, String datePattern) throws NumberFormatException, SQLException, ParseException {
 		try {
+			
 			switch (campo.getTipoCampo().getId()) {
 				case TipoCampo.TIPO_INTEIRO:
-					if (value == null || value.isEmpty()) {
+					/*if (value == null || value.isEmpty()) {
 						throw new ValidationException(String.format("Filtro do campo '%s' do tipo número não pode ser vazio.", campo.getLabelOrNome()));
-					}
-					prepareStatement.setLong(index, Long.parseLong(value));
+					}*/
+					if (StringUtils.isNotBlank(value))
+						prepareStatement.setLong(index, Long.parseLong(value));
+					else
+						prepareStatement.setNull(index, Types.INTEGER);
 					break;
 				case TipoCampo.TIPO_TEXTO:
 					prepareStatement.setString(index, value);
 					break;
 				case TipoCampo.TIPO_DATA:
-					if (value == null || value.isEmpty()) {
+					/*if (value == null || value.isEmpty()) {
 						throw new ValidationException(String.format("Filtro do campo '%' do tipo data não pode ser vazio.", campo.getLabelOrNome()));
-					} else 	{
-						final Calendar cal = Calendar.getInstance();
-						cal.setTime(new SimpleDateFormat(datePattern).parse(value));
-						prepareStatement.setTimestamp(index, new Timestamp(cal.getTimeInMillis()));
-						break;
-					}
+					} else 	{*/
+					if (StringUtils.isNotBlank(value)) {
+						prepareStatement.setTimestamp(index, new Timestamp(new SimpleDateFormat(datePattern).parse(value).getTime()));
+					} else
+						prepareStatement.setNull(index, Types.DATE);
+					break;
+//					}
 				default:
 					prepareStatement.setObject(index, value);
 					break;
