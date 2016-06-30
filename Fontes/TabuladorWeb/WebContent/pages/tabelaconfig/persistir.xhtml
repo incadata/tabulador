@@ -86,7 +86,7 @@
 			</p>
 	
 			<p>
-				<p:commandButton value="#{msg['save']}" icon="ui-icon-disk" process="@form" action="#{tabelaConfigView.saveOrUpdate}"/>
+				<p:commandButton value="#{msg['save']}" icon="ui-icon-disk" process="@form" action="#{tabelaConfigView.saveOrUpdate}"  onstart="PF('aguardeSimples').show()" oncomplete="PF('aguardeSimples').hide()" />
 				<p:commandButton value="#{msg['cancel']}" icon="ui-icon-cancel" action="consultar"/>
 			</p>
 		</h:form>
