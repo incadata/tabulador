@@ -172,10 +172,12 @@ public class TabelaImportarView implements Serializable, ViewBean {
 		} else if (!getLinhas().isEmpty()) {
 			try {
 				final List<List<String>> linhasColunas = new ArrayList<>(getLinhas().size());
+				List<String> cabecalho = null;
 				for (String linha : getLinhas()) {
 					linhasColunas.add(Arrays.asList(linha.split(getColumnSeparator())));
 				}
 				if (isIgnoreFirstLine()) {
+					cabecalho = linhasColunas.get(0);
 					linhasColunas.remove(0);
 				}
 				try (final Connection connectionLocal = connection.get()) {
@@ -184,6 +186,8 @@ public class TabelaImportarView implements Serializable, ViewBean {
 						final Integer campoId = getCampos().get(i).getCampo().getId();
 						final CampoImport campoImport = new CampoImport(getCampos().get(i));
 						campoImport.setCampo(getCamposBusca().stream().filter(x -> x.getId().equals(campoId)).findAny().get());
+						
+						campoImport.setPositionInFile(cabecalho != null ? cabecalho.indexOf(campoImport.getCampo().getNome().trim().toUpperCase()) : i);
 						getCampos().set(i, campoImport);
 					}
 					final PreparedStatement insertInto = getStatementBuilder().insertInto(connectionLocal, getTabelaConfig(), getCampos(), linhasColunas);

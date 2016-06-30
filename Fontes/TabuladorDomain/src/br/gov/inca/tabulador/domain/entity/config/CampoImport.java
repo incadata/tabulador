@@ -13,6 +13,7 @@ public class CampoImport implements Serializable {
 	private boolean ignore;
 	private String pattern;
 	private CampoConfig campo;
+	private int positionInFile;
 
 	public CampoImport() {
 		this(new CampoConfig());
@@ -68,5 +69,13 @@ public class CampoImport implements Serializable {
 	
 	public void setCampo(CampoConfig campo) {
 		this.campo = campo;
+	}
+
+	public int getPositionInFile() {
+		return positionInFile;
+	}
+
+	public void setPositionInFile(int positionInFile) {
+		this.positionInFile = positionInFile;
 	}
 }

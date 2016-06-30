@@ -1,73 +1,69 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition template="/pages/comum/layout.xhtml" 
+	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsf/function"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
-<h:head>
-	<title><h:outputText value="#{msg['import_data']}" /></title>
-</h:head>
-
-<h:body>
-	<h1><h:outputText value="#{msg['import_data']}" /></h1>
-
-	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-	<f:metadata>
-    	<f:viewParam name="entity.id" value="#{tabelaImportarView.tabelaConfig.id}" />
-    	<f:viewAction action="#{tabelaImportarView.findById(tabelaImportarView.tabelaConfig.id)}"/>
-	</f:metadata>
-
-	<h:form enctype="multipart/form-data">
-		<p>
-			<p:fileUpload required="true" requiredMessage="#{msg['mandatory_file']}"
-				label="#{msg['file']}" uploadLabel="Enviar" cancelLabel="#{msg['cancel']}" 
-				multiple="false" auto="false"
-				mode="advanced" skinSimple="true"
-				fileUploadListener="#{tabelaImportarView.handleFileUpload}" allowTypes="/(\.|\/)(csv)$/"/>
-		</p>
-		<p:panelGrid columns="2" layout="grid">
-			<h:outputText value="#{msg['column_delimiter']}: " />
-			<p:inputText value="#{tabelaImportarView.columnSeparator}"/>
-
-			<h:outputText value="#{msg['ignore_first_line']}: " />
-			<p:selectBooleanCheckbox value="#{tabelaImportarView.ignoreFirstLine}" />
-		</p:panelGrid>
-		
-	    <p:carousel value="#{tabelaImportarView.campos}" var="campo" id="colunasCarousel" binding="#{carousel}"
-	    	headerText="#{msg['columns']}" itemStyle="text-align:center" responsive="true">
-	        <p:panelGrid columns="2" id="campoAtual"
-	        	style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid"
-	        	styleClass="ui-panelgrid-blank">
-				<h:outputText value="#{msg['field']}: " />
-		        <p:selectOneMenu value="#{campo.campo}" converter="entityConverter">
-					<f:selectItems value="#{tabelaImportarView.camposBusca}" var="campoIt"
-						itemLabel="#{campoIt.labelOrNome}" itemValue="#{campoIt}" />
-				</p:selectOneMenu>
-
-				<h:outputText value="#{msg['pattern']}: " rendered="#{campo.campo.tipoCampo.isData()}" />
-        		<p:inputText value="#{campo.pattern}" rendered="#{campo.campo.tipoCampo.isData()}" size="10"/>
-
-				<h:outputText value="#{msg['ignore']}: " />
-        		<p:selectBooleanCheckbox value="#{campo.ignore}" />
-
-				<f:facet name="header">
-					<p:commandButton icon="ui-icon-minus" title="#{msg['remove_column']}" 
-						actionListener="#{tabelaImportarView.removerCampo(carousel.rowIndex)}" update="colunasCarousel"/>
-	            </f:facet>
-	        </p:panelGrid>
-	 
-	        <f:facet name="footer">
-        		<p:commandButton icon="ui-icon-plus" title="#{msg['add_column']}" value="#{msg['add']}"
-        			actionListener="#{tabelaImportarView.addCampo}" update="colunasCarousel"/>
-                #{msg['total_columns']}: #{fn:length(tabelaImportarView.campos)}
-	        </f:facet>
-	    </p:carousel>
-
-		<p>
-			<p:commandButton icon="ui-icon-script" value="#{msg['import']}" title="#{msg['import_data']}" actionListener="#{tabelaImportarView.importar}"/>
-			<p:commandButton icon="ui-icon-cancel" value="#{msg['cancel']}" action="consultar"/>
-		</p>
-	</h:form>
-</h:body>
-</html>
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="body">
+		<h1><h:outputText value="#{msg['import_data']}" /></h1>
+	
+		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+		<f:metadata>
+	    	<f:viewParam name="entity.id" value="#{tabelaImportarView.tabelaConfig.id}" />
+	    	<f:viewAction action="#{tabelaImportarView.findById(tabelaImportarView.tabelaConfig.id)}"/>
+		</f:metadata>
+	
+		<h:form enctype="multipart/form-data">
+			<p>
+				<p:fileUpload required="true" requiredMessage="#{msg['mandatory_file']}"
+					label="#{msg['file']}" uploadLabel="Enviar" cancelLabel="#{msg['cancel']}" 
+					multiple="false" auto="true"
+					mode="advanced" skinSimple="true"
+					fileUploadListener="#{tabelaImportarView.handleFileUpload}" allowTypes="/(\.|\/)(csv)$/"/>
+			</p>
+			<p:panelGrid columns="2" layout="grid">
+				<h:outputText value="#{msg['column_delimiter']}: " />
+				<p:inputText value="#{tabelaImportarView.columnSeparator}"/>
+	
+				<h:outputText value="#{msg['ignore_first_line']}: " />
+				<p:selectBooleanCheckbox value="#{tabelaImportarView.ignoreFirstLine}" />
+			</p:panelGrid>
+			
+		    <p:carousel value="#{tabelaImportarView.campos}" var="campo" id="colunasCarousel" binding="#{carousel}"
+		    	headerText="#{msg['columns']}" itemStyle="text-align:center" responsive="true">
+		        <p:panelGrid columns="2" id="campoAtual"
+		        	style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid"
+		        	styleClass="ui-panelgrid-blank">
+					<h:outputText value="#{msg['field']}: " />
+			        <p:selectOneMenu value="#{campo.campo}" converter="entityConverter">
+						<f:selectItems value="#{tabelaImportarView.camposBusca}" var="campoIt"
+							itemLabel="#{campoIt.labelOrNome}" itemValue="#{campoIt}" />
+					</p:selectOneMenu>
+	
+					<h:outputText value="#{msg['pattern']}: " rendered="#{campo.campo.tipoCampo.isData()}" />
+	        		<p:inputText value="#{campo.pattern}" rendered="#{campo.campo.tipoCampo.isData()}" size="10"/>
+	
+					<h:outputText value="#{msg['ignore']}: " />
+	        		<p:selectBooleanCheckbox value="#{campo.ignore}" />
+	
+					<f:facet name="header">
+						<p:commandButton icon="ui-icon-minus" title="#{msg['remove_column']}" 
+							actionListener="#{tabelaImportarView.removerCampo(carousel.rowIndex)}" update="colunasCarousel"/>
+		            </f:facet>
+		        </p:panelGrid>
+		 
+		        <f:facet name="footer">
+	        		<p:commandButton icon="ui-icon-plus" title="#{msg['add_column']}" value="#{msg['add']}"
+	        			actionListener="#{tabelaImportarView.addCampo}" update="colunasCarousel"/>
+	                #{msg['total_columns']}: #{tabelaImportarView.campos.size()}
+		        </f:facet>
+		    </p:carousel>
+	
+			<p>
+				<p:commandButton icon="ui-icon-script" value="#{msg['import']}" title="#{msg['import_data']}" actionListener="#{tabelaImportarView.importar}" onstart="PF('aguardeSimples').show()" oncomplete="PF('aguardeSimples').hide()" />
+				<p:commandButton icon="ui-icon-cancel" value="#{msg['cancel']}" action="consultar"/>
+			</p>
+		</h:form>
+	</ui:define>
+</ui:composition>
