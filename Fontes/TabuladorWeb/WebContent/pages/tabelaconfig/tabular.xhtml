@@ -118,7 +118,10 @@
 
 			<p:dataTable id="tabelaResultado" var="line" value="#{tabularView.resultado.lines}" rendered="#{not empty tabularView.resultado.columns}"
 			    paginator="true" rows="#{tabularView.resultadosPorPagina}" emptyMessage="#{msg['table_empty_msg']}">
-		        <p:columns value="#{tabularView.resultado.columns}" var="column" columnIndexVar="colIndex">
+			    <f:facet name="header">
+		            <h:outputText value="#{tabularView.tabelaConfig.tituloOrNome}" />
+        		</f:facet>
+		        <p:columns value="#{tabularView.resultado.columns}" var="column" columnIndexVar="colIndex" sortBy="#{tabularView.resultado.convertValor(column, line.get(column))}">
 		            <f:facet name="header">
 		                <h:outputText value="#{column.labelOrNome}" />
 		            </f:facet>
