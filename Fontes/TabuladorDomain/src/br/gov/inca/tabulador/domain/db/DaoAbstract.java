@@ -1,6 +1,7 @@
 package br.gov.inca.tabulador.domain.db;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
@@ -44,7 +45,7 @@ public abstract class DaoAbstract<T extends Entidade<K>, K> implements Serializa
 
 	@Transactional
 	public void removeById(K id) {
-		remove(findById(id));
+		findById(id).ifPresent(x -> remove(x));
 	}
 
 	protected EntityManager getEntityManager() {
@@ -75,8 +76,8 @@ public abstract class DaoAbstract<T extends Entidade<K>, K> implements Serializa
 	}
 
 	@SuppressWarnings("unchecked")
-	public T findById(K id) {
-		return (T) getEntityManager().find(getGenericType(), id);
+	public Optional<T> findById(K id) {
+		return Optional.ofNullable((T) getEntityManager().find(getGenericType(), id));
 	}
 	
 }

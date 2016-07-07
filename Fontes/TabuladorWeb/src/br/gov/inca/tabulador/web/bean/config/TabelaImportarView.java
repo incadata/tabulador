@@ -58,7 +58,7 @@ public class TabelaImportarView implements Serializable, ViewBean {
 
 	public void findById(Integer id) {
 		if (id != null) {
-			setTabelaConfig(getTabelaConfigDao().findById(id));
+			setTabelaConfig(getTabelaConfigDao().findById(id).get());
 			setCampos(convertCampoConfig(getTabelaConfig().getCampos()));
 			setCamposBusca(new ArrayList<>(getTabelaConfig().getCampos()));
 		}

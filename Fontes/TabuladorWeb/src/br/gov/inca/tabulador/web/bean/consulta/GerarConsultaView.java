@@ -60,7 +60,7 @@ public abstract class GerarConsultaView implements ViewBean {
 
 	public void findById(Integer id) {
 		if (id != null) {
-			setTabelaConfig(getTabelaConfigDao().findById(id));
+			setTabelaConfig(getTabelaConfigDao().findById(id).get());
 			final List<CampoConfig> campoIsFiltro = getTabelaConfig().getCampos().stream().filter(x -> x.isFiltro()).collect(Collectors.toList());
 			setCamposWithCampoConfig(campoIsFiltro);
 			setCamposFiltro(campoIsFiltro);
@@ -173,7 +173,7 @@ public abstract class GerarConsultaView implements ViewBean {
 		final int sizeCamposAgrupar = getCamposAgrupar().size();
 		for (int i = 0; i < sizeCamposAgrupar; i++) {
 			CampoConfig campoAgrupar = getCamposAgrupar().get(i);
-			getCamposAgrupar().set(i, getCampoConfigDao().findById(campoAgrupar.getId()));
+			getCamposAgrupar().set(i, getCampoConfigDao().findById(campoAgrupar.getId()).get());
 			campoAgrupar = getCamposAgrupar().get(i);
 			final List<ValorCampoConfig> valores = campoAgrupar.getValores();
 			campoAgrupar.setValores(new ArrayList<>());
@@ -182,7 +182,7 @@ public abstract class GerarConsultaView implements ViewBean {
 			}
 		}
 		for (CampoFiltro campo : getCampos()) {
-			final CampoConfig campoDb = getCampoConfigDao().findById(campo.getCampo().getId());
+			final CampoConfig campoDb = getCampoConfigDao().findById(campo.getCampo().getId()).get();
 			campo.getCampo().setNome(campoDb.getNome());
 			campo.getCampo().setTipoFiltro(campoDb.getTipoFiltro());
 		}

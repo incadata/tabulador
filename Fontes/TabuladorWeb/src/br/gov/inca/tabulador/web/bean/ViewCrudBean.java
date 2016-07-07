@@ -2,6 +2,7 @@ package br.gov.inca.tabulador.web.bean;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.PropertyResourceBundle;
 
 import javax.inject.Inject;
@@ -55,8 +56,9 @@ public abstract class ViewCrudBean<U extends DaoAbstract<T, K>, T extends Entida
 	}
 
 	public void findById(K id) {
-		setEntity(getDao().findById(id));
-		if (getEntity() == null) {
+		final Optional<T> found = getDao().findById(id);
+		setEntity(found.get());
+		if (!found.isPresent()) {
 			showError(getMessages().getString("error"), getMessages().getString("no_result_for_i"));
 		}
 	}
