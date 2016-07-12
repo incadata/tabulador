@@ -2,6 +2,7 @@ package br.gov.inca.tabulador.web.bean.config;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +15,11 @@ import javax.transaction.Transactional;
 
 import br.gov.inca.tabulador.domain.dao.config.CampoConfigDao;
 import br.gov.inca.tabulador.domain.dao.config.TabelaConfigDao;
-import br.gov.inca.tabulador.domain.db.StatementBuilder;
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
 import br.gov.inca.tabulador.domain.entity.config.TabelaConfig;
 import br.gov.inca.tabulador.domain.entity.config.ValorCampoConfig;
 import br.gov.inca.tabulador.web.bean.ViewCrudBean;
+import br.gov.inca.tabulador.web.entity.StatementBuilder;
 
 @Named(value = "tabelaConfigView")
 @ViewScoped
@@ -113,8 +114,10 @@ public class TabelaConfigView extends
 	public void createTable(int tableId) {
 		findById(tableId);
 		if (getEntity() != null) {
-			try {
-				connection.get().createStatement().executeUpdate(statementBuilder.createTable(getEntity()));
+			try (final Connection connectionLocal = connection.get();
+					final StatementBuilder statementBuilderlocal = getStatementBuilder();
+					final Statement createStatement = connectionLocal.createStatement()) {
+				createStatement.executeUpdate(statementBuilderlocal.createTable(getEntity()));
 				showInfo(getMessages().getString("create_table"), String.format(getMessages().getString("create_table_name_success_msg"), getEntity().getNome()));
 			} catch (Exception e) {
 				showError(e, getMessages().getString("error"), getMessages().getString("create_table_error_msg"));
@@ -126,9 +129,11 @@ public class TabelaConfigView extends
 	public void dropTable(int tableId) {
 		findById(tableId);
 		if (getEntity() != null) {
-			try {
-				connection.get().createStatement().executeUpdate(statementBuilder.dropTable(getEntity()));
-				showInfo("Remover tabela", String.format(getMessages().getString("remove_table_name_success_msg"), getEntity().getNome()));
+			try (final Connection connectionLocal = connection.get();
+					final StatementBuilder statementBuilderlocal = getStatementBuilder();
+					final Statement updateStatement = connectionLocal.createStatement()) {
+				updateStatement.executeUpdate(statementBuilderlocal.dropTable(getEntity()));
+				showInfo(getMessages().getString("remove_table"), String.format(getMessages().getString("remove_table_name_success_msg"), getEntity().getNome()));
 			} catch (Exception e) {
 				showError(e, getMessages().getString("error"), getMessages().getString("remove_table_error_msg"));
 			}
@@ -141,5 +146,9 @@ public class TabelaConfigView extends
 	
 	private void setCamposParaRemover(List<CampoConfig> camposParaRemover) {
 		this.camposParaRemover = camposParaRemover;
+	}
+	
+	private StatementBuilder getStatementBuilder() {
+		return statementBuilder;
 	}
 }

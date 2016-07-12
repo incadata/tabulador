@@ -1,16 +1,16 @@
 package br.gov.inca.tabulador.web.bean.config;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import br.gov.inca.tabulador.domain.ValidationException;
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
+import br.gov.inca.tabulador.domain.enumeration.FormatoSaida;
 import br.gov.inca.tabulador.web.bean.consulta.GerarConsultaResultado;
 import br.gov.inca.tabulador.web.bean.consulta.GerarConsultaView;
 
@@ -20,6 +20,8 @@ public class TabularView extends GerarConsultaView {
 	private static final long serialVersionUID = 2223875497601238537L;
 
 	private boolean converter; 
+	
+	private FormatoSaida formato;  
 
 	@Override
 	public void addCampoAgrupar() {
@@ -34,11 +36,13 @@ public class TabularView extends GerarConsultaView {
 	public void tabular() {
 		try {
 			super.tabular();
+			if (isConverter()) {
+				setResultado(converterResultado(getResultado()));
+				clearMessages();
+				showInfo(null, String.format(getMessages().getString("n_lines_found"), getResultado().getLines().size()));
+			}
 		} catch (ValidationException e) {
 			showError(getMessages().getString("to_table_error_title"), e.getMessage());
-		}
-		if (isConverter()) {
-			setResultado(converterResultado(getResultado()));
 		}
 	}
 
@@ -51,20 +55,24 @@ public class TabularView extends GerarConsultaView {
 			final CampoConfig total = resultado.getColumns().get(2); 
 
 			// Todos os valores disponíveis para linha e coluna
-			final Set<Object> linhaValoresSet = new TreeSet<>();
-			final Set<Object> colunaValoresSet = new TreeSet<>();
+			final Set<Object> linhaValoresSet = new HashSet<>();
+			final Set<Object> colunaValoresSet = new HashSet<>();
 			for (Map<CampoConfig, Object> map : resultado.getLines()) {
-				linhaValoresSet.add(map.get(linha));
-				colunaValoresSet.add(map.get(coluna));
+				final Object linhaValor = map.getOrDefault(linha, "");
+				linhaValoresSet.add(linhaValor != null ? linhaValor : "");
+				final Object colunaValor = map.getOrDefault(coluna, "");
+				colunaValoresSet.add(colunaValor != null ? colunaValor : "");
 			}
 
 			// Mapeamento de linha, coluna e valor. Tabela de duas dimensões.
-			final Map<Object, Map<Object, Object>> valoresTabulado = new TreeMap<Object, Map<Object, Object>>();
+			final Map<Object, Map<Object, Object>> valoresTabulado = new HashMap<Object, Map<Object, Object>>();
 			for (Object linhaValor : linhaValoresSet) {
-				valoresTabulado.put(linhaValor, new TreeMap<Object, Object>());
+				valoresTabulado.put(linhaValor, new HashMap<Object, Object>());
 			}
 			for (Map<CampoConfig, Object> map : resultado.getLines()) {
-				valoresTabulado.get(map.get(linha)).put(map.get(coluna), map.get(total));
+				final Object linhaValor = map.getOrDefault(linha, "");
+				final Object colunaValor = map.getOrDefault(coluna, "");
+				valoresTabulado.get(linhaValor != null ? linhaValor : "").put(colunaValor != null ? colunaValor : "", map.get(total));
 			}
 
 			// Tabela com a resposta

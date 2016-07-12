@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+<body>
+	<h:outputStylesheet library="css" name="jqplot/jquery.jqplot.min.css" />
+	<h:outputScript library="javascript" name="jqplot/jquery.jqplot.min.js" />
+	<o:conditionalComment if="lte IE 8"><h:outputScript library="javascript" name="jqplot/excanvas.min.js" /></o:conditionalComment>
+	<h:outputScript library="javascript" name="jqplot/plugins/jqplot.canvasTextRenderer.min.js" />
+	<h:outputScript library="javascript" name="jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js" />
+	<h:outputScript library="javascript" name="jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js" />
+	<h:outputScript library="javascript" name="jqplot/plugins/jqplot.cursor.min.js" />
+	<h:outputScript library="javascript" name="jqplot/plugins/jqplot.highlighter.min.js" />
+	<h:outputScript library="javascript" name="jqplot/plugins/jqplot.enhancedLegendRenderer.min.js" />
+	<h:outputScript library="javascript" name="jqplot/plugins/jqplot.barRenderer.min.js" rendered="#{tabularView.formato.graficoBarra}" />
+	<h:outputScript library="javascript" name="jqplot/plugins/jqplot.categoryAxisRenderer.min.js" rendered="#{tabularView.formato.graficoBarra}" />
+	<h:outputScript library="javascript" name="jqplot/plugins/jqplot.pointLabels.min.js" rendered="#tabularView.formato.graficoBarra}" />
+    <div id="chart"></div>
+    
+	<h:outputScript rendered="#{modeloTabuladorConsultarBean.filtro.formatoGraficoLinha or modeloTabuladorConsultarBean.filtro.formatoGraficoLinhaParcial}" >
+		var data = new Array();
+		var seriesArray = new Array();
+		var hl = {
+			tooltipContentEditor: function(str, seriesIndex, pointIndex, jqPlot) {
+				<ui:fragment rendered="#{modeloTabuladorConsultarBean.filtro.resultadoValorAbsoluto}">
+		        return data[seriesIndex][pointIndex][1].toFixed(0);
+		        </ui:fragment>
+				<ui:fragment rendered="#{not modeloTabuladorConsultarBean.filtro.resultadoValorAbsoluto}">
+		        return data[seriesIndex][pointIndex][1].toFixed(2);
+		        </ui:fragment>
+		    }
+		}
+		var tickis = new Array();
+		var line;
+		var linhas = 0;
+		<ui:repeat var="e" value="#{modeloTabuladorConsultarBean.resultado}" varStatus="st">
+			 seriesArray.push({'label': '#{e.descricao}'<ui:fragment rendered="#{modeloTabuladorConsultarBean.filtro.formatoGraficoLinha}">, showMarker: false</ui:fragment>, highlighter: hl<ui:fragment rendered="#{not empty e.cor}">, color: '##{e.cor}'</ui:fragment>});
+			 line = new Array();
+			 <ui:repeat var="col" value="#{e.colunas}" varStatus="st2">
+			 	<ui:fragment rendered="#{st.index == 0}">tickis.push([#{st2.index}, '#{col.descricao}']);</ui:fragment>
+			 	line.push([#{st2.index}, #{col.valor}]);
+			 </ui:repeat>
+			 <ui:fragment rendered="#{modeloTabuladorConsultarBean.filtro.taxaFaixaEtaria}">
+			 	<ui:repeat var="tx" value="#{e.taxaAjustada.taxasEspecificas}" varStatus="st2">
+			 		<ui:fragment rendered="#{st.index == 0}">tickis.push([#{st2.index}, '#{tx.faixaEtaria.texto}']);</ui:fragment>
+			 		line.push([#{st2.index}, #{tx.taxa}]);
+			 	</ui:repeat>
+			 </ui:fragment>
+			 data.push(line);
+			 linhas++;
+		</ui:repeat>
+		h =  350 + (linhas * 10);
+		jQuery("#chart").height(h);
+		var plot = $.jqplot('chart', data, {
+			title: '#{modeloTabuladorConsultarBean.filtro.formatoDescricao}',
+			animate: !$.jqplot.use_excanvas,
+			axesDefaults: {
+        		labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+      		},
+	      	highlighter: {
+	        	show: true,
+	        	sizeAdjust: 7.5,
+	        	tooltipLocation: 'nw',
+                tooltipAxes: 'y',
+                formatString: '%.2f'
+	      	},
+	      	axes: {
+		      	yaxis: { label: '#{modeloTabuladorConsultarBean.filtro.resultadoDescricao}', min: 0},
+		      	xaxis: { 
+		      	   	 label: '#{modeloTabuladorConsultarBean.filtro.colunaDescricao}', 
+			    	 renderer: $.jqplot.CategoryAxisRenderer,
+			    	 labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+			         tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+			         ticks: tickis,
+			         tickOptions: { angle: -30 }
+				}
+	    	},
+	      	legend: { 
+      			renderer: $.jqplot.EnhancedLegendRenderer,
+      			show: true, 
+      			placement: 'outsideGrid', 
+      			showLabels: true, 
+      			location: 's', 
+      			rendererOptions: { numberColumns: 5 } 
+   			},
+	      	series: seriesArray,
+	      	cursor: {
+	        	show: false
+	      	}
+		});
+	</h:outputScript>
+
+	<h:outputScript rendered="#{modeloTabuladorConsultarBean.filtro.formatoGraficoBarra}" >
+		var data = new Array();
+		var seriesArray = new Array();
+		var seriesColorsArray = new Array();
+		var tickis = new Array();
+		seriesArray.push({'label': '#{modeloTabuladorConsultarBean.filtro.resultadoDescricao}'});
+		var linhas = 0;
+		var maxX = 0;
+		<ui:fragment rendered="#{modeloTabuladorConsultarBean.filtro.resultadoValorAbsoluto}">var formatStr = '%d';</ui:fragment>
+		<ui:fragment rendered="#{not modeloTabuladorConsultarBean.filtro.resultadoValorAbsoluto}">var formatStr = '%.2f';</ui:fragment>
+		
+		<ui:repeat var="e" value="#{modeloTabuladorConsultarBean.resultado}" varStatus="st">
+		 	<ui:fragment rendered="#{st.index == 0}"> tickis.push('#{e.descricao}');</ui:fragment>
+		 	data.push([#{e.valor}, '#{e.descricao}']);
+		 	seriesColorsArray.push(<ui:fragment rendered="#{not empty e.cor}">'##{e.cor}'</ui:fragment><ui:fragment rendered="#{empty e.cor}">''</ui:fragment>);
+		 	linhas++;
+		 	if (#{e.valor} > maxX) maxX = #{e.valor};
+		</ui:repeat>
+		h = 100 + linhas * 35;
+		jQuery("#chart").height(h);
+		var plot = $.jqplot('chart', [data.reverse()], {
+			animate: !$.jqplot.use_excanvas,
+			
+			//seriesColors: seriesColorsArray,
+			seriesDefaults: {
+                renderer:$.jqplot.BarRenderer,
+                pointLabels: { show: true, location: 'e', edgeTolerance: -15, formatString: formatStr },
+                shadowAngle: 135,
+                rendererOptions: {
+					barWidth: 10,
+                    barDirection: 'horizontal',
+					varyBarColor: true
+                }
+            },
+      		series: seriesArray,
+	      	 axes: {
+	      	 	xaxis:{ tickRenderer: $.jqplot.CanvasAxisTickRenderer, label: '#{modeloTabuladorConsultarBean.filtro.resultadoDescricao}', min: 0, max: maxX * 1.1,
+		        tickOptions: {
+		          angle: -30,
+		          fontSize: '10pt',
+		          formatString: formatStr
+		        }},
+                yaxis: {
+                    renderer: $.jqplot.CategoryAxisRenderer
+                    
+                }
+            }
+		});
+	</h:outputScript>
+	
+	
+	<h:outputScript rendered="#{modeloTabuladorConsultarBean.filtro.formatoSetograma}" >
+		var data = new Array();
+		var seriesArray = new Array();
+		<ui:fragment rendered="#{modeloTabuladorConsultarBean.filtro.resultadoValorAbsoluto}">var formatStr = '%d';</ui:fragment>
+		<ui:fragment rendered="#{not modeloTabuladorConsultarBean.filtro.resultadoValorAbsoluto}">var formatStr = '%.2f';</ui:fragment>
+		<ui:repeat var="e" value="#{modeloTabuladorConsultarBean.resultado}" varStatus="st">
+			seriesArray.push({'label': '#{e.descricao}'<ui:fragment rendered="#{not empty e.cor}">, color: '##{e.cor}'</ui:fragment>});
+		 	data.push(['#{e.descricao}', #{e.valor}]);
+		</ui:repeat>
+		jQuery("#chart").height(500);
+		var plot = $.jqplot('chart', [data], {
+			animate: !$.jqplot.use_excanvas,
+			title: '#{modeloTabuladorConsultarBean.filtro.resultadoDescricao}',
+    		seriesDefaults: {
+	        	renderer: $.jqplot.PieRenderer, 
+	        	rendererOptions: {showDataLabels: true, dataLabels: 'value', dataLabelFormatString: formatStr, dataLabelCenterOn: true, dataLabelPositionFactor: 1.07, sliceMargin: 1, diameter: 385}
+	      	}, 
+	      	legend: { 
+	      		title: '#{modeloTabuladorConsultarBean.filtro.linhaDescricao}',
+      			//renderer: $.jqplot.EnhancedLegendRenderer,
+      			show: true, 
+      			placement: 'outsideGrid', 
+      			showLabels: true, 
+      			location: 'e', 
+      			rendererOptions: { numberColumns: 1 } 
+   			},
+   			highlighter: {
+	        	show: true,
+	        	sizeAdjust: 7.5,
+	        	tooltipLocation: 'nw',
+                formatString: '%s - ' + formatStr,
+                useAxesFormatters:false,
+                showTooltip: true,
+    			tooltipFade: true
+	      	}
+		});
+		
+		jQuery("td.jqplot-table-legend-label").css("text-align", "left");
+	</h:outputScript>
+	
+	<h:outputScript>
+		if (plot)
+			jQuery(window).resize(function() {
+			      plot.replot( { resetAxes: true } );
+			      <ui:fragment rendered="#{modeloTabuladorConsultarBean.filtro.formatoSetograma}" >jQuery("td.jqplot-table-legend-label").css("text-align", "left");</ui:fragment>
+			});
+	</h:outputScript>
+</body> 
+</html>

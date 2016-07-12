@@ -10,6 +10,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 import br.gov.inca.tabulador.domain.entity.Entidade;
+import br.gov.inca.tabulador.util.ReflectUtil;
 
 @FacesConverter("entityConverter")
 public class EntityConverter implements Converter {
@@ -69,7 +70,9 @@ public class EntityConverter implements Converter {
 		Object idValue = null;
 		if (obj instanceof Entidade) {
 			idValue = ((Entidade<Object>) obj).getId();
-		}
+		} else 
+			idValue = ReflectUtil.getIdValue(obj);
+		
 		return String.valueOf(idValue);
 	}
 

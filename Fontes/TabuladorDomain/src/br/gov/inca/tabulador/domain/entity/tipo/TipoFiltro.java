@@ -25,6 +25,7 @@ public class TipoFiltro extends EntidadeAbstract<Integer> {
 	public static final int FILTRO_MENOR_IGUAL = 6;
 	public static final int FILTRO_CONTEM = 7;
 	public static final int FILTRO_DIFERENTE = 8;
+	public static final int FILTRO_MULTIPLO = 9;
 	
 	@Id
 	@Column(name = "id_tipo_filtro")
@@ -49,4 +50,7 @@ public class TipoFiltro extends EntidadeAbstract<Integer> {
 		this.nome = nome;
 	}
 
+	public boolean isMultiplo() {
+		return getId() != null && FILTRO_MULTIPLO == getId();
+	}
 }

@@ -16,9 +16,13 @@ public class ConnectionCreator implements Serializable {
 	@Produces
 	public Connection createConnection() throws Exception {
 		// TODO Melhorar a obteção da conexão
-		return connectionFactory.createConnection("org.postgresql.Driver",
+		return getConnectionFactory().createConnection("org.postgresql.Driver",
 				"jdbc:postgresql://it-des14:5433/tabulador",
 				"postgres",
 				"postgres");
+	}
+
+	private ConnectionFactory getConnectionFactory() {
+		return connectionFactory;
 	}
 }
