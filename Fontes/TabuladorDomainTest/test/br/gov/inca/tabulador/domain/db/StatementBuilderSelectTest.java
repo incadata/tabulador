@@ -11,8 +11,8 @@ import org.junit.Test;
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
 import br.gov.inca.tabulador.domain.entity.config.TabelaConfig;
 import br.gov.inca.tabulador.domain.entity.tipo.TipoFiltro;
-import br.gov.inca.tabulador.web.entity.CampoFiltro;
-import br.gov.inca.tabulador.web.entity.StatementBuilder;
+import br.gov.inca.tabulador.domain.sql.StatementBuilder;
+import br.gov.inca.tabulador.domain.vo.CampoFiltro;
 
 public class StatementBuilderSelectTest extends StatementBuilder {
 	private static final long serialVersionUID = -3697066093891617075L;
@@ -37,6 +37,7 @@ public class StatementBuilderSelectTest extends StatementBuilder {
 		camposFiltro.add(new CampoFiltro());
 		camposFiltro.get(0).getCampo().setNome("filtro01");
 		camposFiltro.get(0).getCampo().getTipoFiltro().setId(TipoFiltro.FILTRO_IGUAL);
+		camposFiltro.get(0).setValue("0");
 		final String selectTabular = selectTabular(entity, Collections.emptyList(), camposFiltro);
 		
 		Assert.assertNotNull(selectTabular);
@@ -52,9 +53,11 @@ public class StatementBuilderSelectTest extends StatementBuilder {
 		camposFiltro.add(new CampoFiltro());
 		camposFiltro.get(0).getCampo().setNome("filtro01");
 		camposFiltro.get(0).getCampo().getTipoFiltro().setId(TipoFiltro.FILTRO_IGUAL);
+		camposFiltro.get(0).setValue("0");
 		camposFiltro.add(new CampoFiltro());
 		camposFiltro.get(1).getCampo().setNome("filtro02");
 		camposFiltro.get(1).getCampo().getTipoFiltro().setId(TipoFiltro.FILTRO_MAIOR);
+		camposFiltro.get(1).setValue("0");
 		final String selectTabular = selectTabular(entity, Collections.emptyList(), camposFiltro);
 		
 		Assert.assertNotNull(selectTabular);

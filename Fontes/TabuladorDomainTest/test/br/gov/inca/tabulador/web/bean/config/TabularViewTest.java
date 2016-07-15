@@ -9,18 +9,18 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
-import br.gov.inca.tabulador.web.bean.consulta.GerarConsultaResultado;
+import br.gov.inca.tabulador.domain.result.bean.ConsultaDinamicaResult;
 
 public class TabularViewTest extends TabularView {
 	private static final long serialVersionUID = -7537093244422598492L;
 
 	@Test
 	public void converterResultadoVazio() {
-		final GerarConsultaResultado resultado = new GerarConsultaResultado();
+		final ConsultaDinamicaResult resultado = new ConsultaDinamicaResult();
 		resultado.setColumns(new ArrayList<>());
 		resultado.setLines(new ArrayList<>());
 
-		final GerarConsultaResultado linhasResultado = converterResultado(resultado);
+		final ConsultaDinamicaResult linhasResultado = converterResultado(resultado);
 		Assert.assertNotNull(linhasResultado);
 		Assert.assertTrue(linhasResultado.getColumns().isEmpty());
 		Assert.assertTrue(linhasResultado.getLines().isEmpty());
@@ -64,10 +64,10 @@ public class TabularViewTest extends TabularView {
 		linha04.put(total, 3);
 		linhas.add(linha04);
 		
-		final GerarConsultaResultado resultado = new GerarConsultaResultado();
+		final ConsultaDinamicaResult resultado = new ConsultaDinamicaResult();
 		resultado.setColumns(colunas);
 		resultado.setLines(linhas);
-		final GerarConsultaResultado linhasResultado = converterResultado(resultado);
+		final ConsultaDinamicaResult linhasResultado = converterResultado(resultado);
 		Assert.assertNotNull(linhasResultado);
 		Assert.assertFalse(linhasResultado.getColumns().isEmpty());
 		// Coluna de total

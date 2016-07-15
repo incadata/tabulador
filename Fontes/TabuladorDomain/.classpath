@@ -17,5 +17,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Javax Validation"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Hibernate 4.3.9 JPA"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Primefaces 5.3"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

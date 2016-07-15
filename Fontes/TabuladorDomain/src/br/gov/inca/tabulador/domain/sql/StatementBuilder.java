@@ -1,4 +1,4 @@
-package br.gov.inca.tabulador.web.entity;
+package br.gov.inca.tabulador.domain.sql;
 
 import java.io.Serializable;
 import java.sql.Array;
@@ -7,9 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +17,10 @@ import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
 import br.gov.inca.tabulador.domain.entity.config.TabelaConfig;
 import br.gov.inca.tabulador.domain.entity.tipo.TipoCampo;
 import br.gov.inca.tabulador.domain.entity.tipo.TipoFiltro;
+import br.gov.inca.tabulador.domain.vo.CampoFiltro;
+import br.gov.inca.tabulador.domain.vo.CampoImport;
+import br.gov.inca.tabulador.util.DateUtils;
+import br.gov.inca.tabulador.util.StringUtils;
 
 public class StatementBuilder implements Serializable, AutoCloseable {
 	private static final long serialVersionUID = 2437552777255361630L;
@@ -109,12 +111,14 @@ public class StatementBuilder implements Serializable, AutoCloseable {
 		stringBuilder.append(getTableName(entity));
 
 		if (!camposFiltro.isEmpty()) {
-			stringBuilder.append(" WHERE ");
 			boolean andWord = false;
 			for (CampoFiltro campoFiltro : camposFiltro) {
+				if (!campoFiltro.hasValue()) continue;
+				
 				if (andWord) {
 					stringBuilder.append(" AND ");
-				}
+				} else 
+					stringBuilder.append(" WHERE ");
 				stringBuilder.append(getFieldName(campoFiltro.getCampo()));
 				switch (campoFiltro.getFiltro().getId()) {
 					case TipoFiltro.FILTRO_IGUAL:
@@ -164,7 +168,8 @@ public class StatementBuilder implements Serializable, AutoCloseable {
 		final PreparedStatement prepareStatement = connection.prepareStatement(selectTabular(entity, camposAgrupar, camposFiltro));
 		int index = 0;
 		for (CampoFiltro campoFiltro : camposFiltro) {
-			setValueToStatement(connection, prepareStatement, ++index, campoFiltro, CampoImport.DEFAULT_PATTERN);
+			if (campoFiltro.hasValue())
+				setValueToStatement(connection, prepareStatement, ++index, campoFiltro, CampoImport.DEFAULT_PATTERN);
 		}
 		return prepareStatement;
 	}
@@ -193,34 +198,34 @@ public class StatementBuilder implements Serializable, AutoCloseable {
 		final CampoConfig campo = campoFiltro.getCampo();
 		if (TipoFiltro.FILTRO_MULTIPLO == campoFiltro.getFiltro().getId()) {
 			final Array array = connection.createArrayOf(getFieldType(campoFiltro.getCampo()), campoFiltro.getValores().getTarget().stream().map(x -> x.getId()).collect(Collectors.toList()).toArray());
+			
 			prepareStatement.setArray(index, array);
 			getConnectionArrays().add(array);
 		} else {
 			final String value = campoFiltro.getValueAsString();
 			try {
-				switch (campo.getTipoCampo().getId()) {
-					case TipoCampo.TIPO_INTEIRO:
-						if (value == null || value.isEmpty()) {
-							throw new ValidationException(String.format("Filtro do campo '%s' do tipo número não pode ser vazio.", campo.getLabelOrNome()));
-						}
-						prepareStatement.setLong(index, Long.parseLong(value));
-						break;
-					case TipoCampo.TIPO_TEXTO:
-						prepareStatement.setString(index, value);
-						break;
-					case TipoCampo.TIPO_DATA:
-						if (value == null || value.isEmpty()) {
-							throw new ValidationException(String.format("Filtro do campo '%' do tipo data não pode ser vazio.", campo.getLabelOrNome()));
-						} else 	{
-							final Calendar cal = Calendar.getInstance();
-							cal.setTime(new SimpleDateFormat(datePattern).parse(value));
-							prepareStatement.setTimestamp(index, new Timestamp(cal.getTimeInMillis()));
+				if (StringUtils.isNotBlank(value))
+					switch (campo.getTipoCampo().getId()) {
+						case TipoCampo.TIPO_INTEIRO:
+							/*if (value == null || value.isEmpty()) {
+								throw new ValidationException(String.format("Filtro do campo '%s' do tipo número não pode ser vazio.", campo.getLabelOrNome()));
+							}*/
+							prepareStatement.setLong(index, Long.parseLong(value));
 							break;
-						}
-					default:
-						prepareStatement.setObject(index, value);
-						break;
-				}
+						case TipoCampo.TIPO_TEXTO:
+							prepareStatement.setString(index, value);
+							break;
+						case TipoCampo.TIPO_DATA:
+							/*if (value == null || value.isEmpty()) {
+								throw new ValidationException(String.format("Filtro do campo '%' do tipo data não pode ser vazio.", campo.getLabelOrNome()));
+							} else 	{*/
+							prepareStatement.setTimestamp(index, new Timestamp(DateUtils.toCalendar(datePattern, value).getTimeInMillis()));
+							break;
+	//						}
+						default:
+							prepareStatement.setObject(index, value);
+							break;
+					}
 			} catch (NumberFormatException e) {
 				throw new ValidationException(String.format("Filtro do campo '%s' do tipo número possui um valor inválido: '%s'.", campo.getLabelOrNome(), value));
 			}

@@ -5,7 +5,7 @@
 	version="2.2">
 	<application>
 		<locale-config>
-			<default-locale>pt_Br</default-locale>
+			<default-locale>pt_BR</default-locale>
 		</locale-config>
 		<resource-bundle>
 			<base-name>messages</base-name>

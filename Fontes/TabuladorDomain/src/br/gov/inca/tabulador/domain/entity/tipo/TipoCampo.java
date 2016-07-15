@@ -1,5 +1,8 @@
 package br.gov.inca.tabulador.domain.entity.tipo;
 
+import java.util.Date;
+import java.util.Map;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +12,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import br.gov.inca.tabulador.domain.entity.EntidadeAbstract;
+import br.gov.inca.tabulador.util.StringUtils;
 
 @Entity
 @Table(name = TipoCampo.TABLE_NAME)
@@ -55,6 +59,30 @@ public class TipoCampo extends EntidadeAbstract<Integer> {
 
 	public boolean isTexto() {
 		return getId() != null && TIPO_TEXTO == getId();
+	}
+
+	public Class<?> getTypeClass() {
+		if (isInteiro())
+			return Integer.class;
+		else if (isData())
+			return Date.class;
+		else	
+			return String.class;
+	}
+
+	public Object convert(Object value) {
+		if (value != null)
+			if (isInteiro())
+				if (value instanceof Number)
+					return Number.class.cast(value).intValue();
+				else if (value instanceof String && StringUtils.isInteger((String)value))
+					return Integer.parseInt((String)value, 10);
+			else if (isData())
+				return (Date)value;
+			else	
+				return value.toString();
+		
+		return null;
 	}
 	
 }

@@ -1,45 +1,36 @@
 package br.gov.inca.tabulador.web.bean.consulta;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLFeatureNotSupportedException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.PropertyResourceBundle;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Instance;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
+
+import org.hibernate.QueryException;
 
 import br.gov.inca.tabulador.domain.dao.config.CampoConfigDao;
 import br.gov.inca.tabulador.domain.dao.config.TabelaConfigDao;
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
 import br.gov.inca.tabulador.domain.entity.config.TabelaConfig;
-import br.gov.inca.tabulador.domain.entity.config.ValorCampoConfig;
+import br.gov.inca.tabulador.domain.result.bean.ConsultaDinamicaResult;
+import br.gov.inca.tabulador.domain.service.ConsultaDinamicaService;
+import br.gov.inca.tabulador.domain.sql.StatementBuilder;
+import br.gov.inca.tabulador.domain.vo.CampoFiltro;
 import br.gov.inca.tabulador.web.bean.ViewBean;
-import br.gov.inca.tabulador.web.entity.CampoFiltro;
-import br.gov.inca.tabulador.web.entity.StatementBuilder;
 
-@Named
-@ViewScoped
 public abstract class GerarConsultaView implements ViewBean {
 	private static final long serialVersionUID = 4473731490041477811L;
 
 	private @Inject TabelaConfigDao tabelaConfigDao;
 	private @Inject CampoConfigDao campoConfigDao;
 	private @Inject StatementBuilder statementBuilder;
-	private @Inject GerarConsultaResultado resultado;
+	private @Inject ConsultaDinamicaResult resultado;
+	private @Inject ConsultaDinamicaService service;
 	private transient @Inject PropertyResourceBundle messages;
-	private transient @Inject Instance<Connection> connection;
+	
 
 	private TabelaConfig tabelaConfig;
 	private List<CampoFiltro> campos;
@@ -61,7 +52,7 @@ public abstract class GerarConsultaView implements ViewBean {
 	public void findById(Integer id) {
 		if (id != null) {
 			setTabelaConfig(getTabelaConfigDao().findById(id).get());
-			final List<CampoConfig> campoIsFiltro = getTabelaConfig().getCampos().stream().filter(x -> x.isFiltro()).collect(Collectors.toList());
+			final List<CampoConfig> campoIsFiltro = this.tabelaConfig.getCampos().stream().filter(x -> x.isFiltro()).collect(Collectors.toList());
 			setCamposWithCampoConfig(campoIsFiltro);
 			setCamposFiltro(campoIsFiltro);
 		}
@@ -138,11 +129,11 @@ public abstract class GerarConsultaView implements ViewBean {
 		return camposAgrupar;
 	}
 
-	protected GerarConsultaResultado getResultado() {
+	protected ConsultaDinamicaResult getResultado() {
 		return resultado;
 	}
 
-	protected void setResultado(GerarConsultaResultado resultado) {
+	protected void setResultado(ConsultaDinamicaResult resultado) {
 		this.resultado = resultado;
 	}
 
@@ -170,57 +161,11 @@ public abstract class GerarConsultaView implements ViewBean {
 	}
 
 	public void tabular() {
-		final int sizeCamposAgrupar = getCamposAgrupar().size();
-		for (int i = 0; i < sizeCamposAgrupar; i++) {
-			CampoConfig campoAgrupar = getCamposAgrupar().get(i);
-			getCamposAgrupar().set(i, getCampoConfigDao().findById(campoAgrupar.getId()).get());
-			campoAgrupar = getCamposAgrupar().get(i);
-			final List<ValorCampoConfig> valores = campoAgrupar.getValores();
-			campoAgrupar.setValores(new ArrayList<>());
-			for (ValorCampoConfig valor : valores) {
-				campoAgrupar.getValores().add(valor);
-			}
-		}
-		for (CampoFiltro campo : getCampos()) {
-			final CampoConfig campoDb = getCampoConfigDao().findById(campo.getCampo().getId()).get();
-			campo.getCampo().setNome(campoDb.getNome());
-			campo.getCampo().setTipoFiltro(campoDb.getTipoFiltro());
-		}
-		try (final Connection connectionLocal = connection.get();
-				final StatementBuilder statementBuilderLocal = getStatementBuilder();
-				final PreparedStatement insertInto = statementBuilderLocal.selectTabular(connectionLocal, getTabelaConfig(), getCamposAgrupar(), getCampos());
-				final ResultSet executeQuery = insertInto.executeQuery()) {
-			final List<CampoConfig> resultColumns = getResultado().getColumns();
-			resultColumns.clear();
-			final CampoConfig countAsterisco = new CampoConfig();
-			countAsterisco.setId(0);
-			countAsterisco.setNome("_count(*)__");
-			countAsterisco.setLabel("Total");
-			resultColumns.addAll(getCamposAgrupar());
-			final List<Map<CampoConfig, Object>> resultLines = getResultado().getLines();
-			resultLines.clear();
-			int contador = 0;
-			while (executeQuery.next()) {
-				final HashMap<CampoConfig, Object> hashMap = new HashMap<>();
-				hashMap.put(countAsterisco, executeQuery.getLong(1));
-
-				for (CampoConfig campo : getCamposAgrupar()) {
-					hashMap.put(campo, executeQuery.getObject(campo.getNome()));
-				}
-
-				resultLines.add(hashMap);
-				contador++;
-			}
-			resultColumns.add(countAsterisco);
-			showInfo(null, String.format(getMessages().getString("n_lines_found"), contador));
-		} catch (SQLFeatureNotSupportedException e) {
-			if (e.getMessage().contains("free()")) {
-				Logger.getLogger(this.getClass().getName()).log(Level.WARNING, e.getLocalizedMessage());
-			} else {
-				showError(e, getMessages().getString("insert_data_title"), getMessages().getString("insert_data_msg"));
-			}
-		} catch (Exception e) {
-			showError(e, getMessages().getString("insert_data_title"), getMessages().getString("insert_data_msg"));
+		try {
+			setResultado(service.executarConsulta(getTabelaConfig(), campos, camposAgrupar));
+			showInfo(null, String.format(messages.getString("n_lines_found"), getResultado().getLines().size()));
+		} catch (QueryException e) {
+			showError(e, messages.getString("insert_data_title"), messages.getString("insert_data_msg"));
 		}
 	}
 	

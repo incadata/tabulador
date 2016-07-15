@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+		<h:form>
+			<h2><h:outputText value="#{msg['result']}" rendered="#{not empty tabularView.resultadoTabulador}"/></h2>
+
+			<p:dataTable id="tabelaResultado" var="line" value="#{tabularView.resultadoTabulador}" rendered="#{not empty tabularView.resultadoTabulador}"
+			    paginator="true" rows="#{tabularView.resultadosPorPagina}" emptyMessage="#{msg['table_empty_msg']}"
+			    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="10,20,50,100,1000" >
+			    <f:facet name="header">
+		            <h:outputText value="#{tabularView.tabelaConfig.tituloOrNome}" />
+        		</f:facet>
+        		<p:column headerText="#{tabularView.filtro.campoLinha.label}">
+        			<h:outputText value="#{line.descricao}" />
+        		</p:column>
+		        <p:columns value="#{line.colunas}" var="col" columnIndexVar="colIndex">
+		            <f:facet name="header">
+		                <h:outputText value="#{col.descricao}" />
+		            </f:facet>
+		            <h:outputText value="#{col.valor}" />
+		        </p:columns>
+		        <p:column headerText="Total">
+		        	<h:outputText value="#{line.totalValorAbsoluto}" />
+		        </p:column>
+
+				<f:facet name="footer">
+					<h:commandLink>
+						<p:commandButton value="xls" />
+						<p:dataExporter type="xls" target="tabelaResultado" fileName="tabular" encoding="UTF-8"/>
+					</h:commandLink>
+
+					<h:commandLink>
+						<p:commandButton value="pdf" />
+						<p:dataExporter type="pdf" target="tabelaResultado" fileName="tabular" encoding="UTF-8"/>
+					</h:commandLink>
+
+					<h:commandLink>
+						<p:commandButton value="csv" />
+						<p:dataExporter type="csv" target="tabelaResultado" fileName="tabular" encoding="UTF-8"/>
+					</h:commandLink>
+
+					<h:commandLink>
+						<p:commandButton value="xml" />
+						<p:dataExporter type="xml" target="tabelaResultado" fileName="tabular" encoding="UTF-8"/>
+					</h:commandLink>
+				</f:facet>
+			</p:dataTable>
+		</h:form>
+</ui:fragment>

@@ -8,8 +8,8 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import br.gov.inca.tabulador.domain.entity.config.TabelaConfig;
-import br.gov.inca.tabulador.web.entity.CampoImport;
-import br.gov.inca.tabulador.web.entity.StatementBuilder;
+import br.gov.inca.tabulador.domain.sql.StatementBuilder;
+import br.gov.inca.tabulador.domain.vo.CampoImport;
 
 public class StatementBuilderInsertTest extends StatementBuilder {
 	private static final long serialVersionUID = -7504736610149793712L;

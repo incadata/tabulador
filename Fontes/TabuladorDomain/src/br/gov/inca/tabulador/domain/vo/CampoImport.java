@@ -1,4 +1,4 @@
-package br.gov.inca.tabulador.web.entity;
+package br.gov.inca.tabulador.domain.vo;
 
 import java.io.Serializable;
 

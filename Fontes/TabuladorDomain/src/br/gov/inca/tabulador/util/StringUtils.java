@@ -46,4 +46,8 @@ public class StringUtils {
 		}
     	return true;
     }
+
+	public static String trim(Object str) {
+		return safeToString(str).trim();
+	}
 }

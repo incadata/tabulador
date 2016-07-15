@@ -18,8 +18,8 @@ import br.gov.inca.tabulador.domain.dao.config.TabelaConfigDao;
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
 import br.gov.inca.tabulador.domain.entity.config.TabelaConfig;
 import br.gov.inca.tabulador.domain.entity.config.ValorCampoConfig;
+import br.gov.inca.tabulador.domain.sql.StatementBuilder;
 import br.gov.inca.tabulador.web.bean.ViewCrudBean;
-import br.gov.inca.tabulador.web.entity.StatementBuilder;
 
 @Named(value = "tabelaConfigView")
 @ViewScoped

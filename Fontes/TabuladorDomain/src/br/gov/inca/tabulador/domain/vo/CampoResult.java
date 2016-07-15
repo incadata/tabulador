@@ -1,14 +1,23 @@
 package br.gov.inca.tabulador.domain.vo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import javax.persistence.Transient;
 
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
 import br.gov.inca.tabulador.domain.entity.config.ValorCampoConfig;
 import br.gov.inca.tabulador.domain.entity.tipo.TipoCampo;
 
-public class CampoResult {
+public class CampoResult implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4743440458811058572L;
+	
 	private Integer id;
 	private String nome;
 	private String label;
@@ -24,6 +33,7 @@ public class CampoResult {
 	}
 
 	public CampoResult(CampoConfig campo) {
+		setId(campo.getId());
 		setNome(campo.getNome());
 		setLabel(campo.getLabel());
 		setAbreviado(campo.getAbreviado());
@@ -32,6 +42,7 @@ public class CampoResult {
 	}
 	
 	public CampoResult(CampoConfig campo, Object valor) {
+		setId(campo.getId());
 		setNome(campo.getNome());
 		setLabel(campo.getLabel());
 		setAbreviado(campo.getAbreviado());
@@ -114,10 +125,7 @@ public class CampoResult {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+		return getClass().hashCode() + getId().hashCode();
 	}
 
 	@Override
@@ -135,5 +143,15 @@ public class CampoResult {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Transient
+	public String getDescricaoValor(Object valor) {
+		if (valores != null && !valores.isEmpty()){
+			Optional<ValorCampoConfig> opValor = valores.stream().filter(x -> x.getCodigo().equals(valor)).findFirst();
+			if (opValor.isPresent())
+				return opValor.get().getDescricao();
+		} 
+			return valor.toString();
 	}
 }

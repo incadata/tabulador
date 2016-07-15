@@ -12,9 +12,7 @@
 
 <body>
 	<h:form>
-		<p:menubar>
-			<p:menuitem value="#{msg['config']}" url="pages/tabelaconfig/" />
-		</p:menubar>
+		<p:menubar model="#{indexView.model}" />
 	</h:form>
 </body>
 </html>

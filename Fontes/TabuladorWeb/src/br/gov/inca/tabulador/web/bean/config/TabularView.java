@@ -1,53 +1,71 @@
 package br.gov.inca.tabulador.web.bean.config;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.gov.inca.tabulador.domain.ValidationException;
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
+import br.gov.inca.tabulador.domain.entity.config.TabelaConfig;
 import br.gov.inca.tabulador.domain.enumeration.FormatoSaida;
-import br.gov.inca.tabulador.web.bean.consulta.GerarConsultaResultado;
+import br.gov.inca.tabulador.domain.result.bean.ConsultaDinamicaResult;
+import br.gov.inca.tabulador.domain.result.bean.ItemTabuladorResult;
+import br.gov.inca.tabulador.domain.service.TabuladorService;
+import br.gov.inca.tabulador.domain.vo.CampoFiltro;
+import br.gov.inca.tabulador.domain.vo.FiltroConsultaTabulador;
 import br.gov.inca.tabulador.web.bean.consulta.GerarConsultaView;
 
 @Named
 @ViewScoped
 public class TabularView extends GerarConsultaView {
 	private static final long serialVersionUID = 2223875497601238537L;
-
-	private boolean converter; 
 	
-	private FormatoSaida formato;  
+	@Inject
+	private TabuladorService tabuladorService;
 
-	@Override
-	public void addCampoAgrupar() {
-		if (isConverter() && getCamposAgrupar().size() == 2) {
-			showError(getMessages().getString("to_table_max_fields_title"), getMessages().getString("to_table_max_fields_msg"));
-		} else {
-			super.addCampoAgrupar();
-		}
+	private List<FormatoSaida> listFormatosSaida;
+	
+	private List<ItemTabuladorResult> resultadoTabulador;
+	
+	FiltroConsultaTabulador filtro;
+
+	@PostConstruct
+	public void init() {
+		filtro = new FiltroConsultaTabulador();
+		filtro.setTabelaConfig(new TabelaConfig());
+		filtro.setFormatoSaida(FormatoSaida.TABELA);
+		filtro.setCamposFiltro(new ArrayList<CampoFiltro>());
+
+		setResultadosPorPagina(10);
 	}
-
+	
+	@Override
+	public void findById(Integer id) {
+		super.findById(id);
+		filtro.setTabelaConfig(super.getTabelaConfig());
+	}
+	
 	@Override
 	public void tabular() {
 		try {
-			super.tabular();
-			if (isConverter()) {
-				setResultado(converterResultado(getResultado()));
-				clearMessages();
-				showInfo(null, String.format(getMessages().getString("n_lines_found"), getResultado().getLines().size()));
-			}
+			resultadoTabulador = tabuladorService.gerarTabulador(filtro);
+			clearMessages();
+			showInfo(null, String.format(getMessages().getString("n_lines_found"), getResultadoTabulador().size()));
 		} catch (ValidationException e) {
+			showError(getMessages().getString("to_table_error_title"), e.getMessage());
+		} catch (Exception e) {
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, getMessages().getString("to_table_error_title"), e);
 			showError(getMessages().getString("to_table_error_title"), e.getMessage());
 		}
 	}
 
-	// TODO Pode fazer o processamento no banco para melhorar a performance
-	protected GerarConsultaResultado converterResultado(GerarConsultaResultado resultado) {
+	/*protected ConsultaDinamicaResult converterResultado(ConsultaDinamicaResult resultado) {
 		if (resultado.getColumns().size() == 3) {
 			// Colunas na tabela original que irão compor a nova tabela
 			final CampoConfig linha = resultado.getColumns().get(0); 
@@ -76,7 +94,7 @@ public class TabularView extends GerarConsultaView {
 			}
 
 			// Tabela com a resposta
-			final GerarConsultaResultado resposta = new GerarConsultaResultado();
+			final ConsultaDinamicaResult resposta = new ConsultaDinamicaResult();
 			resposta.init();
 			// Campo que formará a primeira coluna
 			final CampoConfig linhaColuna = new CampoConfig();
@@ -138,7 +156,7 @@ public class TabularView extends GerarConsultaView {
 			return resposta;
 		}
 		return resultado;
-	}
+	}*/
 	
 	public long convetValorAtual(Object valorAtual) {
 		if (valorAtual instanceof Integer || Integer.class.isInstance(valorAtual)) {
@@ -151,15 +169,47 @@ public class TabularView extends GerarConsultaView {
 		return 0L;
 	}
 	
-	public boolean isConverter() {
-		return converter;
+	public ConsultaDinamicaResult getResultado() {
+		return null;
+	}
+
+	public List<FormatoSaida> getListFormatosSaida() {
+		if (listFormatosSaida == null)
+			listFormatosSaida = FormatoSaida.list();
+		return listFormatosSaida;
 	}
 	
-	public void setConverter(boolean converter) {
-		this.converter = converter;
+	public List<ItemTabuladorResult> getResultadoTabulador() {
+		return resultadoTabulador;
 	}
 	
-	public GerarConsultaResultado getResultado() {
-		return super.getResultado();
+	public FiltroConsultaTabulador getFiltro() {
+		return filtro;
 	}
+	
+	public void setFiltro(FiltroConsultaTabulador filtro) {
+		this.filtro = filtro;
+	}
+	
+	@Override
+	public List<CampoFiltro> getCampos() {
+		return filtro.getCamposFiltro();
+	}
+	
+	@Override
+	public void setCampos(List<CampoFiltro> campos) {
+		filtro.setCamposFiltro(campos);
+	}
+	
+	@Override
+	public List<CampoConfig> getCamposAgrupar() {
+		return filtro.getCamposAgrupamento();
+	}
+	
+	@Override
+	public TabelaConfig getTabelaConfig() {
+		return filtro.getTabelaConfig();
+	}
+
 }
+

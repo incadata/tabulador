@@ -1,0 +1,154 @@
+<ui:composition template="/pages/comum/layout.xhtml" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="body">
+		<h1><h:outputText value="#{msg['table_data']}" /></h1>
+		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+	
+		<f:metadata>
+	    	<f:viewParam name="entity.id" value="#{consultaDinamicaView.tabelaConfig.id}" />
+<!-- 	    	<f:viewParam name="converter" value="#{consultaDinamicaView.converter}" /> -->
+	    	<f:viewAction action="#{consultaDinamicaView.findById(consultaDinamicaView.tabelaConfig.id)}"/>
+		</f:metadata>
+	
+		<h2>
+			<h:outputText value="#{consultaDinamicaView.tabelaConfig.nome}" />
+			<h:outputText value=" - " />
+			<h:outputText value="#{consultaDinamicaView.tabelaConfig.titulo}" />
+		</h2>
+		<h:form id="formTabular">
+			<p:panelGrid columns="2" layout="grid">
+				<h:outputText value="#{msg['lines_per_page']}: " />
+				<p:selectOneMenu value="#{consultaDinamicaView.resultadosPorPagina}" process="@this" update="panelResultado" title="#{msg['lines_per_page']}">
+					<f:selectItem itemLabel="5" itemValue="5" />
+					<f:selectItem itemLabel="10" itemValue="10" />
+					<f:selectItem itemLabel="20" itemValue="20" />
+					<f:selectItem itemLabel="50" itemValue="50" />
+					<f:selectItem itemLabel="100" itemValue="100" />
+					<f:selectItem itemLabel="Todos" itemValue="0" />
+				</p:selectOneMenu>
+			</p:panelGrid>
+	
+			<p:carousel value="#{consultaDinamicaView.campos}" var="filtro" id="filtrosCarousel" binding="#{carouselFiltro}"
+		    	headerText="#{msg['filter']}" itemStyle="text-align:center" responsive="true">
+		        <p:panelGrid columns="1" id="campoAtual"
+		        	style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid"
+		        	styleClass="ui-panelgrid-blank">
+	
+			        <p:selectOneMenu id="filtroCampoSelect" value="#{filtro.campo}" title="#{msg['filter_field']}" converter="entityConverter">
+						<f:selectItems value="#{consultaDinamicaView.camposFiltro}" var="tipoCampoIt"
+							itemLabel="#{tipoCampoIt.labelOrNome}" itemValue="#{tipoCampoIt}" />
+						<f:ajax execute="campoAtual" render="campoAtual"/>
+					</p:selectOneMenu>
+	
+					<p:selectOneMenu value="#{filtro.filtro}" title="#{msg['filter']}" converter="entityConverter">
+						<f:selectItems value="#{tipoFiltroView.entities}" var="filterIt"
+							itemLabel='#{filterIt.nome}' itemValue="#{filterIt}" />
+						<f:ajax execute="campoAtual" render="campoAtual"/>
+					</p:selectOneMenu>
+			        <ui:fragment rendered="#{empty filtro.campo.valores}">
+						<p:inputText value="#{filtro.value}" placeholder="#{msg['value']}" rendered="#{!filtro.campo.tipoCampo.isData()}"/>
+						<p:calendar value="#{filtro.value}" placeholder="#{msg['value']}" pattern="#{filtro.pattern}" rendered="#{filtro.campo.tipoCampo.isData()}"/>
+			        </ui:fragment>
+					<ui:fragment rendered="#{not empty filtro.campo.valores}">
+						<p:pickList rendered="#{filtro.filtro.multiplo}"
+							value="#{filtro.valores}" var="valor" converter="entityConverter" responsive="true" style="layout: auto;"
+							itemLabel="#{valor.codigoDescricao}" itemValue="#{valor}">
+						</p:pickList>
+				        <p:selectOneMenu value="#{filtro.value}" title="#{msg['value']}" rendered="#{!filtro.filtro.multiplo}">
+				        	<f:selectItem itemLabel="- Selecione -" itemValue="" />
+							<f:selectItems value="#{filtro.campo.valores}" var="valueIt"
+								itemLabel='#{valueIt.codigoDescricao}' itemValue="#{valueIt.codigo}" />
+						</p:selectOneMenu>
+					</ui:fragment>
+	
+					<f:facet name="header">
+						<p:commandButton icon="ui-icon-minus" title="#{msg['remove_filter']}" 
+							actionListener="#{consultaDinamicaView.removerFiltro(carouselFiltro.rowIndex)}" update="filtrosCarousel"/>
+		            </f:facet>
+		        </p:panelGrid>
+	
+		        <f:facet name="footer">
+	        		<p:commandButton icon="ui-icon-plus" title="#{msg['add_column']}" value="#{msg['add']}"
+	        			actionListener="#{consultaDinamicaView.addCampo}" process="filtrosCarousel" update="filtrosCarousel"/>
+	                Total de filtros: #{fn:length(consultaDinamicaView.campos)}
+		        </f:facet>
+		    </p:carousel>
+	
+		    <br />
+	
+			<p:carousel value="#{consultaDinamicaView.camposAgrupar}" var="agrupador" id="agruparCarousel" binding="#{carouselAgrupador}"
+		    	headerText="Colunas" itemStyle="text-align:center" responsive="true">
+				<p:panelGrid id="agrupadorAtual" columns="1"
+		        	style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid"
+		        	styleClass="ui-panelgrid-blank">
+			    	<p:selectOneMenu value="#{agrupador.id}" update="agruparCarousel" style="responsive" title="#{msg['group_field']}">
+						<f:selectItems value="#{consultaDinamicaView.tabelaConfig.campos}" var="tipoCampoIt"
+							itemLabel="#{tipoCampoIt.labelOrNome}" itemValue="#{tipoCampoIt.id}" />
+					</p:selectOneMenu>
+	
+					<f:facet name="header">
+						<p:commandButton icon="ui-icon-minus" title="#{msg['remove_group_by']}" 
+							actionListener="#{consultaDinamicaView.removerCampoAgrupar(carouselAgrupador.rowIndex)}" update="agruparCarousel"/>
+		            </f:facet>
+	        	</p:panelGrid>
+	
+		    	<f:facet name="footer">
+	        		<p:commandButton icon="ui-icon-plus" title="#{msg['add_column']}" value="#{msg['add']}"
+	        			actionListener="#{consultaDinamicaView.addCampoAgrupar}" update="agruparCarousel"/>
+	                Total de agrupadores: #{fn:length(consultaDinamicaView.camposAgrupar)}
+		        </f:facet>
+	    	</p:carousel>
+	
+			<p>
+				<p:commandButton value="#{msg['to_table']}" icon="ui-icon-grip-dotted-vertical" actionListener="#{consultaDinamicaView.tabular}" process="@form" update="panelResultado"/>
+				<p:commandButton value="#{msg['cancel']}" icon="ui-icon-cancel" action="consultar"/>
+			</p>
+	
+			<h:panelGroup id="panelResultado">
+				<h2><h:outputText value="#{msg['result']}" rendered="#{not empty consultaDinamicaView.resultado.columns}"/></h2>
+
+				<p:dataTable id="tabelaResultado" var="line" value="#{consultaDinamicaView.resultado.lines}" rendered="#{not empty consultaDinamicaView.resultado.columns}"
+					    paginator="true" emptyMessage="#{msg['table_empty_msg']}"
+					    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+	                         rowsPerPageTemplate="10,20,50,100,1000" >
+				    <f:facet name="header">
+			            <h:outputText value="#{consultaDinamicaView.tabelaConfig.tituloOrNome}" />
+	        		</f:facet>
+	        		<p:columns value="#{consultaDinamicaView.resultado.columns}" var="column" columnIndexVar="colIndex" sortBy="#{consultaDinamicaView.resultado.convertValor(column, line.get(column))}">
+			            <f:facet name="header">
+			                <h:outputText value="#{column.labelOrNome}" />
+			            </f:facet>
+			            <h:outputText value="#{consultaDinamicaView.resultado.convertValor(column, line.get(column))}" />
+			        </p:columns>
+	
+					<f:facet name="footer">
+						<h:commandLink>
+							<p:commandButton value="xls" />
+							<p:dataExporter type="xls" target="tabelaResultado" fileName="tabular" encoding="UTF-8"/>
+						</h:commandLink>
+	
+						<h:commandLink>
+							<p:commandButton value="pdf" />
+							<p:dataExporter type="pdf" target="tabelaResultado" fileName="tabular" encoding="UTF-8"/>
+						</h:commandLink>
+	
+						<h:commandLink>
+							<p:commandButton value="csv" />
+							<p:dataExporter type="csv" target="tabelaResultado" fileName="tabular" encoding="UTF-8"/>
+						</h:commandLink>
+	
+						<h:commandLink>
+							<p:commandButton value="xml" />
+							<p:dataExporter type="xml" target="tabelaResultado" fileName="tabular" encoding="UTF-8"/>
+						</h:commandLink>
+					</f:facet>
+				</p:dataTable>
+			</h:panelGroup>
+		</h:form>
+	</ui:define>
+</ui:composition>
