@@ -4,12 +4,13 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:o="http://omnifaces.org/ui"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
 		<h:form>
 			<h2><h:outputText value="#{msg['result']}" rendered="#{not empty tabularView.resultadoTabulador}"/></h2>
 
-			<p:dataTable id="tabelaResultado" var="line" value="#{tabularView.resultadoTabulador}" rendered="#{not empty tabularView.resultadoTabulador}"
+			<p:dataTable id="tabelaResultado" var="line" value="#{tabularView.resultadoTabulador}" rendered="#{not empty tabularView.resultadoTabulador}" rowIndexVar="rowIndex"
 			    paginator="true" rows="#{tabularView.resultadosPorPagina}" emptyMessage="#{msg['table_empty_msg']}"
 			    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="10,20,50,100,1000" >
@@ -19,12 +20,11 @@
         		<p:column headerText="#{tabularView.filtro.campoLinha.label}">
         			<h:outputText value="#{line.descricao}" />
         		</p:column>
-		        <p:columns value="#{line.colunas}" var="col" columnIndexVar="colIndex">
-		            <f:facet name="header">
-		                <h:outputText value="#{col.descricao}" />
-		            </f:facet>
-		            <h:outputText value="#{col.valor}" />
-		        </p:columns>
+        		<c:forEach items="#{tabularView.resultadoTabulador[rowIndex].colunas}" var="col">
+			        <p:column headerText="#{col.descricao}">
+			            <h:outputText value="#{col.valor}" />
+			        </p:column>
+		        </c:forEach>
 		        <p:column headerText="Total">
 		        	<h:outputText value="#{line.totalValorAbsoluto}" />
 		        </p:column>

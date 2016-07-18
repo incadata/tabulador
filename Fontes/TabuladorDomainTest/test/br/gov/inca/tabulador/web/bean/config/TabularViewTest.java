@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import br.gov.inca.tabulador.domain.entity.config.CampoConfig;
 import br.gov.inca.tabulador.domain.result.bean.ConsultaDinamicaResult;
+import br.gov.inca.tabulador.domain.vo.CampoResult;
 
 public class TabularViewTest extends TabularView {
 	private static final long serialVersionUID = -7537093244422598492L;
@@ -28,37 +29,37 @@ public class TabularViewTest extends TabularView {
 
 	@Test
 	public void converterResultadoSimples() {
-		final ArrayList<CampoConfig> colunas = new ArrayList<>();
-		final CampoConfig nome = new CampoConfig();
+		final ArrayList<CampoResult> colunas = new ArrayList<>();
+		final CampoResult nome = new CampoResult();
 		nome.setId(1);
 		nome.setNome("Nome");
 		colunas.add(nome);
-		final CampoConfig categoria = new CampoConfig();
+		final CampoResult categoria = new CampoResult();
 		categoria.setId(2);
 		categoria.setNome("Categoria");
 		colunas.add(categoria);
-		final CampoConfig total = new CampoConfig();
+		final CampoResult total = new CampoResult();
 		total.setId(0);
 		total.setNome("Total");
 		colunas.add(total);
 
-		final ArrayList<Map<CampoConfig, Object>> linhas = new ArrayList<>();
-		final HashMap<CampoConfig, Object> linha01 = new HashMap<>();
+		final ArrayList<Map<CampoResult, Object>> linhas = new ArrayList<>();
+		final HashMap<CampoResult, Object> linha01 = new HashMap<>();
 		linha01.put(nome, "Fulano");
 		linha01.put(categoria, "1");
 		linha01.put(total, 2);
 		linhas.add(linha01);
-		final HashMap<CampoConfig, Object> linha02 = new HashMap<>();
+		final HashMap<CampoResult, Object> linha02 = new HashMap<>();
 		linha02.put(nome, "Beltrano");
 		linha02.put(categoria, "3");
 		linha02.put(total, 4);
 		linhas.add(linha02);
-		final HashMap<CampoConfig, Object> linha03 = new HashMap<>();
+		final HashMap<CampoResult, Object> linha03 = new HashMap<>();
 		linha03.put(nome, "Beltrano");
 		linha03.put(categoria, "2");
 		linha03.put(total, 3);
 		linhas.add(linha03);
-		final HashMap<CampoConfig, Object> linha04 = new HashMap<>();
+		final HashMap<CampoResult, Object> linha04 = new HashMap<>();
 		linha04.put(nome, "Fulano");
 		linha04.put(categoria, "2");
 		linha04.put(total, 3);
@@ -73,7 +74,7 @@ public class TabularViewTest extends TabularView {
 		// Coluna de total
 		Assert.assertEquals(5, linhasResultado.getColumns().size());
 
-		final CampoConfig totalColuna = linhasResultado.getColumns().get(linhasResultado.getColumns().size() - 1);
+		final CampoResult totalColuna = linhasResultado.getColumns().get(linhasResultado.getColumns().size() - 1);
 		Assert.assertEquals("Total", totalColuna.getLabelOrNome());
 		Assert.assertEquals(7L, linhasResultado.getLines().get(0).get(totalColuna)); 
 		Assert.assertEquals(5L, linhasResultado.getLines().get(1).get(totalColuna)); 
